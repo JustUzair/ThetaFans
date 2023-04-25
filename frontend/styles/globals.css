@@ -104,12 +104,12 @@ a {
 }
 .box div:nth-child(11) {
   bottom: 80%;
-  left: 40%;
+  left: 80%;
   animation: animate 5s linear infinite;
 }
 .box div:nth-child(12) {
-  bottom: 50%;
-  left: 20%;
+  bottom: 0%;
+  left: 60%;
   animation: animate 5s linear infinite;
 }
 .box div:nth-child(13) {
@@ -140,7 +140,7 @@ a {
 .box div:nth-child(17) {
   bottom: 80%;
   right: 2%;
-  animation: animate 2s ease-in-out infinite;
+  animation: animate 4s ease-in-out infinite;
 }
 .box div:nth-child(18) {
   bottom: 90%;
