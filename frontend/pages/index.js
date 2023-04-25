@@ -115,10 +115,10 @@ function Card(props) {
     <div className="card">
       <div className="card-body" style={props.style.cardSmoke}>
         <p className="card-text p-3">
-          "Membership is a relationship between you and your most engaged fans —
-          the ones that choose to go a level deeper than just following you on
-          social media. They become paying patrons in exchange for exclusive
-          benefits you offer."
+          &quot;Membership is a relationship between you and your most engaged
+          fans — the ones that choose to go a level deeper than just following
+          you on social media. They become paying patrons in exchange for
+          exclusive benefits you offer.&quot;
         </p>
       </div>
       <div className="card-footer" style={props.style.cardSmoke}>
@@ -200,25 +200,25 @@ function WhoUse(props) {
           style={props.getStyle.backgroundVideoImage}
         ></div>
         <div className="col-md-6">
-          <a href="/" style={props.getStyle.videoImageLink}>
+          <a href="" style={props.getStyle.videoImageLink}>
             Podcaster
           </a>
-          <a href="/" style={props.getStyle.videoImageLink}>
+          <a href="" style={props.getStyle.videoImageLink}>
             Video Creators
           </a>
-          <a href="/" style={props.getStyle.videoImageLink}>
+          <a href="" style={props.getStyle.videoImageLink}>
             Musicians
           </a>
-          <a href="/" style={props.getStyle.videoImageLink}>
+          <a href="" style={props.getStyle.videoImageLink}>
             Visual Artists
           </a>
-          <a href="/" style={props.getStyle.videoImageLink}>
+          <a href="" style={props.getStyle.videoImageLink}>
             Communities
           </a>
-          <a href="/" style={props.getStyle.videoImageLink}>
+          <a href="" style={props.getStyle.videoImageLink}>
             Writers & Journalists
           </a>
-          <a href="/" style={props.getStyle.videoImageLink}>
+          <a href="" style={props.getStyle.videoImageLink}>
             Creators-of-all-kinds
           </a>
         </div>
@@ -302,7 +302,7 @@ function Step(props) {
         <React.Fragment>
           <p>STEP 1</p>
           <h2>
-            <b>Tell your fans you're launching on Patreon.</b>
+            <b>Tell your fans you&quot;re launching on Patreon.</b>
           </h2>
           <p>
             Reach out to fans on your social channels to find out more about
