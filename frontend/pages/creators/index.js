@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-const explore = () => {
+const Creators = () => {
   const id = "1dsfsdfsd";
   return (
     <div className="shell">
@@ -210,4 +210,4 @@ const explore = () => {
   );
 };
 
-export default explore;
+export default Creators;
