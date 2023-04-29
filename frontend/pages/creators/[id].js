@@ -9,7 +9,9 @@ const Creators = () => {
   return (
     <>
       <Head>
-        <title>{id?.substr(0, 4) + "..." + id?.substr(id?.length - 4)}</title>
+        <title>
+          Creators | {id?.substr(0, 4) + "..." + id?.substr(id?.length - 4)}
+        </title>
       </Head>
     </>
   );

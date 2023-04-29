@@ -473,7 +473,7 @@ a.buy-btn:focus {
 }
 @media screen and (max-width: 1800px) {
   .wsk-cp-img img {
-    height: 490px !important;
+    height: 490px;
   }
   .card-container {
     width: 90%;
@@ -482,7 +482,7 @@ a.buy-btn:focus {
 }
 @media screen and (max-width: 1750px) {
   .wsk-cp-img img {
-    height: 525px !important;
+    height: 525px;
   }
   .card-container {
     width: 90%;
@@ -495,7 +495,6 @@ a.buy-btn:focus {
   }
   .card-container {
     width: 90%;
-    background-color: #212121;
     grid-template-columns: repeat(4, 1fr);
   }
 }
@@ -613,7 +612,7 @@ a.buy-btn:focus {
     height: 72vh;
   }
   .wsk-cp-text {
-    padding-top: 90% !important;
+    padding-top: 90%;
   }
 }
 @media screen and (max-width: 500px) {
@@ -633,12 +632,12 @@ a.buy-btn:focus {
     height: 72vh;
   }
   .wsk-cp-text {
-    padding-top: 90% !important;
+    padding-top: 90%;
   }
 }
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 450px) {
   .wsk-cp-img img {
-    height: 357px !important;
+    height: 357px;
   }
   .card-container {
     width: 90%;
@@ -649,16 +648,16 @@ a.buy-btn:focus {
     flex-direction: column;
   }
   .creator-card {
-    max-width: 280px !important;
+    max-width: 280px;
     height: 75vh;
   }
   .wsk-cp-text {
-    padding-top: 143% !important;
+    padding-top: 143%;
   }
 }
 @media screen and (max-width: 300px) {
   .wsk-cp-img img {
-    height: 330px !important;
+    height: 330px;
   }
   .card-container {
     width: 90%;
@@ -669,16 +668,16 @@ a.buy-btn:focus {
     flex-direction: column;
   }
   .creator-card {
-    max-width: 280px !important;
+    max-width: 280px;
     height: 75vh;
   }
   .wsk-cp-text {
-    padding-top: 143% !important;
+    padding-top: 143%;
   }
 }
 @media screen and (max-width: 260px) {
   .wsk-cp-img img {
-    height: 325px !important;
+    height: 325px;
   }
   .card-container {
     width: 100%;
@@ -689,11 +688,11 @@ a.buy-btn:focus {
     flex-direction: column;
   }
   .creator-card {
-    max-width: 280px !important;
+    max-width: 280px;
     height: 71vh;
   }
   .wsk-cp-text {
-    padding-top: 143% !important;
+    padding-top: 143%;
   }
 }
 /* End Responsive */
