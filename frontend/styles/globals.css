@@ -25,11 +25,12 @@ a {
 }
 /* *****************Animated Background****************** */
 .wrapper {
-  position: absolute;
+  position: fixed;
+  top: 0;
   width: 100%;
-  height: 100vh;
-  overflow: hidden;
+  height: 100%;
   background: #fff;
+  overflow: hidden;
 
   /*   background: -webkit-linear-gradient(to bottom, #514A9D, #24C6DC);  
     background: linear-gradient(to bottom, #514A9D, #24C6DC);  */
@@ -194,7 +195,7 @@ a {
 }
 .wsk-cp-img {
   position: absolute;
-  top: 5px;
+  top: 5px !important;
   left: 50%;
   transform: translate(-50%);
   -webkit-transform: translate(-50%);
@@ -206,13 +207,32 @@ a {
   padding: 15px;
   transition: all 0.2s ease-in-out;
 }
+/* Creator card image */
 .wsk-cp-img img {
   width: 100%;
   transition: all 0.2s ease-in-out;
   border-radius: 6px;
+  height: 430px;
+  object-fit: cover;
+}
+/* Responsive */
+@media screen and (max-width: 820px) {
+  .wsk-cp-img img {
+    height: 325px;
+  }
+  .card-container {
+    width: 90%;
+
+    margin: auto 10px;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .creator-card {
+    min-width: 270px;
+  }
 }
 .creator-card:hover .wsk-cp-img {
-  top: -40px;
+  top: -40px !important;
+  cursor: pointer;
 }
 .creator-card:hover .wsk-cp-img img {
   box-shadow: 0 19px 38px rgba(0, 0, 0, 0.3), 0 15px 12px rgba(0, 0, 0, 0.22);
@@ -276,12 +296,11 @@ a {
 .wsk-cp-text .description-prod {
   text-align: center;
   width: 100%;
-  height: 62px;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
 }
 .card-footer {
   padding: 25px 0 5px;
@@ -376,4 +395,84 @@ a.buy-btn:focus {
     background: #ff9800;
     color: #fff;
   }
+}
+
+/* Subscribe Button */
+/* .subscribe-btn {
+  padding: 0.8rem 2rem;
+  border-radius: 5rem;
+  background: linear-gradient(90deg, #ff9966, rgba(220, 53, 69, 1));
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+.subscribe-btn:hover {
+} */
+
+.subscribe-btn {
+  /* padding: 0 25px; */
+  border-radius: 4px;
+  width: 90%;
+  font-weight: 600;
+  font-size: 1rem;
+  letter-spacing: 3px;
+  text-transform: capitalize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 10px;
+  position: relative;
+  overflow: hidden;
+  border: solid 1px #ff9966;
+  cursor: pointer;
+  padding: 0.8rem 2rem;
+  border-radius: 5rem;
+  color: white;
+  background: linear-gradient(90deg, #ff9966, rgba(220, 53, 69, 1));
+}
+.subscribe-btn:after,
+.subscribe-btn:before {
+  width: 0%;
+  height: 0%;
+  content: "";
+  position: absolute;
+  border-radius: 100%;
+}
+.subscribe-btn:after {
+  transition: all 0.5s ease;
+  background-color: white;
+}
+.subscribe-btn:before {
+  transition: all 0.5s ease-out;
+  background: #f7a069;
+}
+.subscribe-btn span {
+  z-index: 1;
+  transition: all 0.3s ease-out;
+}
+.subscribe-btn.cta-01 {
+  background: linear-gradient(90deg, #ff9966, rgba(220, 53, 69, 1));
+
+  color: white;
+}
+.subscribe-btn:hover {
+  color: #ff9966;
+}
+
+.subscribe-btn:hover:after,
+.subscribe-btn:hover:before {
+  width: 200px;
+  height: 200px;
+  border-radius: 4px;
+}
+.subscribe-btn:hover:after {
+  transition: all 0.7s ease-in;
+}
+.subscribe-btn:hover:before {
+  transition: all 0.5s ease-in;
 }
