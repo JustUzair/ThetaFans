@@ -22,13 +22,14 @@ const Navbar = () => {
       paddingLeft: "15px",
       display: "flex",
       alignItems: "center",
+      cursor: "pointer",
     },
     navbarMenu: {
       display: "flex",
       margin: "0",
       padding: "0",
       listStyle: "none",
-      width: "35% !important",
+      width: "50% !important",
       alignItems: "center",
       justifyContent: "space-evenly",
       // backgroundColor: 'yellow'
