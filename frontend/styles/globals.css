@@ -649,7 +649,7 @@ a.buy-btn:focus {
   }
   .creator-card {
     max-width: 280px;
-    height: 100vh !important;
+    height: 90vh !important;
   }
   .wsk-cp-text {
     padding-top: 143%;
