@@ -36,9 +36,11 @@ const Creators = () => {
                 </p>
               </div>
               <div className="card-footer">
-                <button className="subscribe-btn .cta-01">
-                  <span>Subscribe</span>
-                </button>
+                <Link href={`/creators/${id}`}>
+                  <button className="subscribe-btn .cta-01">
+                    <span>Subscribe</span>
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -67,9 +69,11 @@ const Creators = () => {
                 </p>
               </div>
               <div className="card-footer">
-                <button className="subscribe-btn .cta-01">
-                  <span>Subscribe</span>
-                </button>
+                <Link href={`/creators/${id}`}>
+                  <button className="subscribe-btn cta-01">
+                    <span>Subscribe</span>
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -98,9 +102,11 @@ const Creators = () => {
                 </p>
               </div>
               <div className="card-footer">
-                <button className="subscribe-btn .cta-01">
-                  <span>Subscribe</span>
-                </button>
+                <Link href={`/creators/${id}`}>
+                  <button className="subscribe-btn cta-01">
+                    <span>Subscribe</span>
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -129,9 +135,11 @@ const Creators = () => {
                 </p>
               </div>
               <div className="card-footer">
-                <button className="subscribe-btn .cta-01">
-                  <span>Subscribe</span>
-                </button>
+                <Link href={`/creators/${id}`}>
+                  <button className="subscribe-btn cta-01">
+                    <span>Subscribe</span>
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -160,9 +168,11 @@ const Creators = () => {
                 </p>
               </div>
               <div className="card-footer">
-                <button className="subscribe-btn .cta-01">
-                  <span>Subscribe</span>
-                </button>
+                <Link href={`/creators/${id}`}>
+                  <button className="subscribe-btn cta-01">
+                    <span>Subscribe</span>
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
@@ -191,9 +201,11 @@ const Creators = () => {
                 </p>
               </div>
               <div className="card-footer">
-                <button className="subscribe-btn .cta-01">
-                  <span>Subscribe</span>
-                </button>
+                <Link href={`/creators/${id}`}>
+                  <button className="subscribe-btn cta-01">
+                    <span>Subscribe</span>
+                  </button>
+                </Link>
               </div>
             </div>
           </div>
