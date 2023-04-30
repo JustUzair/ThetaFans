@@ -36,7 +36,7 @@ ul a:hover {
   height: 100%;
   background: #fff;
   overflow: hidden;
-
+  z-index: -9999;
   /*   background: -webkit-linear-gradient(to bottom, #514A9D, #24C6DC);  
     background: linear-gradient(to bottom, #514A9D, #24C6DC);  */
 }
@@ -455,6 +455,119 @@ a.buy-btn:focus {
 .subscribe-btn:hover:before {
   transition: all 0.5s ease-in;
 }
+
+/* Subscription Cards */
+.subscription-card--container {
+  width: 100% !important;
+  margin: 0px auto;
+  padding-top: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.subscription-card--grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-column-gap: 50px;
+}
+
+.subscription-card {
+  width: 325px;
+  border-radius: 10px;
+  padding: 30px 20px 59px 20px;
+  border: 0;
+}
+
+.card1 {
+  background: linear-gradient(to bottom right, #fc56f6, #a356fd);
+  box-shadow: 3px 15px 30px rgba(171, 86, 252, 0.75);
+}
+
+.card2 {
+  background: linear-gradient(to bottom right, #56d0fd, #56fd7d);
+  box-shadow: 3px 15px 30px rgba(86, 247, 142, 0.75);
+}
+
+.card3 {
+  background: linear-gradient(to bottom right, #fdbd56, #fd56b6);
+  box-shadow: 3px 15px 30px rgba(253, 99, 169, 0.75);
+}
+
+.subscription-card h3 {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 40px;
+  font-weight: 900;
+  letter-spacing: 0px;
+}
+
+.subscription-card h4 {
+  color: white;
+  font-size: 40px;
+  margin-top: 53px;
+  display: flex;
+}
+.subscription-card h4 img {
+  width: 50px !important;
+}
+.subscription-card h4 span {
+  margin-left: 6px !important;
+}
+
+.subscription-card h2 {
+  color: rgba(255, 255, 255, 0.15);
+  font-size: 118px;
+  font-weight: 900;
+  position: absolute;
+  margin-left: -6px;
+  pointer-events: none;
+}
+
+.subscription-card hr {
+  border-width: 1px;
+  border-color: rgba(255, 255, 255, 0.15);
+  margin-top: 53px;
+}
+
+.subscription-card p:first-of-type {
+  margin-top: 40px;
+}
+
+.subscription-card p {
+  color: white;
+  font-size: 24px;
+}
+
+.subscription-card p:nth-of-type(2) {
+  margin-top: 10px;
+  margin-bottom: 40px;
+}
+
+.subscription-card a {
+  color: white;
+  width: 90%;
+  margin: 0 auto;
+  font-weight: bold;
+  text-decoration: none;
+  padding: 12px 85px 11px 85px;
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 6px;
+  transition: background-color 0.5s;
+  display: block;
+}
+
+.subscription-card a:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+@media only screen and (max-width: 768px) {
+  .subscription-card--grid {
+    grid-template-columns: 100%;
+    grid-row-gap: 50px;
+  }
+}
+
+/* End Subscription Cards */
 
 /* Responsive */
 @media screen and (max-width: 820px) {
