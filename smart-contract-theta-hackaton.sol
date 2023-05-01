@@ -6,6 +6,26 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract userFactory {
 
+    address[] createdProfiles;
+    mapping(string=>address) userProfile;
+    address admin;
+
+    constructor(){
+        admin = msg.sender;
+    }
+
+    function createProfile(string memory _tokenName,string memory _tokenSymbol,
+    string memory _name,string memory _description,uint _suscribeAmount)
+    {
+        require(userProfile[_name].length == 0);
+        UserProfile newUser = new UserProfile(_tokenName,_tokenSymbol,msg.sender,_name,_description,_suscribeAmount);
+        const addr = address(newUser);
+        //add the created profile to store data variables
+        createdProfiles.push(addr);
+        userProfile[_name] = addr;
+    }
+
+
 }
 
 contract UserProfile is ERC721, Ownable {
