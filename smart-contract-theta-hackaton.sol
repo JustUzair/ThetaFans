@@ -6,23 +6,28 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract userFactory {
 
-    address[] createdProfiles;
-    mapping(string=>address) userProfile;
-    address admin;
+    address[] public createdProfiles;
+    mapping(string=>address) public userProfile;
+    address public admin;
 
     constructor(){
         admin = msg.sender;
     }
 
     function createProfile(string memory _tokenName,string memory _tokenSymbol,
-    string memory _name,string memory _description,uint _suscribeAmount)
+    string memory _name,string memory _description,uint _suscribeAmount) public
     {
-        require(userProfile[_name].length == 0);
+        address profileAddress = userProfile[_name];
+        require(profileAddress == address(0));
         UserProfile newUser = new UserProfile(_tokenName,_tokenSymbol,msg.sender,_name,_description,_suscribeAmount);
-        const addr = address(newUser);
+        address addr = address(newUser);
         //add the created profile to store data variables
         createdProfiles.push(addr);
         userProfile[_name] = addr;
+    }
+
+    function working()public pure returns(string memory){
+        return "yes smartcontract deployed";
     }
 
 
@@ -39,18 +44,18 @@ contract UserProfile is ERC721, Ownable {
     }
 
     //USER PROFILE LOGIC
-    string profileName;
-    string profileDescription;
+    string public profileName;
+    string public profileDescription;
 
 
     //BUISNESS LOGIC
-    uint tokenIdNumber;//amount tokens released
-    uint amountPublishedVideos;
-    uint suscribeAmount; //required $ have to pay for suscribe, in drop(wei of tfuel)
-    VideoData[] publishedVideos;
-    mapping(string=>uint) videosIndex;
-    uint amountCreator; //amount creator have to withdraw
-    uint totalDonated; //total amount donated, analytics, this variable have not use yet
+    uint public tokenIdNumber;//amount tokens released
+    uint public amountPublishedVideos;
+    uint public suscribeAmount; //required $ have to pay for suscribe, in drop(wei of tfuel)
+    VideoData[] public publishedVideos;
+    mapping(string=>uint) public videosIndex;
+    uint public amountCreator; //amount creator have to withdraw
+    uint public totalDonated; //total amount donated, analytics, this variable have not use yet
 
     constructor(string memory _tokenName,string memory _tokenSymbol,address _sender,string memory _name,string memory _description,uint _suscribeAmount) ERC721(_tokenName,_tokenSymbol) 
     {
@@ -61,10 +66,10 @@ contract UserProfile is ERC721, Ownable {
     }
 
 
-    function userSuscribe(address to) public payable {
+    function userSuscribe() public payable {
         require(msg.value > suscribeAmount);
         tokenIdNumber = tokenIdNumber + 1;
-        _safeMint(to, tokenIdNumber);  
+        _safeMint(msg.sender, tokenIdNumber);  
         amountCreator += msg.value;
     }
 
