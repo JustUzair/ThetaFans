@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Head from "next/head";
 import abi from "../../constants/UserFactory.json";
@@ -6,8 +6,10 @@ import contractAddresses from "../../constants/networkMapping.json";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import { useNotification } from "web3uikit";
 import { useEffect } from "react";
+import { ethers } from "ethers";
 const Creators = () => {
   const id = "0x9901f8073855D2fEC6f0E67131D62D517Ba00889"; // CHANGE THIS
+  const [contentCreators, setContentCreators] = useState([]);
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
   const { enableWeb3, authenticate, account, isWeb3Enabled } = useMoralis();
@@ -15,7 +17,9 @@ const Creators = () => {
   const chainId = parseInt(chainIdHex);
   const contractAddress =
     chainId in contractAddresses
-      ? contractAddresses[chainId]["UserFactory"][0]
+      ? contractAddresses[chainId]["UserFactory"][
+          contractAddresses[chainId]["UserFactory"].length - 1
+        ]
       : null;
   const successNotification = msg => {
     dispatch({
@@ -34,11 +38,71 @@ const Creators = () => {
       position: "bottomR",
     });
   };
-  useEffect(() => {
-    if (!isWeb3Enabled) {
-      enableWeb3();
+  //   const {
+  //     // FOR REFERENCE
+  //     runContractFunction: getAllCreators,
+  //     isLoading,
+  //     isFetching,
+  //   } = useWeb3Contract({
+  //     abi,
+  //     contractAddress,
+  //     functionName: "getAllCreators",
+  //     params: {},
+  //   });
+  const getContentCreators = async function () {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi,
+          contractAddress,
+          functionName: "getAllCreators",
+          params: {},
+        },
+        //
+        onError: error => {
+          failureNotification(error.message);
+          console.error(error);
+        },
+        onSuccess: data => {
+          console.log(data);
+          data.map(_creator => {
+            runContractFunction({
+              params: {
+                abi,
+                contractAddress,
+                functionName: "getCreator",
+                params: { _creator },
+              },
+              //
+              onError: error => {
+                failureNotification(error.message);
+                console.error(error);
+              },
+              onSuccess: data => {
+                // console.log(data);
+                const creator = {};
+                creator["name"] = data[0];
+                creator["address"] = _creator;
+                creator["description"] = data[1];
+                creator["subscriptionAmount"] = ethers.utils.parseEther(
+                  data[2].toString()
+                );
+                const arr1 = [creator];
+
+                setContentCreators(prevState => [...prevState, ...arr1]);
+                //   successNotification(`Creators Fetched`);
+              },
+            });
+          });
+        },
+      });
     }
-  }, [isWeb3Enabled]);
+  };
+
+  useEffect(() => {
+    getContentCreators();
+  }, [account]);
   return (
     <>
       <Head>
@@ -47,204 +111,84 @@ const Creators = () => {
       {contractAddress != null ? (
         <div className="shell">
           <div className="card-container">
-            <div className="creator-card">
-              <div className="wsk-cp-img">
-                <img
-                  src="https://s.yimg.com/uu/api/res/1.2/T0JXIlePkQy.jLDbMfMr5w--~B/Zmk9ZmlsbDtoPTU1NDt3PTg3NTthcHBpZD15dGFjaHlvbg--/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2021-12/9908fc00-5398-11ec-b7bf-8dded52a981b.cf.webp"
-                  alt="Creator"
-                  className="img-responsive"
-                />
-              </div>
-              <div className="wsk-cp-text">
-                <div className="category">
-                  <span>
-                    {id?.substr(0, 4) + "..." + id?.substr(id?.length - 4)}
+            {contentCreators.length > 0 ? (
+              contentCreators.map((_creator, index) => {
+                return (
+                  <div className="creator-card" key={index}>
+                    <div className="wsk-cp-img">
+                      <img
+                        src={
+                          (index % 3 == 0 &&
+                            "https://s.yimg.com/uu/api/res/1.2/T0JXIlePkQy.jLDbMfMr5w--~B/Zmk9ZmlsbDtoPTU1NDt3PTg3NTthcHBpZD15dGFjaHlvbg--/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2021-12/9908fc00-5398-11ec-b7bf-8dded52a981b.cf.webp") ||
+                          (index % 3 == 2 &&
+                            "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/b0e4f2123542479.60f0519010164.jpg") ||
+                          (index % 3 == 1 &&
+                            "https://i.seadn.io/gae/jzpknD5e9NF8Bv1Xy3dwWeorx1Ny8fYT_o6ozWhuKlhcisnQn95GycWXjeRbKclgwEF4R9IaHKRCRYEX96B8rB38XWKuSuLzQiI_ZQ?auto=format&w=1000")
+                        }
+                        alt="Creator"
+                        className="img-responsive"
+                      />
+                    </div>
+                    <div className="wsk-cp-text">
+                      <div className="category">
+                        <span>{`${_creator.name} `}</span>
+                      </div>
+                      <div className="title-product">
+                        <h3>
+                          {_creator.address?.substr(0, 4) +
+                            "..." +
+                            _creator.address?.substr(
+                              _creator.address?.length - 4
+                            )}
+                        </h3>
+                      </div>
+                      <div className="description-prod">
+                        <p>{_creator.description}</p>
+                      </div>
+                      <div className="card-footer">
+                        <Link href={`/creators/${_creator.address}`}>
+                          <button className="subscribe-btn .cta-01">
+                            <span>Subscribe</span>
+                          </button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })
+            ) : (
+              <>
+                <div
+                  style={{
+                    position: "absolute",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    width: "50%",
+                    height: "100vh",
+                    zIndex: "99",
+                    color: "white",
+                    fontSize: "2rem",
+                    wordWrap: "break-word",
+                    margin: "0 auto",
+                    top: 0,
+                    left: 0,
+                    bottom: 0,
+                    right: 0,
+                  }}
+                >
+                  <span
+                    style={{
+                      background: "#FF494A",
+                      padding: "10px 25px",
+                      borderRadius: "20px",
+                    }}
+                  >
+                    No creators associated with this contract were found!!!
                   </span>
                 </div>
-                <div className="title-product">
-                  <h3>My face not my heart</h3>
-                </div>
-                <div className="description-prod">
-                  <p>
-                    Description Product tell me how to change playlist height
-                    size like 600px in html5 player. player good work now check
-                    this link
-                  </p>
-                </div>
-                <div className="card-footer">
-                  <Link href={`/creators/${id}`}>
-                    <button className="subscribe-btn .cta-01">
-                      <span>Subscribe</span>
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="creator-card">
-              <div className="wsk-cp-img">
-                <img
-                  src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/b0e4f2123542479.60f0519010164.jpg"
-                  alt="Creator"
-                  className="img-responsive"
-                />
-              </div>
-              <div className="wsk-cp-text">
-                <div className="category">
-                  <span>
-                    {id?.substr(0, 4) + "..." + id?.substr(id?.length - 4)}
-                  </span>
-                </div>
-                <div className="title-product">
-                  <h3>My face not my heart</h3>
-                </div>
-                <div className="description-prod">
-                  <p>
-                    Description Product tell me how to change playlist height
-                    size like 600px in html5 player. player good work now check
-                    this link
-                  </p>
-                </div>
-                <div className="card-footer">
-                  <Link href={`/creators/${id}`}>
-                    <button className="subscribe-btn cta-01">
-                      <span>Subscribe</span>
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="creator-card">
-              <div className="wsk-cp-img">
-                <img
-                  src="https://i.seadn.io/gae/jzpknD5e9NF8Bv1Xy3dwWeorx1Ny8fYT_o6ozWhuKlhcisnQn95GycWXjeRbKclgwEF4R9IaHKRCRYEX96B8rB38XWKuSuLzQiI_ZQ?auto=format&w=1000"
-                  alt="Creator"
-                  className="img-responsive"
-                />
-              </div>
-              <div className="wsk-cp-text">
-                <div className="category">
-                  <span>
-                    {id?.substr(0, 4) + "..." + id?.substr(id?.length - 4)}
-                  </span>
-                </div>
-                <div className="title-product">
-                  <h3>My face not my heart</h3>
-                </div>
-                <div className="description-prod">
-                  <p>
-                    Description Product tell me how to change playlist height
-                    size like 600px in html5 player. player good work now check
-                    this link
-                  </p>
-                </div>
-                <div className="card-footer">
-                  <Link href={`/creators/${id}`}>
-                    <button className="subscribe-btn cta-01">
-                      <span>Subscribe</span>
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="creator-card">
-              <div className="wsk-cp-img">
-                <img
-                  src="https://s.yimg.com/uu/api/res/1.2/T0JXIlePkQy.jLDbMfMr5w--~B/Zmk9ZmlsbDtoPTU1NDt3PTg3NTthcHBpZD15dGFjaHlvbg--/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2021-12/9908fc00-5398-11ec-b7bf-8dded52a981b.cf.webp"
-                  alt="Creator"
-                  className="img-responsive"
-                />
-              </div>
-              <div className="wsk-cp-text">
-                <div className="category">
-                  <span>
-                    {id?.substr(0, 4) + "..." + id?.substr(id?.length - 4)}
-                  </span>
-                </div>
-                <div className="title-product">
-                  <h3>My face not my heart</h3>
-                </div>
-                <div className="description-prod">
-                  <p>
-                    Description Product tell me how to change playlist height
-                    size like 600px in html5 player. player good work now check
-                    this link
-                  </p>
-                </div>
-                <div className="card-footer">
-                  <Link href={`/creators/${id}`}>
-                    <button className="subscribe-btn cta-01">
-                      <span>Subscribe</span>
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="creator-card">
-              <div className="wsk-cp-img">
-                <img
-                  src="https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/b0e4f2123542479.60f0519010164.jpg"
-                  alt="Creator"
-                  className="img-responsive"
-                />
-              </div>
-              <div className="wsk-cp-text">
-                <div className="category">
-                  <span>
-                    {id?.substr(0, 4) + "..." + id?.substr(id?.length - 4)}
-                  </span>
-                </div>
-                <div className="title-product">
-                  <h3>My face not my heart</h3>
-                </div>
-                <div className="description-prod">
-                  <p>
-                    Description Product tell me how to change playlist height
-                    size like 600px in html5 player. player good work now check
-                    this link
-                  </p>
-                </div>
-                <div className="card-footer">
-                  <Link href={`/creators/${id}`}>
-                    <button className="subscribe-btn cta-01">
-                      <span>Subscribe</span>
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
-            <div className="creator-card">
-              <div className="wsk-cp-img">
-                <img
-                  src="https://i.seadn.io/gae/jzpknD5e9NF8Bv1Xy3dwWeorx1Ny8fYT_o6ozWhuKlhcisnQn95GycWXjeRbKclgwEF4R9IaHKRCRYEX96B8rB38XWKuSuLzQiI_ZQ?auto=format&w=1000"
-                  alt="Creator"
-                  className="img-responsive"
-                />
-              </div>
-              <div className="wsk-cp-text">
-                <div className="category">
-                  <span>
-                    {id?.substr(0, 4) + "..." + id?.substr(id?.length - 4)}
-                  </span>
-                </div>
-                <div className="title-product">
-                  <h3>My face not my heart</h3>
-                </div>
-                <div className="description-prod">
-                  <p>
-                    Description Product tell me how to change playlist height
-                    size like 600px in html5 player. player good work now check
-                    this link
-                  </p>
-                </div>
-                <div className="card-footer">
-                  <Link href={`/creators/${id}`}>
-                    <button className="subscribe-btn cta-01">
-                      <span>Subscribe</span>
-                    </button>
-                  </Link>
-                </div>
-              </div>
-            </div>
+              </>
+            )}
           </div>
         </div>
       ) : (
@@ -254,7 +198,7 @@ const Creators = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              width: "80%",
+              width: "80vw",
               height: "100vh",
               zIndex: "99",
               color: "white",

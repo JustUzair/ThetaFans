@@ -22,23 +22,23 @@ contract UserProfile is ERC721, Ownable {
     //BUISNESS LOGIC
     uint public tokenIdNumber;//amount tokens released
     uint public amountPublishedVideos;
-    uint public suscribeAmount; //required $ have to pay for suscribe, in drop(wei of tfuel)
+    uint public subscribeAmount; //required $ have to pay for suscribe, in drop(wei of tfuel)
     VideoData[] public publishedVideos;
     mapping(string=>uint) public videosIndex;
     uint public amountCreator; //amount creator have to withdraw
     uint public totalDonated; //total amount donated, analytics, this variable have not use yet
 
-    constructor(string memory _tokenName,string memory _tokenSymbol,address _sender,string memory _name,string memory _description,uint _suscribeAmount) ERC721(_tokenName,_tokenSymbol) 
+    constructor(string memory _tokenName,string memory _tokenSymbol,address _sender,string memory _name,string memory _description,uint _subscribeAmount) ERC721(_tokenName,_tokenSymbol) 
     {
         _transferOwnership(_sender);
         profileName = _name;
         profileDescription = _description;
-        suscribeAmount = _suscribeAmount * 1000000;//convert tfuel to drop
+        subscribeAmount = _subscribeAmount * 1000000;//convert tfuel to drop
     }
 
 
     function userSuscribe() public payable {
-        require(msg.value > suscribeAmount);
+        require(msg.value > subscribeAmount);
         tokenIdNumber = tokenIdNumber + 1;
         _safeMint(msg.sender, tokenIdNumber);  
         amountCreator += msg.value;
@@ -98,6 +98,10 @@ contract UserProfile is ERC721, Ownable {
     }
 
     function getProfileData() external view returns(string memory,string memory,uint,uint,uint,uint){
-        return(profileName,profileDescription,tokenIdNumber,amountPublishedVideos,suscribeAmount,amountCreator);
+        return (profileName,profileDescription,tokenIdNumber,amountPublishedVideos,subscribeAmount,amountCreator);
+    }
+
+    function getCreatorInfo() external view returns(string memory,string memory,uint){
+        return (profileName,profileDescription,subscribeAmount);
     }
 }

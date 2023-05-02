@@ -569,6 +569,101 @@ a.buy-btn:focus {
 
 /* End Subscription Cards */
 
+/* Signup Form */
+.signup-form p {
+  font-size: 14px;
+  color: #6b7280;
+}
+.signup-form--container {
+  width: 100%;
+  padding-top: 150px;
+}
+.signup-form {
+  width: 40%;
+  padding: 32px;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 2px 4px 8px #6b728040;
+  margin: 0px auto;
+}
+
+.header {
+  margin-bottom: 48px;
+}
+
+.header h1 {
+  font-weight: bolder;
+  font-size: 28px;
+  color: rgba(220, 53, 69, 1);
+}
+
+.input {
+  position: relative;
+  margin-bottom: 24px;
+  padding: 10px 20px;
+}
+
+.input input,
+.input textarea {
+  width: 100%;
+  border: none;
+  padding: 8px 40px;
+  border-radius: 4px;
+  background-color: #f3f4f6;
+  color: #1f2937;
+  font-size: 16px;
+  max-width: 100%;
+}
+.signup-form .header {
+  width: 100%;
+  text-align: center;
+}
+.input input::placeholder {
+  color: #6b7280;
+}
+
+.input i {
+  top: 50%;
+  left: 5%;
+  width: 46px;
+  position: absolute;
+  transform: translateY(-50%);
+  color: rgba(220, 53, 69, 0.7);
+  font-size: 26px;
+}
+.signup-form .container .input:nth-last-child(2) i {
+  font-size: 16px;
+  width: 26px !important;
+  top: 55%;
+  transform: translateY(-55%);
+}
+
+.signup-form .signup-btn {
+  width: 100%;
+  border: none;
+  padding: 8px 0;
+  margin: 24px 0;
+  border-radius: 4px;
+  background-color: rgba(220, 53, 69, 0.8);
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.signup-form .signup-btn:hover {
+  background-color: rgba(220, 53, 69, 1);
+}
+.signup-btn:active {
+  background-color: #4f46e5;
+  transition: all 0.3s ease;
+}
+
+input[type="number"] {
+  width: 70% !important;
+}
+
+/* End Signup Form */
+
 /* Responsive */
 @media screen and (max-width: 820px) {
   .wsk-cp-img img {
@@ -671,6 +766,9 @@ a.buy-btn:focus {
   .creator-card {
     min-width: 220px;
   }
+  .signup-form {
+    width: 70%;
+  }
 }
 @media screen and (max-width: 700px) {
   .wsk-cp-img img {
@@ -726,6 +824,9 @@ a.buy-btn:focus {
   }
   .wsk-cp-text {
     padding-top: 90%;
+  }
+  .signup-form {
+    width: 100%;
   }
 }
 @media screen and (max-width: 500px) {

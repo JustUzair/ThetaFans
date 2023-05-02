@@ -28,11 +28,13 @@ contract UserFactory {
     }
 
     function working() public pure returns(string memory){
-        return "yes smartcontract deployed";
+        return "yes smart contract deployed";
     }
     function getAllCreators() public view returns(address[] memory){
         return createdProfiles;
     }
 
-
+    function getCreator(address _creator) public view returns(string memory,string memory,uint){
+        return UserProfile(_creator).getCreatorInfo();
+    }
 }
