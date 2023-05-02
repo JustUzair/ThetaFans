@@ -2,7 +2,7 @@ import Head from "next/head";
 import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import Footer from "../components/Footer/Footer";
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import PatreonHello from "../assets/img/patreon-hero-illustration.png";
 import PatreonPredictable from "../assets/img/patreon-predictablerevenue.png";
 import PatreonConnection from "../assets/img/patreon-fanconnection.png";
