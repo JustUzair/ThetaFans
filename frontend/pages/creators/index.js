@@ -65,7 +65,7 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
-          console.log(data);
+          successNotification(`Creators Fetched Successfully!!`);
           data.map(_creator => {
             runContractFunction({
               params: {
@@ -91,7 +91,6 @@ const Creators = () => {
                 const arr1 = [creator];
 
                 setContentCreators(prevState => [...prevState, ...arr1]);
-                //   successNotification(`Creators Fetched`);
               },
             });
           });
