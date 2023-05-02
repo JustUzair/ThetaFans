@@ -69,7 +69,7 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/creators/me" className="nav__link">
+          <Link href="/creators/signup" className="nav__link">
             Become a Creator
           </Link>
         </li>

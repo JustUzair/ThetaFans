@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import SubscriptionCard from "../../components/SubscriptionCard/SubscriptionCard";
+
 const Creators = () => {
   const router = useRouter();
   const { id } = router.query;
@@ -13,6 +15,7 @@ const Creators = () => {
           Creators | {id?.substr(0, 4) + "..." + id?.substr(id?.length - 4)}
         </title>
       </Head>
+      <SubscriptionCard />
     </>
   );
 };
