@@ -27,6 +27,8 @@ contract UserProfile is ERC721, Ownable {
     mapping(string=>uint) public videosIndex;
     uint public amountCreator; //amount creator have to withdraw
     uint public totalDonated; //total amount donated, analytics, this variable have not use yet
+    //PREVENT MULTIPLE SUSCRIPTIONS FROM SAME USER
+    mapping(address=>bool) userSuscribed;
 
     constructor(string memory _tokenName,string memory _tokenSymbol,address _sender,string memory _name,string memory _description,uint _subscribeAmount) ERC721(_tokenName,_tokenSymbol) 
     {
@@ -38,10 +40,12 @@ contract UserProfile is ERC721, Ownable {
 
 
     function userSuscribe() public payable {
+        require(userSuscribed[msg.sender] = false);
         require(msg.value > subscribeAmount);
         tokenIdNumber = tokenIdNumber + 1;
         _safeMint(msg.sender, tokenIdNumber);  
         amountCreator += msg.value;
+        userSuscribed[msg.sender] = true;
     }
 
     function donate()public payable{
