@@ -445,8 +445,8 @@ a.buy-btn:focus {
 
 .subscribe-btn:hover:after,
 .subscribe-btn:hover:before {
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   border-radius: 4px;
 }
 .subscribe-btn:hover:after {
@@ -454,6 +454,15 @@ a.buy-btn:focus {
 }
 .subscribe-btn:hover:before {
   transition: all 0.5s ease-in;
+}
+.subscribe-btn .tfuel-image--container img {
+  width: 16px !important;
+  margin: 0 4px !important;
+}
+.subscribe-btn span {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 /* Subscription Cards */

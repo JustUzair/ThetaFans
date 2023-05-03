@@ -11,7 +11,7 @@ import abi from "../../constants/UserFactory.json";
 import contractAddresses from "../../constants/networkMapping.json";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import { useNotification } from "web3uikit";
-
+import { ethers } from "ethers";
 const Creators = () => {
   const [tokenName, setTokenName] = useState("");
   const [tokenSymbol, setTokenSymbol] = useState("");
@@ -51,12 +51,14 @@ const Creators = () => {
   async function createContentCreatorAccount() {
     if (!isWeb3Enabled) await enableWeb3();
     // console.log(
-    //   tokenName,
-    //   tokenSymbol,
-    //   creatorName,
-    //   description,
-    //   subscriptionCost
+    //   ethers.utils.parseUnits(subscriptionCost.toString(), "ether").toString()
     // );
+    console.log(
+      ethers.utils
+        .parseEther(parseFloat(subscriptionCost).toString())
+        .toString()
+    );
+
     if (account) {
       runContractFunction({
         params: {
@@ -71,6 +73,8 @@ const Creators = () => {
             _subscriptionAmount: subscriptionCost,
           },
         },
+
+        // ethers.utils.parseEther(subscriptionCost)
         //
         onError: error => {
           failureNotification(error.message);

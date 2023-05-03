@@ -3,6 +3,8 @@ import Link from "next/link";
 import Head from "next/head";
 import abi from "../../constants/UserFactory.json";
 import contractAddresses from "../../constants/networkMapping.json";
+import Image from "next/image";
+import tfuel from "../../assets/img/tfuel-logo.svg";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import { useNotification } from "web3uikit";
 import { useEffect } from "react";
@@ -65,7 +67,7 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
-          successNotification(`Creators Fetched Successfully!!`);
+          successNotification(`Creators Fetched`);
           data.map(_creator => {
             runContractFunction({
               params: {
@@ -85,7 +87,21 @@ const Creators = () => {
                 creator["name"] = data[0];
                 creator["address"] = _creator;
                 creator["description"] = data[1];
-                creator["subscriptionAmount"] = ethers.utils.parseEther(
+                creator["subscriptionAmount"] = parseInt(
+                  ethers.utils
+                    .formatEther(
+                      (
+                        parseFloat(
+                          ethers.BigNumber.from(
+                            ethers.utils.parseEther(data[2].toString())
+                          ).toString()
+                        ) / 1000000
+                      ).toString()
+                    )
+                    .toString()
+                );
+                console.log(creator.subscriptionAmount);
+                creator["subscriptionAmountInHex"] = ethers.utils.parseEther(
                   data[2].toString()
                 );
                 const arr1 = [creator];
@@ -112,6 +128,24 @@ const Creators = () => {
           <div className="card-container">
             {contentCreators.length > 0 ? (
               contentCreators.map((_creator, index) => {
+                // Formatting the amount to ether
+                // console.log(
+                //   ethers.utils
+                //     .formatEther(
+                //       (
+                //         parseFloat(
+                //           ethers.BigNumber.from(
+                //             _creator.subscriptionAmount
+                //           ).toString()
+                //         ) / 1000000
+                //       ).toString()
+                //     )
+                //     .toString()
+                // );
+
+                console.log(
+                  ethers.BigNumber.from(_creator.subscriptionAmount).toString()
+                );
                 return (
                   <div className="creator-card" key={index}>
                     <div className="wsk-cp-img">
@@ -147,7 +181,14 @@ const Creators = () => {
                       <div className="card-footer">
                         <Link href={`/creators/${_creator.address}`}>
                           <button className="subscribe-btn .cta-01">
-                            <span>Subscribe</span>
+                            {/* <span>Subscribe</span> */}
+                            <span>
+                              Sub for{" "}
+                              <span className="tfuel-image--container">
+                                <Image src={tfuel}></Image>
+                              </span>
+                              {_creator.subscriptionAmount}
+                            </span>
                           </button>
                         </Link>
                       </div>
