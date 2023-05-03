@@ -1,11 +1,67 @@
 import React from "react";
 import Image from "next/image";
 import tfuel from "../../assets/img/tfuel-logo.svg";
-const SubscriptionCard = () => {
+import { useNotification } from "web3uikit";
+import { useMoralis, useWeb3Contract } from "react-moralis";
+import contractAddresses from "../../constants/networkMapping.json";
+import abi from "../../constants/UserFactory.json";
+import { ethers } from "ethers";
+const SubscriptionCard = ({ creator }) => {
+  const dispatch = useNotification();
+  const { runContractFunction } = useWeb3Contract();
+  const { enableWeb3, authenticate, account, isWeb3Enabled } = useMoralis();
+  const { chainId: chainIdHex } = useMoralis();
+  const chainId = parseInt(chainIdHex);
+  const contractAddress =
+    chainId in contractAddresses
+      ? contractAddresses[chainId]["UserFactory"][
+          contractAddresses[chainId]["UserFactory"].length - 1
+        ]
+      : null;
+  const successNotification = msg => {
+    dispatch({
+      type: "success",
+      message: `${msg} Successfully`,
+      title: `${msg}`,
+      position: "bottomR",
+    });
+  };
+
+  const failureNotification = msg => {
+    dispatch({
+      type: "error",
+      message: `${msg} ( View console for more info )`,
+      title: `${msg}`,
+      position: "bottomR",
+    });
+  };
+  async function subscribeUser() {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi,
+          contractAddress,
+          functionName: "working",
+          params: {},
+        },
+        //
+        onError: error => {
+          failureNotification(error.message);
+          console.error(error);
+        },
+        onSuccess: data => {
+          console.log(data);
+        },
+      });
+    }
+  }
   return (
-    <div className="subscription-card--container">
-      <div className="subscription-card--grid">
-        <div className="subscription-card card1">
+    <>
+      {contractAddress ? (
+        <div className="subscription-card--container">
+          {/* <div className="subscription-card--grid"> */}
+          {/* <div className="subscription-card card1">
           <h3>BASIC</h3>
           <h2>Free</h2>
           <h4>
@@ -41,27 +97,56 @@ const SubscriptionCard = () => {
           <p>50 templates</p>
           <p>Pro presets</p>
           <a href="#">Subscribe </a>
+        </div> */}
+          <div className="subscription-card card3">
+            <h3>ULTIMATE</h3>
+            <h2>{creator.subscriptionAmount}</h2>
+            <h4>
+              <Image
+                src={tfuel}
+                alt="tfuel"
+                style={{
+                  width: "50px !important",
+                }}
+              />
+              <span>{creator.subscriptionAmount} TFuel</span>
+            </h4>
+            <hr />
+            <p>Unlimited Content</p>
+            <p>Unlock Premium Content</p>
+            <button onClick={subscribeUser}>Subscribe Now</button>
+          </div>
+          {/* </div> */}
         </div>
-        <div className="subscription-card card3">
-          <h3>ULTIMATE</h3>
-          <h2>250</h2>
-          <h4>
-            <Image
-              src={tfuel}
-              alt="tfuel"
+      ) : (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "80vw",
+              height: "100vh",
+              zIndex: "99",
+              color: "white",
+              fontSize: "2rem",
+              wordWrap: "break-word",
+              margin: "0 auto",
+            }}
+          >
+            <span
               style={{
-                width: "50px !important",
+                background: "#FF494A",
+                padding: "10px 25px",
+                borderRadius: "20px",
               }}
-            />
-            <span>250</span>
-          </h4>
-          <hr />
-          <p>Unlimited templates</p>
-          <p>Ultimate presets</p>
-          <a href="#">Subscribe </a>
-        </div>
-      </div>
-    </div>
+            >
+              No contract found on this network!!!
+            </span>
+          </div>
+        </>
+      )}
+    </>
   );
 };
 

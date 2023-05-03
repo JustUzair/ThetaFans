@@ -10,7 +10,6 @@ import { useNotification } from "web3uikit";
 import { useEffect } from "react";
 import { ethers } from "ethers";
 const Creators = () => {
-  const id = "0x9901f8073855D2fEC6f0E67131D62D517Ba00889"; // CHANGE THIS
   const [contentCreators, setContentCreators] = useState([]);
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
@@ -143,9 +142,6 @@ const Creators = () => {
                 //     .toString()
                 // );
 
-                console.log(
-                  ethers.BigNumber.from(_creator.subscriptionAmount).toString()
-                );
                 return (
                   <div className="creator-card" key={index}>
                     <div className="wsk-cp-img">
@@ -164,7 +160,9 @@ const Creators = () => {
                     </div>
                     <div className="wsk-cp-text">
                       <div className="category">
-                        <span>{`${_creator.name} `}</span>
+                        <span>{`${
+                          _creator.name.split(" ")[0] || _creator.name
+                        } `}</span>
                       </div>
                       <div className="title-product">
                         <h3>
@@ -179,9 +177,12 @@ const Creators = () => {
                         <p>{_creator.description}</p>
                       </div>
                       <div className="card-footer">
-                        <Link href={`/creators/${_creator.address}`}>
+                        <Link
+                          href={{
+                            pathname: `/creators/${_creator.address}`,
+                          }}
+                        >
                           <button className="subscribe-btn .cta-01">
-                            {/* <span>Subscribe</span> */}
                             <span>
                               Sub for{" "}
                               <span className="tfuel-image--container">

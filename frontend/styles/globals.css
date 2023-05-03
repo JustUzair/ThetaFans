@@ -552,13 +552,16 @@ a.buy-btn:focus {
   margin-bottom: 40px;
 }
 
-.subscription-card a {
+.subscription-card button {
+  border: none;
+  outline: none;
   color: white;
   width: 90%;
   margin: 0 auto;
   font-weight: bold;
   text-decoration: none;
-  padding: 12px 85px 11px 85px;
+  padding: 15px 10px;
+  letter-spacing: 3px;
   background-color: rgba(255, 255, 255, 0.3);
   border-radius: 6px;
   transition: background-color 0.5s;
