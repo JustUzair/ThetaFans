@@ -27,6 +27,8 @@ contract UserProfile is ERC721, Ownable {
     mapping(string=>uint) public videosIndex;
     uint public amountCreator; //amount creator have to withdraw
     uint public totalDonated; //total amount donated, analytics, this variable have not use yet
+    //PREVENT MULTIPLE SUSCRIPTIONS FROM SAME USER
+    mapping(address=>bool) userSuscribed;
 
     constructor(string memory _tokenName,string memory _tokenSymbol,address _sender,string memory _name,string memory _description,uint _subscribeAmount) ERC721(_tokenName,_tokenSymbol) 
     {
@@ -38,10 +40,12 @@ contract UserProfile is ERC721, Ownable {
 
 
     function userSuscribe() public payable {
+        require(userSuscribed[msg.sender] = false);
         require(msg.value > subscribeAmount);
         tokenIdNumber = tokenIdNumber + 1;
         _safeMint(msg.sender, tokenIdNumber);  
         amountCreator += msg.value;
+        userSuscribed[msg.sender] = true;
     }
 
     function donate()public payable{
@@ -103,5 +107,35 @@ contract UserProfile is ERC721, Ownable {
 
     function getCreatorInfo() external view returns(string memory,string memory,uint){
         return (profileName,profileDescription,subscribeAmount);
+    }
+
+   /**
+     * 
+     * @notice remove approve and transfer functions for prevent users transfer tokens.
+     * 
+    */
+
+    //override approve function for prevent approve
+    function approve(address to, uint256 tokenId) public override{
+        require(false, "approvals disabled.")
+    }
+    //override setApprovalForAll function for prevent approve
+    function setApprovalForAll(address operator, bool approved) public override{
+        require(false, "approvals disabled.")
+    }
+
+    //override transferFrom function for prevent transfer
+    function transferFrom(address from, address to, uint256 tokenId) public override{
+        require(false, "transfers disabled.")
+    }
+
+    //override safeTransferFrom function for prevent transfer
+    function safeTransferFrom(address from, address to, uint256 tokenId) public override{
+        require(false, "transfers disabled.")
+    }
+
+    //override safeTransferFrom function for prevent transfer
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public override{
+        require(false, "transfers disabled.")
     }
 }

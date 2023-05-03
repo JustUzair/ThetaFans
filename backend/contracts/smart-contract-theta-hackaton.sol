@@ -104,4 +104,6 @@ contract UserProfile is ERC721, Ownable {
     function getProfileData() external view returns(string memory,string memory,uint,uint,uint,uint){
         return(profileName,profileDescription,tokenIdNumber,amountPublishedVideos,suscribeAmount,amountCreator);
     }
+
+
 }

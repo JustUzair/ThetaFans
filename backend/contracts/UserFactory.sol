@@ -8,23 +8,30 @@ import "./UserProfile.sol";
 contract UserFactory {
 
     address[] public createdProfiles;
+    //string name to address mapping
     mapping(string=>address) public userProfile;
+    //creator address to ERC721 contract address mapping
+    mapping(address=>address) public creatorContract;
     address public admin;
 
     constructor(){
         admin = msg.sender;
     }
 
-    function createProfile(string memory _tokenName,string memory _tokenSymbol,
-    string memory _name,string memory _description,uint _subscriptionAmount) public
+    function createProfile(string memory _name,string memory _description,uint _subscriptionAmount) public
     {
+        //check username is not taken
         address profileAddress = userProfile[_name];
-        require(profileAddress == address(0));
-        UserProfile newUser = new UserProfile(_tokenName,_tokenSymbol,msg.sender,_name,_description,_subscriptionAmount);
+        require(profileAddress == address(0),"Username already taken");
+        //check if the creator already has an ERC721
+        require(creatorContract[msg.sender] == address(0),"address already has an account");
+
+        UserProfile newUser = new UserProfile(_name,"PATREON",msg.sender,_name,_description,_subscriptionAmount);
         address addr = address(newUser);
         //add the created profile to store data variables
         createdProfiles.push(addr);
         userProfile[_name] = addr;
+        creatorContract[msg.sender] = addr;
     }
 
     function working() public pure returns(string memory){
