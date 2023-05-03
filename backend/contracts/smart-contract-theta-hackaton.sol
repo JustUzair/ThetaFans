@@ -104,4 +104,33 @@ contract UserProfile is ERC721, Ownable {
     function getProfileData() external view returns(string memory,string memory,uint,uint,uint,uint){
         return(profileName,profileDescription,tokenIdNumber,amountPublishedVideos,suscribeAmount,amountCreator);
     }
+
+    //override approve function for prevent approve
+    function approve(address to, uint256 tokenId) public override{
+        
+    }
+    //override setApprovalForAll function for prevent approve
+    function setApprovalForAll(address operator, bool approved) public override{
+        
+    }
+
+    //override transferFrom function for prevent transfer
+    function transferFrom(address from, address to, uint256 tokenId) public override{
+        
+    }
+
+    //override safeTransferFrom function for prevent transfer
+    function safeTransferFrom(address from, address to, uint256 tokenId) public override{
+        
+    }
+
+    //override safeTransferFrom function for prevent transfer
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public override{
+        
+    }
+
+
+
+
+
 }
