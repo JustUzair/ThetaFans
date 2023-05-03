@@ -108,4 +108,34 @@ contract UserProfile is ERC721, Ownable {
     function getCreatorInfo() external view returns(string memory,string memory,uint){
         return (profileName,profileDescription,subscribeAmount);
     }
+
+   /**
+     * 
+     * @notice remove approve and transfer functions for prevent users transfer tokens.
+     * 
+    */
+
+    //override approve function for prevent approve
+    function approve(address to, uint256 tokenId) public override{
+        require(false, "approvals disabled.")
+    }
+    //override setApprovalForAll function for prevent approve
+    function setApprovalForAll(address operator, bool approved) public override{
+        require(false, "approvals disabled.")
+    }
+
+    //override transferFrom function for prevent transfer
+    function transferFrom(address from, address to, uint256 tokenId) public override{
+        require(false, "transfers disabled.")
+    }
+
+    //override safeTransferFrom function for prevent transfer
+    function safeTransferFrom(address from, address to, uint256 tokenId) public override{
+        require(false, "transfers disabled.")
+    }
+
+    //override safeTransferFrom function for prevent transfer
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public override{
+        require(false, "transfers disabled.")
+    }
 }
