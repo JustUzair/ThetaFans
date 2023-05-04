@@ -5,8 +5,11 @@ import { useNotification } from "web3uikit";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import contractAddresses from "../../constants/networkMapping.json";
 import abi from "../../constants/UserFactory.json";
+import userProfileAbi from "../../constants/UserProfile.json";
+
 import { ethers } from "ethers";
 const SubscriptionCard = ({ creator }) => {
+  //   console.log(JSON.parse(creator));
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
   const { enableWeb3, authenticate, account, isWeb3Enabled } = useMoralis();
@@ -35,14 +38,17 @@ const SubscriptionCard = ({ creator }) => {
       position: "bottomR",
     });
   };
-  async function subscribeUser() {
+  async function subscribeUser(creatorAddress) {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
       runContractFunction({
         params: {
-          abi,
-          contractAddress,
-          functionName: "working",
+          abi: userProfileAbi,
+          contractAddress: creatorAddress,
+          functionName: "userSubscribe",
+          msgValue: ethers.utils
+            .parseEther(creator.subscriptionAmount.toString())
+            .toString(),
           params: {},
         },
         //
@@ -114,7 +120,23 @@ const SubscriptionCard = ({ creator }) => {
             <hr />
             <p>Unlimited Content</p>
             <p>Unlock Premium Content</p>
-            <button onClick={subscribeUser}>Subscribe Now</button>
+            <button
+              onClick={e => {
+                // console.log(
+                //   ethers.utils
+                //     .parseUnits(
+                //       ethers.BigNumber.from(
+                //         creator.subscriptionAmountInHex
+                //       ).toString(),
+                //       "wei"
+                //     )
+                //     .toString()
+                // );
+                subscribeUser(creator.address);
+              }}
+            >
+              Subscribe Now
+            </button>
           </div>
           {/* </div> */}
         </div>

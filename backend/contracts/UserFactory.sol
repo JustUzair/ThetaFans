@@ -40,7 +40,11 @@ contract UserFactory {
     function getAllCreators() public view returns(address[] memory){
         return createdProfiles;
     }
-
+    function isCreator(address _creator) public view returns(bool){
+        if(creatorContract[_creator] == address(0))
+            return false;
+        return true;
+    }
     function getCreator(address _creator) public view returns(string memory,string memory,uint){
         return UserProfile(_creator).getCreatorInfo();
     }

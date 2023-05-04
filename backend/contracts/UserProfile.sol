@@ -22,13 +22,13 @@ contract UserProfile is ERC721, Ownable {
     //BUISNESS LOGIC
     uint public tokenIdNumber;//amount tokens released
     uint public amountPublishedVideos;
-    uint public subscribeAmount; //required $ have to pay for suscribe, in drop(wei of tfuel)
+    uint public subscribeAmount; //required $ have to pay for subscribe, in drop(wei of tfuel)
     VideoData[] public publishedVideos;
     mapping(string=>uint) public videosIndex;
     uint public amountCreator; //amount creator have to withdraw
     uint public totalDonated; //total amount donated, analytics, this variable have not use yet
-    //PREVENT MULTIPLE SUSCRIPTIONS FROM SAME USER
-    mapping(address=>bool) userSuscribed;
+    //PREVENT MULTIPLE SUBSCRIPTIONS FROM SAME USER
+    mapping(address=>bool) userSubscribed;
 
     constructor(string memory _tokenName,string memory _tokenSymbol,address _sender,string memory _name,string memory _description,uint _subscribeAmount) ERC721(_tokenName,_tokenSymbol) 
     {
@@ -39,13 +39,13 @@ contract UserProfile is ERC721, Ownable {
     }
 
 
-    function userSuscribe() public payable {
-        require(userSuscribed[msg.sender] = false);
+    function userSubscribe() public payable {
+        require(userSubscribed[msg.sender] == false);
         require(msg.value > subscribeAmount);
         tokenIdNumber = tokenIdNumber + 1;
         _safeMint(msg.sender, tokenIdNumber);  
         amountCreator += msg.value;
-        userSuscribed[msg.sender] = true;
+        userSubscribed[msg.sender] = true;
     }
 
     function donate()public payable{
@@ -67,7 +67,7 @@ contract UserProfile is ERC721, Ownable {
         
     }
 
-    // restricted to owner //withdraws suscriptions and donations amount
+    // restricted to owner //withdraws subscriptions and donations amount
     function withdrawAmount() public onlyOwner{
         address owner = owner();
 
@@ -117,25 +117,25 @@ contract UserProfile is ERC721, Ownable {
 
     //override approve function for prevent approve
     function approve(address to, uint256 tokenId) public override{
-        require(false, "approvals disabled.")
+        require(false, "approvals disabled.");
     }
     //override setApprovalForAll function for prevent approve
     function setApprovalForAll(address operator, bool approved) public override{
-        require(false, "approvals disabled.")
+        require(false, "approvals disabled.");
     }
 
     //override transferFrom function for prevent transfer
     function transferFrom(address from, address to, uint256 tokenId) public override{
-        require(false, "transfers disabled.")
+        require(false, "transfers disabled.");
     }
 
     //override safeTransferFrom function for prevent transfer
     function safeTransferFrom(address from, address to, uint256 tokenId) public override{
-        require(false, "transfers disabled.")
+        require(false, "transfers disabled.");
     }
 
     //override safeTransferFrom function for prevent transfer
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public override{
-        require(false, "transfers disabled.")
+        require(false, "transfers disabled.");
     }
 }

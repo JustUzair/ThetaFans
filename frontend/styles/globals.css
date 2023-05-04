@@ -568,7 +568,7 @@ a.buy-btn:focus {
   display: block;
 }
 
-.subscription-card a:hover {
+.subscription-card button:hover {
   background-color: rgba(255, 255, 255, 0.5);
 }
 
@@ -613,6 +613,9 @@ a.buy-btn:focus {
   position: relative;
   margin-bottom: 24px;
   padding: 10px 20px;
+}
+.input input:disabled {
+  background: rgba(0, 0, 0, 0.1);
 }
 
 .input input,
@@ -922,3 +925,11 @@ input[type="number"] {
   }
 }
 /* End Responsive */
+
+.upload-video--container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}

@@ -111,11 +111,9 @@ const Creators = () => {
                 </i>
                 <input
                   type="text"
+                  disabled
                   placeholder="Token Name"
-                  onChange={e => {
-                    const value = e.target.value;
-                    setTokenName(value);
-                  }}
+                  value={creatorName}
                 />
               </div>
               <div className="input">
@@ -124,11 +122,9 @@ const Creators = () => {
                 </i>
                 <input
                   type="text"
+                  disabled
                   placeholder="Token Symbol"
-                  onChange={e => {
-                    const value = e.target.value;
-                    setTokenSymbol(value);
-                  }}
+                  value={"PAT3"}
                 />
               </div>
               <div className="input">

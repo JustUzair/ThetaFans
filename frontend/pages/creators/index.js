@@ -90,7 +90,7 @@ const Creators = () => {
                   ethers.utils
                     .formatEther(
                       (
-                        parseFloat(
+                        parseInt(
                           ethers.BigNumber.from(
                             ethers.utils.parseEther(data[2].toString())
                           ).toString()

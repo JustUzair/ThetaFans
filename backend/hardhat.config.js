@@ -24,7 +24,7 @@ module.exports = {
       gasPrice: 4000000000000,
     },
     theta_testnet: {
-      url: `https://eth-rpc-api-testnet.thetatoken.org/rpc      `,
+      url: `https://eth-rpc-api-testnet.thetatoken.org/rpc`,
       accounts: [private_key],
       chainId: 365,
       gasPrice: 4000000000000,
