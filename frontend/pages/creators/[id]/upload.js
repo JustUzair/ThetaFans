@@ -26,6 +26,12 @@ function ContractsPage() {
   //video url = https://player.thetavideoapi.com/video/:videoid example.https://player.thetavideoapi.com/video/video_d5kiagg6ip7u6aup5wkm2g8m79
   const [videourl, setVideourl] = useState("");
 
+  function delay(seconds) {
+    return new Promise(resolve => {
+      setTimeout(resolve, seconds * 1000);
+    });
+  }
+
   const onChangeDescription = event => {
     setDescription(event.target.value);
   };
@@ -155,7 +161,7 @@ function ContractsPage() {
 
 
 
-
+    await delay(5);
     //show video in the frontend
     setVideourl(`https://player.thetavideoapi.com/video/${videoid}`);
     setUploading(false);
@@ -186,7 +192,7 @@ function ContractsPage() {
         <button
           onClick={() => {
             //   handleUpload(collectionAddress);
-            handleUpload(id);
+            handleUpload(contractAddress);
           }}
         >
           Upload
