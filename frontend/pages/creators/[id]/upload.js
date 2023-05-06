@@ -100,6 +100,7 @@ function ContractsPage() {
     const options3 = {
       method: "POST",
       url: "https://api.thetavideoapi.com/video",
+
       headers: {
         "x-tva-sa-id": "srvacc_gke43qct7bhg2z7rea4faeprr",
         "x-tva-sa-secret": "1d1djzj4spzw9366dx1ccus84n9usgui",
@@ -109,9 +110,9 @@ function ContractsPage() {
         source_upload_id: id, //id received before when creating the presigned url
         playback_policy: "public",
         //   nft_collection: creatorCollectionAddress,
-        // drm_rules: [
-        //   { nft_collection: creatorCollectionAddress, chain_id: 365 },
-        // ], //enable wich nft have acces to it//365 testnet , 361 mainnet
+        drm_rules: [
+          { nft_collection: creatorCollectionAddress, chain_id: 365 },
+        ], //enable wich nft have acces to it//365 testnet , 361 mainnet
         use_drm: true, //enables private video
       },
     };

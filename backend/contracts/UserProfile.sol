@@ -76,6 +76,11 @@ contract UserProfile is ERC721, Ownable {
         
     }
 
+    function getOwner()external view returns(address){
+        address owner = owner();
+        return owner;
+    }
+
     function getVideosData() public view returns( VideoData[] memory){
         //IMPLEMENT QUERY BY INDEX
 
@@ -107,6 +112,10 @@ contract UserProfile is ERC721, Ownable {
 
     function getCreatorInfo() external view returns(string memory,string memory,uint){
         return (profileName,profileDescription,subscribeAmount);
+    }
+
+    function isSubscribed(address _sender) external view returns(bool){
+        return userSubscribed[_sender];
     }
 
    /**

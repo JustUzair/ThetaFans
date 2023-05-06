@@ -5,8 +5,11 @@ import { Dropdown } from "react-bootstrap";
 import PatreonRae from "../../assets/img/issa-rae.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import styled from "styled-components";
+import contractAddresses from "../../../constants/networkMapping.json";
+import abi from "../../../constants/UserFactory.json";
 
 const Navbar = () => {
+  const [isSignedUp, setIsSignedUp] = useState(false);
   const getStyle = {
     navbar: {
       position: "fixed",
@@ -42,6 +45,31 @@ const Navbar = () => {
       // backgroundColor: 'teal'
     },
   };
+
+  async function checkOwner() {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi,
+          contractAddress,
+          functionName: "getOwner",
+          params: {},
+        },
+        //
+        onError: error => {
+          failureNotification(error.message);
+          console.error(error);
+        },
+        onSuccess: data => {
+          console.log(`data : ${data}`);
+        },
+      });
+    }
+  }
+  useEffect(() => {
+    checkOwner();
+  }, [account]);
   return (
     <nav style={getStyle.navbar}>
       <Link href="/" className="nav__link">

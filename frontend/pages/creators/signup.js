@@ -14,7 +14,7 @@ import { useNotification } from "web3uikit";
 import { ethers } from "ethers";
 const Creators = () => {
   const [tokenName, setTokenName] = useState("");
-  const [tokenSymbol, setTokenSymbol] = useState("");
+  const [tokenSymbol, setTokenSymbol] = useState("PAT3");
   const [creatorName, setCreatorName] = useState("");
   const [description, setDescription] = useState("");
   const [subscriptionCost, setSubscriptionCost] = useState(0);
@@ -66,7 +66,7 @@ const Creators = () => {
           contractAddress,
           functionName: "createProfile",
           params: {
-            _tokenName: tokenName,
+            _tokenName: creatorName,
             _tokenSymbol: tokenSymbol,
             _name: creatorName,
             _description: description,
@@ -113,6 +113,7 @@ const Creators = () => {
                   type="text"
                   disabled
                   placeholder="Token Name"
+                  required
                   value={creatorName}
                 />
               </div>
@@ -121,6 +122,7 @@ const Creators = () => {
                   <MdOutlineEuroSymbol />
                 </i>
                 <input
+                  required
                   type="text"
                   disabled
                   placeholder="Token Symbol"
@@ -132,7 +134,8 @@ const Creators = () => {
                   <BiRename />
                 </i>
                 <input
-                  type="email"
+                  required
+                  type="texts"
                   placeholder="Creator Name"
                   onChange={e => {
                     const value = e.target.value;
@@ -145,6 +148,7 @@ const Creators = () => {
                   <TbFileDescription />
                 </i>
                 <textarea
+                  required
                   placeholder="Description"
                   onChange={e => {
                     const value = e.target.value;
@@ -162,9 +166,10 @@ const Creators = () => {
                   ></Image>
                 </i>
                 <input
+                  required
                   type="number"
                   placeholder="Sub Cost"
-                  min="0"
+                  min="1"
                   onChange={e => {
                     const value = e.target.value;
                     setSubscriptionCost(value);

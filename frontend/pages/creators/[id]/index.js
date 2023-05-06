@@ -3,16 +3,19 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import SubscriptionCard from "../../../components/SubscriptionCard/SubscriptionCard";
 import { route } from "next/dist/server/router";
-import { useNotification } from "web3uikit";
+import { fontSize, useNotification } from "web3uikit";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import contractAddresses from "../../../constants/networkMapping.json";
 import abi from "../../../constants/UserFactory.json";
+import userProfileAbi from "../../../constants/UserProfile.json";
 import { ethers } from "ethers";
 
 const Creators = () => {
   const router = useRouter();
   const _creator = router.query.id;
   const [creatorData, setCreatorData] = useState({});
+  const [isOwner, setIsOwner] = useState(false);
+  const [isUserSubscribed, setIsUserSubscribed] = useState(false);
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
   const { enableWeb3, authenticate, account, isWeb3Enabled } = useMoralis();
@@ -92,8 +95,59 @@ const Creators = () => {
       });
     }
   }
+  async function getUserSignupData() {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi: userProfileAbi,
+          contractAddress: _creator,
+          functionName: "isSubscribed",
+          params: { _sender: account },
+        },
+        //
+        onError: error => {
+          failureNotification(error.message);
+          console.error(error);
+        },
+        onSuccess: data => {
+          console.log(data);
+          setIsUserSubscribed(data);
+        },
+      });
+    }
+  }
+  async function checkOwner() {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi: userProfileAbi,
+          contractAddress: _creator,
+          functionName: "getOwner",
+          params: {},
+        },
+        //
+        onError: error => {
+          failureNotification(error.message);
+          console.error(error);
+        },
+        onSuccess: data => {
+          console.log(`Account : ${account}`);
+          console.log(`data : ${data}`);
+
+          if (account.toLowerCase() == data.toLowerCase()) {
+            setIsOwner(true);
+            setIsUserSubscribed(true);
+          }
+        },
+      });
+    }
+  }
   useEffect(() => {
     getCreatorData();
+    getUserSignupData();
+    checkOwner();
   }, [account]);
   return (
     <>
@@ -107,7 +161,18 @@ const Creators = () => {
       </Head>
       <>
         {contractAddress ? (
-          <SubscriptionCard creator={creatorData} />
+          !isUserSubscribed && !isOwner ? (
+            <SubscriptionCard creator={creatorData} />
+          ) : (
+            <h1
+              style={{
+                width: "100vw",
+                fontSize: "12rem",
+              }}
+            >
+              User Subscribed
+            </h1>
+          )
         ) : (
           <>
             <div
