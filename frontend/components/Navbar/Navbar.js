@@ -5,8 +5,9 @@ import { Dropdown } from "react-bootstrap";
 import PatreonRae from "../../assets/img/issa-rae.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import styled from "styled-components";
-import contractAddresses from "../../../constants/networkMapping.json";
-import abi from "../../../constants/UserFactory.json";
+import contractAddresses from "../../constants/networkMapping.json";
+
+import abi from "../../constants/UserFactory.json";
 
 const Navbar = () => {
   const [isSignedUp, setIsSignedUp] = useState(false);
