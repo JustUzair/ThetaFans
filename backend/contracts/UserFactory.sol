@@ -9,6 +9,7 @@ contract UserFactory {
 
     address[] public createdProfiles;
     mapping(string=>address) public userProfile;
+    mapping(address=>address) public creatorContract;
     address public admin;
 
     constructor(){
@@ -19,12 +20,14 @@ contract UserFactory {
     string memory _name,string memory _description,uint _subscriptionAmount) public
     {
         address profileAddress = userProfile[_name];
+        require(creatorContract[msg.sender] == address(0),"address already has an account");
         require(profileAddress == address(0));
         UserProfile newUser = new UserProfile(_tokenName,_tokenSymbol,msg.sender,_name,_description,_subscriptionAmount);
         address addr = address(newUser);
         //add the created profile to store data variables
         createdProfiles.push(addr);
         userProfile[_name] = addr;
+        creatorContract[msg.sender] = addr;
     }
     function isSignedUp(address _creatorAddress,string memory _name) external view returns(bool){
         address profileAddress = userProfile[_name];
