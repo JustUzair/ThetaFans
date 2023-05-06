@@ -1,14 +1,17 @@
 import { useState } from "react";
 import axios from "axios";
+import { useRouter } from 'next/router';
 
 function ContractsPage() {
+  const router = useRouter();
+
   //INPUT STATES
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   //COLLECTION ADDRESS, VIDEO PROTECTED FOR THIS COLLECTION
-  const [collectionAddress, setCollectionAddress] = useState(
-    "0x248D4f9d8a36572ccC00528746013563E37D3853"
-  ); //SET THIS MAYBE REDUX OR WHATEVER !!!!!!!!! @Uzair
+  // const [collectionAddress, setCollectionAddress] = useState( ); //SET THIS MAYBE REDUX OR WHATEVER !!!!!!!!! @Uzair
+  
+  const { id : contractAddress } = router.query;
   //VIDEO FILE
   const [selectedFile, setSelectedFile] = useState(null);
   //UPLOAD PROGRESS
@@ -95,7 +98,6 @@ function ContractsPage() {
       return;
     }
 
-    console.log("id", id);
     //transcode the video(add video configuration as protection with nft)
     const options3 = {
       method: "POST",
@@ -110,10 +112,10 @@ function ContractsPage() {
         source_upload_id: id, //id received before when creating the presigned url
         playback_policy: "public",
         //   nft_collection: creatorCollectionAddress,
-        drm_rules: [
-          { nft_collection: creatorCollectionAddress, chain_id: 365 },
-        ], //enable wich nft have acces to it//365 testnet , 361 mainnet
-        use_drm: true, //enables private video
+        // drm_rules: [
+        //   { nft_collection: creatorCollectionAddress, chain_id: 365 },
+        // ], //enable wich nft have acces to it//365 testnet , 361 mainnet
+        // use_drm: true, //enables private video
       },
     };
     let res3;
@@ -148,7 +150,11 @@ function ContractsPage() {
       progress = videoProgress;
     }
     //push the video to the smart contract
-    //push videoid, name, description and creation_date
+    //push id, name, description and creation_date
+
+
+
+
 
     //show video in the frontend
     setVideourl(`https://player.thetavideoapi.com/video/${videoid}`);
@@ -180,7 +186,7 @@ function ContractsPage() {
         <button
           onClick={() => {
             //   handleUpload(collectionAddress);
-            handleUpload("0x248D4f9d8a36572ccC00528746013563E37D3853");
+            handleUpload(id);
           }}
         >
           Upload
@@ -194,10 +200,13 @@ function ContractsPage() {
           <div>
             this can take few moments please dont leavt his page, video
             progress: {uploadProgress}
+            
           </div>
+          
         ) : (
           <></>
         )}
+        video
       </div>
     </div>
   );
