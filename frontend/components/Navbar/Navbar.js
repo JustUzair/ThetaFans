@@ -1,9 +1,11 @@
-import React, { Component } from "react";
+import React, { Component, useState, useEffect } from "react";
 import Link from "next/link";
 import { FaSearch, FaCommentDots } from "react-icons/fa";
 import { Dropdown } from "react-bootstrap";
 import PatreonRae from "../../assets/img/issa-rae.png";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useMoralis, useWeb3Contract } from "react-moralis";
+
 import styled from "styled-components";
 import contractAddresses from "../../constants/networkMapping.json";
 
@@ -11,6 +13,16 @@ import abi from "../../constants/UserFactory.json";
 
 const Navbar = () => {
   const [isSignedUp, setIsSignedUp] = useState(false);
+  const { runContractFunction } = useWeb3Contract();
+  const { enableWeb3, authenticate, account, isWeb3Enabled } = useMoralis();
+  const { chainId: chainIdHex } = useMoralis();
+  const chainId = parseInt(chainIdHex);
+  const contractAddress =
+    chainId in contractAddresses
+      ? contractAddresses[chainId]["UserFactory"][
+          contractAddresses[chainId]["UserFactory"].length - 1
+        ]
+      : null;
   const getStyle = {
     navbar: {
       position: "fixed",
@@ -50,22 +62,21 @@ const Navbar = () => {
   async function checkOwner() {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
-      runContractFunction({
-        params: {
-          abi,
-          contractAddress,
-          functionName: "getOwner",
-          params: {},
-        },
-        //
-        onError: error => {
-          failureNotification(error.message);
-          console.error(error);
-        },
-        onSuccess: data => {
-          console.log(`data : ${data}`);
-        },
-      });
+      //   runContractFunction({
+      //     params: {
+      //       abi,
+      //       contractAddress,
+      //       functionName: "getOwner",
+      //       params: {},
+      //     },
+      //     //
+      //     onError: error => {
+      //       console.error(error);
+      //     },
+      //     onSuccess: data => {
+      //       console.log(`data : ${data}`);
+      //     },
+      //   });
     }
   }
   useEffect(() => {
