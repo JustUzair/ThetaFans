@@ -13,6 +13,10 @@ import abi from "../../constants/UserFactory.json";
 
 const Navbar = () => {
   const [isSignedUp, setIsSignedUp] = useState(false);
+  const [creatorContractAddress, setCreatorContractAddress] = useState(
+    "0x0000000000000000000000000000000000000000"
+  );
+
   const { runContractFunction } = useWeb3Contract();
   const { enableWeb3, authenticate, account, isWeb3Enabled } = useMoralis();
   const { chainId: chainIdHex } = useMoralis();
@@ -62,26 +66,53 @@ const Navbar = () => {
   async function checkOwner() {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
-      //   runContractFunction({
-      //     params: {
-      //       abi,
-      //       contractAddress,
-      //       functionName: "getOwner",
-      //       params: {},
-      //     },
-      //     //
-      //     onError: error => {
-      //       console.error(error);
-      //     },
-      //     onSuccess: data => {
-      //       console.log(`data : ${data}`);
-      //     },
-      //   });
+      runContractFunction({
+        params: {
+          abi,
+          contractAddress,
+          functionName: "isSignedUp",
+          params: { _creatorAddress: account },
+        },
+        //
+        onError: error => {
+          console.error(error);
+        },
+        onSuccess: data => {
+          console.log(`data : ${data}`);
+          setIsSignedUp(data);
+        },
+      });
+    }
+  }
+
+  async function getCreatorContractAddress() {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi,
+          contractAddress,
+          functionName: "getCreatorContractAddress",
+          params: { _creatorAddress: account },
+        },
+        //
+        onError: error => {
+          failureNotification(error.message);
+          console.error(error);
+        },
+        onSuccess: data => {
+          console.log(data);
+          setCreatorContractAddress(data.toString());
+        },
+      });
     }
   }
   useEffect(() => {
     checkOwner();
-  }, [account]);
+    if (isSignedUp) {
+      getCreatorContractAddress();
+    }
+  }, [account, isSignedUp]);
   return (
     <nav style={getStyle.navbar}>
       <Link href="/" className="nav__link">
@@ -109,9 +140,15 @@ const Navbar = () => {
           </Link>
         </li>
         <li>
-          <Link href="/creators/signup" className="nav__link">
-            Become a Creator
-          </Link>
+          {!isSignedUp ? (
+            <Link href="/creators/signup" className="nav__link">
+              Become a Creator
+            </Link>
+          ) : (
+            <Link href={`/creators/${creatorContractAddress}/upload`}>
+              Upload
+            </Link>
+          )}
         </li>
         <ConnectButton
           accountStatus={{

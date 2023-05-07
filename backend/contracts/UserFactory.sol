@@ -29,9 +29,12 @@ contract UserFactory {
         userProfile[_name] = addr;
         creatorContract[msg.sender] = addr;
     }
-    function isSignedUp(address _creatorAddress,string memory _name) external view returns(bool){
+    function isSignedUp(address _creatorAddress) external view returns(bool){
         if (creatorContract[_creatorAddress] == address(0)) return false;
         return true;
+    }
+    function getCreatorContractAddress(address _creatorAddress) external view returns(address){
+        return creatorContract[_creatorAddress];
     }
     function working() public pure returns(string memory){
         return "yes smartcontract deployed";

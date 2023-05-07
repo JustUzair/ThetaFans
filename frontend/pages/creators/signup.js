@@ -47,7 +47,35 @@ const Creators = () => {
       position: "bottomR",
     });
   };
-
+  async function checkOwner() {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi,
+          contractAddress,
+          functionName: "isSignedUp",
+          params: { _creatorAddress: account },
+        },
+        //
+        onError: error => {
+          console.error(error);
+        },
+        onSuccess: data => {
+          console.log(`data : ${data}`);
+          if (data == true) {
+            dispatch({
+              type: "error",
+              message: `You are already signed up as a Creator`,
+              title: `You are already a Creator!!`,
+              position: "bottomR",
+            });
+            Router.push("/creators");
+          }
+        },
+      });
+    }
+  }
   async function createContentCreatorAccount() {
     if (!isWeb3Enabled) await enableWeb3();
     // console.log(
@@ -81,16 +109,16 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
-          successNotification(`Signed Up Successfully!`);
           Router.push("/creators");
+          successNotification(`Signed Up Successfully!`);
         },
       });
     }
   }
   useEffect(() => {
-    enableWeb3();
-    authenticate();
-  }, []);
+    checkOwner();
+  }, [account]);
+
   return (
     <>
       <Head>
