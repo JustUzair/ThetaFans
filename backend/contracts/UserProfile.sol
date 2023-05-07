@@ -27,8 +27,16 @@ contract UserProfile is ERC721, Ownable {
     mapping(string=>uint) public videosIndex;
     uint public amountCreator; //amount creator have to withdraw
     uint public totalDonated; //total amount donated, analytics, this variable have not use yet
-    //PREVENT MULTIPLE SUBSCRIPTIONS FROM SAME USER
-    mapping(address=>bool) userSubscribed;
+
+
+    uint public subscriptionDuration = 30 days; //30 days
+    //mapping subscriber to due date
+    mapping(address=>uint) public subscriberDueDate;
+    //mapping subscriber to last paid
+    mapping(address=>uint) public subscriberLastPaid;
+
+    mapping(address=>bool) userSubscribed;  //PREVENT MULTIPLE SUBSCRIPTIONS FROM SAME USER
+
 
     constructor(string memory _tokenName,string memory _tokenSymbol,address _sender,string memory _name,string memory _description,uint _subscribeAmount) ERC721(_tokenName,_tokenSymbol) 
     {
@@ -40,13 +48,37 @@ contract UserProfile is ERC721, Ownable {
 
 
     function userSubscribe() public payable {
-        require(userSubscribed[msg.sender] == false);
+        require(_balances[msg.sender] == 0,"user already subscribed");
         require(msg.value > subscribeAmount);
         tokenIdNumber = tokenIdNumber + 1;
         _safeMint(msg.sender, tokenIdNumber);  
         amountCreator += msg.value;
         userSubscribed[msg.sender] = true;
+
+        subscriberDueDate[msg.sender] = block.timestamp + subscriptionDuration;
+        subscriberLastPaid[msg.sender] = block.timestamp;
     }
+
+    //resubscribe if userSubscribed is false, collect monthly payment and then set userSubscribed to true
+    function userResubscribe() public payable {
+        require(userSubscribed[msg.sender] == false,"user already subscribed");
+        require(msg.value > subscribeAmount);
+        amountCreator += msg.value;
+        userSubscribed[msg.sender] = true;
+
+        subscriberDueDate[msg.sender] = block.timestamp + subscriptionDuration;
+        subscriberLastPaid[msg.sender] = block.timestamp;
+    }
+
+    //check if all users have paid their monthly subscription, if not, remove their subscription if they have not paid
+    function checkSubscribers() public {
+        for(uint i = 0; i < _owners.length; i++){
+            if(subscriberDueDate[_owners[i]] < block.timestamp){
+                userSubscribed[_owners[i]] = false;
+            }
+        }
+    }
+
 
     function donate()public payable{
 
@@ -64,6 +96,8 @@ contract UserProfile is ERC721, Ownable {
         videosIndex[_videoURL] = amountPublishedVideos;
         //add video data
         publishedVideos.push(VideoData(_name,_videoURL,_description,false));
+        //check subscribers
+        checkSubscribers();
         
     }
 
@@ -73,6 +107,8 @@ contract UserProfile is ERC721, Ownable {
 
         payable(owner).transfer(amountCreator);
         amountCreator = 0;
+        //check subscribers
+        checkSubscribers();
         
     }
 
@@ -94,6 +130,8 @@ contract UserProfile is ERC721, Ownable {
         require(_videoIndex > 0);
         //mark video as hide
         publishedVideos[_videoIndex - 1].hidden = true; //[_videoIndex - 1] because index count start at 1 for prevent bugs
+        //check subscribers
+        checkSubscribers();
         
     }
 
@@ -104,6 +142,8 @@ contract UserProfile is ERC721, Ownable {
         require(_videoIndex > 0);
         //mark video as hide
         publishedVideos[_videoIndex - 1].hidden = false; //[_videoIndex - 1] because index count start at 1 for prevent bugs
+        //check subscribers
+        checkSubscribers();
     }
 
     function getProfileData() external view returns(string memory,string memory,uint,uint,uint,uint){
@@ -117,6 +157,9 @@ contract UserProfile is ERC721, Ownable {
     function isSubscribed(address _sender) external view returns(bool){
         return userSubscribed[_sender];
     }
+
+
+
 
    /**
      * 
