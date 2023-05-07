@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useRouter } from 'next/router';
+import { useRouter } from "next/router";
+import contractAddresses from "../../../constants/networkMapping.json";
+import abi from "../../../constants/UserFactory.json";
+import userProfileAbi from "../../../constants/UserProfile.json";
+import { ethers } from "ethers";
+import { useMoralis, useWeb3Contract } from "react-moralis";
 
 function ContractsPage() {
   const router = useRouter();
@@ -10,8 +15,8 @@ function ContractsPage() {
   const [description, setDescription] = useState("");
   //COLLECTION ADDRESS, VIDEO PROTECTED FOR THIS COLLECTION
   // const [collectionAddress, setCollectionAddress] = useState( ); //SET THIS MAYBE REDUX OR WHATEVER !!!!!!!!! @Uzair
-  
-  const { id : contractAddress } = router.query;
+
+  const { id: _currentCreatorContractAddress } = router.query;
   //VIDEO FILE
   const [selectedFile, setSelectedFile] = useState(null);
   //UPLOAD PROGRESS
@@ -23,8 +28,25 @@ function ContractsPage() {
     msg: "",
     details: "",
   });
+
   //video url = https://player.thetavideoapi.com/video/:videoid example.https://player.thetavideoapi.com/video/video_d5kiagg6ip7u6aup5wkm2g8m79
   const [videourl, setVideourl] = useState("");
+
+  // Check if user is an artist
+  const [isSignedUp, setIsSignedUp] = useState(false);
+  const [creatorContractAddress, setCreatorContractAddress] = useState(
+    "0x0000000000000000000000000000000000000000"
+  );
+  const { runContractFunction } = useWeb3Contract();
+  const { enableWeb3, authenticate, account, isWeb3Enabled } = useMoralis();
+  const { chainId: chainIdHex } = useMoralis();
+  const chainId = parseInt(chainIdHex);
+  const contractAddress =
+    chainId in contractAddresses
+      ? contractAddresses[chainId]["UserFactory"][
+          contractAddresses[chainId]["UserFactory"].length - 1
+        ]
+      : null;
 
   function delay(seconds) {
     return new Promise(resolve => {
@@ -158,9 +180,6 @@ function ContractsPage() {
     //push the video to the smart contract
     //push id, name, description and creation_date
 
-
-
-
     await delay(5);
     //show video in the frontend
     setVideourl(`https://player.thetavideoapi.com/video/${videoid}`);
@@ -177,44 +196,158 @@ function ContractsPage() {
     );
   }
   //dev frontend , change after
+
+  async function getCreatorContractAddress() {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi,
+          contractAddress,
+          functionName: "getCreatorContractAddress",
+          params: { _creatorAddress: account },
+        },
+        //
+        onError: error => {
+          failureNotification(error.message);
+          console.error(error);
+        },
+        onSuccess: data => {
+          console.log(data);
+          setCreatorContractAddress(data.toString());
+        },
+      });
+    }
+  }
+  async function checkOwner() {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi,
+          contractAddress,
+          functionName: "isSignedUp",
+          params: { _creatorAddress: account },
+        },
+        //
+        onError: error => {
+          console.error(error);
+        },
+        onSuccess: data => {
+          console.log(`data : ${data}`);
+          setIsSignedUp(data);
+        },
+      });
+    }
+  }
+  useEffect(() => {
+    checkOwner();
+    if (isSignedUp) {
+      getCreatorContractAddress();
+    }
+  }, [account, isSignedUp]);
   return (
-    <div className="upload-video--container">
-      <div>
-        Name
-        <input value={name} type="text" onChange={onChangeName} />
-        Description
-        <input value={description} type="text" onChange={onChangeDescription} />
-        <input
-          type="file"
-          accept="video/mp4,video/x-m4v,video/*"
-          onChange={handleFileChange}
-        />
-        <button
-          onClick={() => {
-            //   handleUpload(collectionAddress);
-            handleUpload(contractAddress);
-          }}
-        >
-          Upload
-        </button>
-        <h2>created video:</h2>
-        {video}
-        {/*show messages errors, add notification for it*/}
-        {errorMsg.msg}
-        {/* when uploading show the video progress */}
-        {uploading ? (
-          <div>
-            this can take few moments please dont leavt his page, video
-            progress: {uploadProgress}
-            
+    <>
+      {contractAddress ? (
+        <div className="upload-video--container">
+          {isSignedUp &&
+          creatorContractAddress?.toString().toLowerCase() ==
+            _currentCreatorContractAddress?.toString().toLowerCase() ? (
+            <div>
+              Name
+              <input value={name} type="text" onChange={onChangeName} />
+              Description
+              <input
+                value={description}
+                type="text"
+                onChange={onChangeDescription}
+              />
+              <input
+                type="file"
+                accept="video/mp4,video/x-m4v,video/*"
+                onChange={handleFileChange}
+              />
+              <button
+                onClick={() => {
+                  //   handleUpload(collectionAddress);
+                  handleUpload(_currentCreatorContractAddress);
+                }}
+              >
+                Upload
+              </button>
+              <h2>created video:</h2>
+              {video}
+              {/*show messages errors, add notification for it*/}
+              {errorMsg.msg}
+              {/* when uploading show the video progress */}
+              {uploading ? (
+                <div>
+                  this can take few moments please dont leavt his page, video
+                  progress: {uploadProgress}
+                </div>
+              ) : (
+                <></>
+              )}
+              video
+            </div>
+          ) : (
+            <>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "80vw",
+                  height: "100vh",
+                  zIndex: "99",
+                  color: "white",
+                  fontSize: "2rem",
+                  wordWrap: "break-word",
+                  margin: "0 auto",
+                }}
+              >
+                <span
+                  style={{
+                    background: "#FF494A",
+                    padding: "10px 25px",
+                    borderRadius: "20px",
+                  }}
+                >
+                  You are not the owner of this contract
+                </span>
+              </div>
+            </>
+          )}
+        </div>
+      ) : (
+        <>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              width: "80vw",
+              height: "100vh",
+              zIndex: "99",
+              color: "white",
+              fontSize: "2rem",
+              wordWrap: "break-word",
+              margin: "0 auto",
+            }}
+          >
+            <span
+              style={{
+                background: "#FF494A",
+                padding: "10px 25px",
+                borderRadius: "20px",
+              }}
+            >
+              No contract found on this network!!!
+            </span>
           </div>
-          
-        ) : (
-          <></>
-        )}
-        video
-      </div>
-    </div>
+        </>
+      )}
+    </>
   );
 }
 
