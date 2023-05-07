@@ -48,7 +48,8 @@ contract UserProfile is ERC721, Ownable {
 
 
     function userSubscribe() public payable {
-        require(_balances[msg.sender] == 0,"user already subscribed");
+        //if user does not own NFT
+        if(_balances[msg.sender] == 0) {
         require(msg.value > subscribeAmount);
         tokenIdNumber = tokenIdNumber + 1;
         _safeMint(msg.sender, tokenIdNumber);  
@@ -57,17 +58,19 @@ contract UserProfile is ERC721, Ownable {
 
         subscriberDueDate[msg.sender] = block.timestamp + subscriptionDuration;
         subscriberLastPaid[msg.sender] = block.timestamp;
-    }
 
-    //resubscribe if userSubscribed is false, collect monthly payment and then set userSubscribed to true
-    function userResubscribe() public payable {
-        require(userSubscribed[msg.sender] == false,"user already subscribed");
-        require(msg.value > subscribeAmount);
-        amountCreator += msg.value;
-        userSubscribed[msg.sender] = true;
+        }
+        //if user owns NFT, check if they have paid their subscription, if not pay and update due date and subscription status
+        else {
+            require(userSubscribed[msg.sender] == false,"user already subscribed");
+            require(msg.value > subscribeAmount);
+            amountCreator += msg.value;
+            userSubscribed[msg.sender] = true;
 
-        subscriberDueDate[msg.sender] = block.timestamp + subscriptionDuration;
-        subscriberLastPaid[msg.sender] = block.timestamp;
+            subscriberDueDate[msg.sender] = block.timestamp + subscriptionDuration;
+            subscriberLastPaid[msg.sender] = block.timestamp;
+
+        }
     }
 
     //check if all users have paid their monthly subscription, if not, remove their subscription if they have not paid
