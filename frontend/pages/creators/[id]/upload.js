@@ -6,6 +6,9 @@ import abi from "../../../constants/UserFactory.json";
 import userProfileAbi from "../../../constants/UserProfile.json";
 import { ethers } from "ethers";
 import { useMoralis, useWeb3Contract } from "react-moralis";
+import tfuel from "../../../assets/img/tfuel-logo.svg";
+
+
 
 function ContractsPage() {
   const router = useRouter();
@@ -13,9 +16,9 @@ function ContractsPage() {
   //INPUT STATES
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [selectedTier, setSelectedTier] = useState(1);
   //COLLECTION ADDRESS, VIDEO PROTECTED FOR THIS COLLECTION
   // const [collectionAddress, setCollectionAddress] = useState( ); //SET THIS MAYBE REDUX OR WHATEVER !!!!!!!!! @Uzair
-
   const { id: _currentCreatorContractAddress } = router.query;
   //VIDEO FILE
   const [selectedFile, setSelectedFile] = useState(null);
@@ -179,6 +182,30 @@ function ContractsPage() {
     }
     //push the video to the smart contract
     //push id, name, description and creation_date
+    runContractFunction({
+      params: {
+        userProfileAbi,
+        contractAddress,
+        functionName: "addVideo",
+        params: {
+          _name: name,
+          _description: description,
+          _videoURL: "https://api.thetavideoapi.com/video/${videoid}",
+          _tier: selectedTier
+        },
+      },
+
+      // ethers.utils.parseEther(subscriptionCost)
+      //
+      // onError: error => {
+      //   failureNotification(error.message);
+      //   console.error(error);
+      // },
+      // onSuccess: data => {
+      //   Router.push("/creators");
+      //   successNotification(`Signed Up Successfully!`);
+      // },
+    });
 
     await delay(5);
     //show video in the frontend
@@ -262,6 +289,31 @@ function ContractsPage() {
                 type="text"
                 onChange={onChangeDescription}
               />
+              selected tier: {selectedTier}, click tiers to select
+              <p onClick={()=>{setSelectedTier(1);}}>
+                <Image
+                  src={tfuel}
+                  style={{
+                    width: "12px !important",
+                  }}
+                ></Image>
+              </p>
+              <p onClick={()=>{setSelectedTier(2);}}>
+                <Image
+                  src={tfuel}
+                  style={{
+                    width: "12px !important",
+                  }}
+                ></Image>
+              </p>
+              <p onClick={()=>{setSelectedTier(3);}}>
+                <Image
+                  src={tfuel}
+                  style={{
+                    width: "12px !important",
+                  }}
+                ></Image>
+              </p>
               <input
                 type="file"
                 accept="video/mp4,video/x-m4v,video/*"
