@@ -49,7 +49,7 @@ contract UserProfile is ERC721, Ownable {
 
     function userSubscribe() public payable {
         //if user does not own NFT
-        if(_balances[msg.sender] == 0) {
+        if(balanceOf(msg.sender) == 0) {
         require(msg.value > subscribeAmount);
         tokenIdNumber = tokenIdNumber + 1;
         _safeMint(msg.sender, tokenIdNumber);  
@@ -75,9 +75,11 @@ contract UserProfile is ERC721, Ownable {
 
     //check if all users have paid their monthly subscription, if not, remove their subscription if they have not paid
     function checkSubscribers() public {
-        for(uint i = 0; i < _owners.length; i++){
-            if(subscriberDueDate[_owners[i]] < block.timestamp){
-                userSubscribed[_owners[i]] = false;
+        uint _tokenIdNumber = tokenIdNumber;
+        for(uint i = 0; i <_tokenIdNumber; i++){
+            address _owner = ownerOf(i);
+            if(subscriberDueDate[_owner] < block.timestamp){
+                userSubscribed[_owner] = false;
             }
         }
     }
