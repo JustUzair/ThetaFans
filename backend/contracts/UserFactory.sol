@@ -44,7 +44,7 @@ contract UserFactory {
     function getCreator(address _creator) public view returns(string memory,string memory){
         return UserProfile(_creator).getCreatorInfo();
     }
-    function getCreatorOld(address _creator) public view returns(string memory,string memory,uint,uint,uint,UserProfile.Tier memory,UserProfile.Tier memory,UserProfile.Tier memory){
+    function getCreatorDataExtended(address _creator) public view returns(string memory,string memory,uint,uint,uint,UserProfile.Tier memory,UserProfile.Tier memory,UserProfile.Tier memory){
         return UserProfile(_creator).getProfileData();
     }
 }

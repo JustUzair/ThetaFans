@@ -17,7 +17,9 @@ const Creators = () => {
   const [tokenSymbol, setTokenSymbol] = useState("PAT3");
   const [creatorName, setCreatorName] = useState("");
   const [description, setDescription] = useState("");
-  const [subscriptionCost, setSubscriptionCost] = useState(0);
+  const [bronzeSubscriptionCost, setBronzeSubscriptionCost] = useState(0);
+  const [silverSubscriptionCost, setSilverSubscriptionCost] = useState(0);
+  const [goldSubscriptionCost, setGoldSubscriptionCost] = useState(0);
 
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
@@ -81,12 +83,6 @@ const Creators = () => {
     // console.log(
     //   ethers.utils.parseUnits(subscriptionCost.toString(), "ether").toString()
     // );
-    console.log(
-      ethers.utils
-        .parseEther(parseFloat(subscriptionCost).toString())
-        .toString()
-    );
-
     if (account) {
       runContractFunction({
         params: {
@@ -98,7 +94,9 @@ const Creators = () => {
             _tokenSymbol: tokenSymbol,
             _name: creatorName,
             _description: description,
-            _subscriptionAmount: subscriptionCost,
+            _bronzePrice: bronzeSubscriptionCost,
+            _silverPrice: silverSubscriptionCost,
+            _goldPrice: goldSubscriptionCost,
           },
         },
 
@@ -185,24 +183,89 @@ const Creators = () => {
                 ></textarea>
               </div>
               <div className="input">
-                <i className="fa-solid fa-lock">
-                  <Image
-                    src={tfuel}
-                    style={{
-                      width: "12px !important",
-                    }}
-                  ></Image>
-                </i>
+                <div class="coin bronze">
+                  <p>
+                    <Image
+                      src={tfuel}
+                      style={{
+                        width: "12px !important",
+                      }}
+                    ></Image>
+                  </p>
+                </div>
+
                 <input
                   required
                   type="number"
-                  placeholder="Sub Cost"
+                  placeholder="Bronze Sub Cost"
                   min="1"
                   onChange={e => {
                     const value = e.target.value;
-                    setSubscriptionCost(value);
+                    setBronzeSubscriptionCost(value);
                   }}
                 />
+
+                <span
+                  style={{
+                    marginLeft: "10px",
+                  }}
+                >
+                  TFuel
+                </span>
+              </div>
+              <div className="input">
+                <div class="coin silver">
+                  <p>
+                    <Image
+                      src={tfuel}
+                      style={{
+                        width: "12px !important",
+                      }}
+                    ></Image>
+                  </p>
+                </div>
+
+                <input
+                  required
+                  type="number"
+                  placeholder="Silver Sub Cost"
+                  min="1"
+                  onChange={e => {
+                    const value = e.target.value;
+                    setSilverSubscriptionCost(value);
+                  }}
+                />
+
+                <span
+                  style={{
+                    marginLeft: "10px",
+                  }}
+                >
+                  TFuel
+                </span>
+              </div>
+              <div className="input">
+                <div class="coin gold">
+                  <p>
+                    <Image
+                      src={tfuel}
+                      style={{
+                        width: "12px !important",
+                      }}
+                    ></Image>
+                  </p>
+                </div>
+                <input
+                  required
+                  type="number"
+                  placeholder="Gold Sub Cost"
+                  min="1"
+                  onChange={e => {
+                    const value = e.target.value;
+                    setGoldSubscriptionCost(value);
+                  }}
+                />
+
                 <span
                   style={{
                     marginLeft: "10px",

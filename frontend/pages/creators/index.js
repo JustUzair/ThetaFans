@@ -72,7 +72,7 @@ const Creators = () => {
               params: {
                 abi,
                 contractAddress,
-                functionName: "getCreator",
+                functionName: "getCreatorDataExtended",
                 params: { _creator },
               },
               //
@@ -81,7 +81,7 @@ const Creators = () => {
                 console.error(error);
               },
               onSuccess: data => {
-                // console.log(data);
+                console.log(data);
                 const creator = {};
                 creator["name"] = data[0];
                 creator["address"] = _creator;
