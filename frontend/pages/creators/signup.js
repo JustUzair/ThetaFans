@@ -79,6 +79,16 @@ const Creators = () => {
     }
   }
   async function createContentCreatorAccount() {
+    if (
+      creatorName.length == 0 ||
+      description.length == 0 ||
+      bronzeSubscriptionCost == 0
+    ) {
+      failureNotification(
+        "Name, Description and Bronze Tier are required fields..."
+      );
+      return;
+    }
     if (!isWeb3Enabled) await enableWeb3();
     // console.log(
     //   ethers.utils.parseUnits(subscriptionCost.toString(), "ether").toString()

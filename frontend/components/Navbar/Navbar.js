@@ -97,7 +97,6 @@ const Navbar = () => {
         },
         //
         onError: error => {
-          failureNotification(error.message);
           console.error(error);
         },
         onSuccess: data => {

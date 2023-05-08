@@ -48,11 +48,57 @@ const Creators = () => {
   async function getCreatorData() {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
+      //   runContractFunction({
+      //     params: {
+      //       abi,
+      //       contractAddress,
+      //       functionName: "getCreator",
+      //       params: { _creator },
+      //     },
+      //     //
+      //     onError: error => {
+      //       failureNotification(error.message);
+      //       console.error(error);
+      //     },
+      //     onSuccess: data => {
+      //       successNotification(
+      //         `Data for Creator ${
+      //           _creator?.substr(0, 4) +
+      //           "..." +
+      //           _creator?.substr(_creator?.length - 4)
+      //         } fetched `
+      //       );
+      //       const creator = {};
+      //       creator["name"] = data[0];
+      //       creator["address"] = _creator;
+      //       creator["description"] = data[1];
+      //       creator["subscriptionAmount"] = parseInt(
+      //         ethers.utils
+      //           .formatEther(
+      //             (
+      //               parseFloat(
+      //                 ethers.BigNumber.from(
+      //                   ethers.utils.parseEther(data[2].toString())
+      //                 ).toString()
+      //               ) / 1000000
+      //             ).toString()
+      //           )
+      //           .toString()
+      //       );
+      //       creator["subscriptionAmountInHex"] = ethers.utils.parseEther(
+      //         data[2].toString()
+      //       );
+      //       console.log(creator);
+
+      //       setCreatorData(creator);
+      //     },
+      //   });
+
       runContractFunction({
         params: {
           abi,
           contractAddress,
-          functionName: "getCreator",
+          functionName: "getCreatorDataExtended",
           params: { _creator },
         },
         //
@@ -61,34 +107,78 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
-          successNotification(
-            `Data for Creator ${
-              _creator?.substr(0, 4) +
-              "..." +
-              _creator?.substr(_creator?.length - 4)
-            } fetched `
-          );
+          console.log(data);
           const creator = {};
           creator["name"] = data[0];
           creator["address"] = _creator;
           creator["description"] = data[1];
-          creator["subscriptionAmount"] = parseInt(
-            ethers.utils
-              .formatEther(
-                (
-                  parseFloat(
-                    ethers.BigNumber.from(
-                      ethers.utils.parseEther(data[2].toString())
-                    ).toString()
-                  ) / 1000000
-                ).toString()
-              )
-              .toString()
-          );
-          creator["subscriptionAmountInHex"] = ethers.utils.parseEther(
-            data[2].toString()
-          );
-          console.log(creator);
+          creator["tokenIdNumber"] = data[2];
+          creator["amountPublishedVideos"] = data[3];
+          creator["amountCreator"] = data[4];
+
+          //bronze
+          creator["bronze"] = {
+            bronzeSubscriptionAmount: parseInt(
+              ethers.utils
+                .formatEther(
+                  (
+                    parseInt(
+                      ethers.BigNumber.from(
+                        ethers.utils.parseEther(data[5][1].toString())
+                      ).toString()
+                    ) / 1000000
+                  ).toString()
+                )
+                .toString()
+            ),
+            bronzeSubscriptionAmountInHex: ethers.utils.parseEther(
+              data[5][1].toString()
+            ),
+            bronzeSubscriptionCount: parseInt(data[5][2].toString()),
+          };
+
+          //silver
+
+          creator["silver"] = {
+            silverSubscriptionAmount: parseInt(
+              ethers.utils
+                .formatEther(
+                  (
+                    parseInt(
+                      ethers.BigNumber.from(
+                        ethers.utils.parseEther(data[6][1].toString())
+                      ).toString()
+                    ) / 1000000
+                  ).toString()
+                )
+                .toString()
+            ),
+            silverSubscriptionAmountInHex: ethers.utils.parseEther(
+              data[6][1].toString()
+            ),
+            silverSubscriptionCount: parseInt(data[6][2].toString()),
+          };
+
+          //gold
+          creator["gold"] = {
+            goldSubscriptionAmount: parseInt(
+              ethers.utils
+                .formatEther(
+                  (
+                    parseInt(
+                      ethers.BigNumber.from(
+                        ethers.utils.parseEther(data[7][1].toString())
+                      ).toString()
+                    ) / 1000000
+                  ).toString()
+                )
+                .toString()
+            ),
+            goldSubscriptionAmountInHex: ethers.utils.parseEther(
+              data[7][1].toString()
+            ),
+            goldSubscriptionCount: parseInt(data[7][2].toString()),
+          };
 
           setCreatorData(creator);
         },

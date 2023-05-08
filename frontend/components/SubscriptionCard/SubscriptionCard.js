@@ -9,7 +9,7 @@ import userProfileAbi from "../../constants/UserProfile.json";
 
 import { ethers } from "ethers";
 const SubscriptionCard = ({ creator }) => {
-  //   console.log(JSON.parse(creator));
+  console.log(creator);
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
   const { enableWeb3, authenticate, account, isWeb3Enabled } = useMoralis();
@@ -38,7 +38,7 @@ const SubscriptionCard = ({ creator }) => {
       position: "bottomR",
     });
   };
-  async function subscribeUser(creatorAddress) {
+  async function subscribeUser(creatorAddress, tier, subscriptionAmount) {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
       runContractFunction({
@@ -47,9 +47,9 @@ const SubscriptionCard = ({ creator }) => {
           contractAddress: creatorAddress,
           functionName: "userSubscribe",
           msgValue: ethers.utils
-            .parseEther(creator.subscriptionAmount.toString())
+            .parseEther(subscriptionAmount.toString())
             .toString(),
-          params: {},
+          params: { _tier: tier },
         },
         //
         onError: error => {
@@ -66,79 +66,108 @@ const SubscriptionCard = ({ creator }) => {
     <>
       {contractAddress ? (
         <div className="subscription-card--container">
-          {/* <div className="subscription-card--grid"> */}
-          {/* <div className="subscription-card card1">
-          <h3>BASIC</h3>
-          <h2>Free</h2>
-          <h4>
-            <Image
-              src={tfuel}
-              alt="tfuel"
-              style={{
-                width: "50px !important",
-              }}
-            />
-            <span>Free</span>
-          </h4>
+          <div className="subscription-card--grid">
+            <div className="subscription-card card1">
+              <h3>Bronze</h3>
+              <h2>{creator?.bronze?.bronzeSubscriptionAmount}</h2>
+              <h4>
+                <Image
+                  src={tfuel}
+                  alt="tfuel"
+                  style={{
+                    width: "50px !important",
+                  }}
+                />
+                <span>{creator?.bronze?.bronzeSubscriptionAmount} TFuel</span>
+              </h4>
 
-          <hr />
-          <p>10 templates</p>
-          <p>Default presets</p>
-          <a href="#">Subscribe </a>
-        </div>
-        <div className="subscription-card card2">
-          <h3>PRO</h3>
-          <h2>100</h2>
-          <h4>
-            <Image
-              src={tfuel}
-              alt="tfuel"
-              style={{
-                width: "50px !important",
-              }}
-            />
-            <span>50</span>
-          </h4>
-          <hr />
-          <p>50 templates</p>
-          <p>Pro presets</p>
-          <a href="#">Subscribe </a>
-        </div> */}
-          <div className="subscription-card card3">
-            <h3>ULTIMATE</h3>
-            <h2>{creator.subscriptionAmount}</h2>
-            <h4>
-              <Image
-                src={tfuel}
-                alt="tfuel"
-                style={{
-                  width: "50px !important",
+              <hr />
+              <p>Premium Content</p>
+              <p>Unlock Bronze Pack</p>
+              <button
+                onClick={e => {
+                  // console.log(
+                  //   ethers.utils
+                  //     .parseUnits(
+                  //       ethers.BigNumber.from(
+                  //         creator.subscriptionAmountInHex
+                  //       ).toString(),
+                  //       "wei"
+                  //     )
+                  //     .toString()
+                  // );
+                  subscribeUser(
+                    creator.address,
+                    1,
+                    creator?.bronze?.bronzeSubscriptionAmount
+                  );
                 }}
-              />
-              <span>{creator.subscriptionAmount} TFuel</span>
-            </h4>
-            <hr />
-            <p>Unlimited Content</p>
-            <p>Unlock Premium Content</p>
-            <button
-              onClick={e => {
-                // console.log(
-                //   ethers.utils
-                //     .parseUnits(
-                //       ethers.BigNumber.from(
-                //         creator.subscriptionAmountInHex
-                //       ).toString(),
-                //       "wei"
-                //     )
-                //     .toString()
-                // );
-                subscribeUser(creator.address);
-              }}
-            >
-              Subscribe Now
-            </button>
+              >
+                Subscribe Now
+              </button>
+            </div>
+
+            {creator?.silver?.silverSubscriptionAmount > 0 && (
+              <div className="subscription-card card2">
+                <h3>SILVER</h3>
+                <h2>{creator?.silver?.silverSubscriptionAmount}</h2>
+                <h4>
+                  <Image
+                    src={tfuel}
+                    alt="tfuel"
+                    style={{
+                      width: "50px !important",
+                    }}
+                  />
+                  <span>{creator?.silver?.silverSubscriptionAmount} TFuel</span>
+                </h4>
+                <hr />
+                <p>Premium Plus Content</p>
+                <p>Unlock Silver Pack</p>
+                <button
+                  onClick={e => {
+                    subscribeUser(
+                      creator.address,
+                      2,
+                      creator?.silver?.silverSubscriptionAmount
+                    );
+                  }}
+                >
+                  Subscribe Now
+                </button>
+              </div>
+            )}
+            {creator?.gold?.goldSubscriptionAmount > 0 && (
+              <div className="subscription-card card3">
+                <h3>GOLD</h3>
+                <h2>{creator?.gold?.goldSubscriptionAmount}</h2>
+                <h4>
+                  <Image
+                    src={tfuel}
+                    alt="tfuel"
+                    style={{
+                      width: "50px !important",
+                    }}
+                  />
+                  <span>{creator?.gold?.goldSubscriptionAmount} TFuel</span>
+                </h4>
+                <hr />
+                <p>Unlimited Content</p>
+                <p>Unlock Gold Pack</p>
+                <button
+                  onClick={e => {
+                    subscribeUser(
+                      creator.address,
+                      3,
+                      creator?.gold?.goldSubscriptionAmount
+                    );
+                  }}
+                >
+                  Subscribe Now
+                </button>
+              </div>
+            )}
           </div>
-          {/* </div> */}
         </div>
       ) : (
         <>

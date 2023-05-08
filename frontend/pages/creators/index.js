@@ -86,25 +86,75 @@ const Creators = () => {
                 creator["name"] = data[0];
                 creator["address"] = _creator;
                 creator["description"] = data[1];
-                creator["subscriptionAmount"] = parseInt(
-                  ethers.utils
-                    .formatEther(
-                      (
-                        parseInt(
-                          ethers.BigNumber.from(
-                            ethers.utils.parseEther(data[2].toString())
-                          ).toString()
-                        ) / 1000000
-                      ).toString()
-                    )
-                    .toString()
-                );
-                console.log(creator.subscriptionAmount);
-                creator["subscriptionAmountInHex"] = ethers.utils.parseEther(
-                  data[2].toString()
-                );
-                const arr1 = [creator];
+                creator["tokenIdNumber"] = data[2];
+                creator["amountPublishedVideos"] = data[3];
+                creator["amountCreator"] = data[4];
 
+                //bronze
+                creator["bronze"] = {
+                  bronzeSubscriptionAmount: parseInt(
+                    ethers.utils
+                      .formatEther(
+                        (
+                          parseInt(
+                            ethers.BigNumber.from(
+                              ethers.utils.parseEther(data[5][1].toString())
+                            ).toString()
+                          ) / 1000000
+                        ).toString()
+                      )
+                      .toString()
+                  ),
+                  bronzeSubscriptionAmountInHex: ethers.utils.parseEther(
+                    data[5][1].toString()
+                  ),
+                  bronzeSubscriptionCount: parseInt(data[5][2].toString()),
+                };
+
+                //silver
+
+                creator["silver"] = {
+                  silverSubscriptionAmount: parseInt(
+                    ethers.utils
+                      .formatEther(
+                        (
+                          parseInt(
+                            ethers.BigNumber.from(
+                              ethers.utils.parseEther(data[6][1].toString())
+                            ).toString()
+                          ) / 1000000
+                        ).toString()
+                      )
+                      .toString()
+                  ),
+                  silverSubscriptionAmountInHex: ethers.utils.parseEther(
+                    data[6][1].toString()
+                  ),
+                  silverSubscriptionCount: parseInt(data[6][2].toString()),
+                };
+
+                //gold
+                creator["gold"] = {
+                  goldSubscriptionAmount: parseInt(
+                    ethers.utils
+                      .formatEther(
+                        (
+                          parseInt(
+                            ethers.BigNumber.from(
+                              ethers.utils.parseEther(data[7][1].toString())
+                            ).toString()
+                          ) / 1000000
+                        ).toString()
+                      )
+                      .toString()
+                  ),
+                  goldSubscriptionAmountInHex: ethers.utils.parseEther(
+                    data[7][1].toString()
+                  ),
+                  goldSubscriptionCount: parseInt(data[7][2].toString()),
+                };
+                const arr1 = [creator];
+                console.log(arr1);
                 setContentCreators(prevState => [...prevState, ...arr1]);
               },
             });
@@ -184,11 +234,11 @@ const Creators = () => {
                         >
                           <button className="subscribe-btn .cta-01">
                             <span>
-                              Sub for{" "}
+                              Sub starts{" "}
                               <span className="tfuel-image--container">
                                 <Image src={tfuel}></Image>
                               </span>
-                              {_creator.subscriptionAmount}
+                              {_creator.bronze.bronzeSubscriptionAmount}
                             </span>
                           </button>
                         </Link>
