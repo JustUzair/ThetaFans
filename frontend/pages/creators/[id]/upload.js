@@ -7,6 +7,8 @@ import userProfileAbi from "../../../constants/UserProfile.json";
 import { ethers } from "ethers";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import tfuel from "../../../assets/img/tfuel-logo.svg";
+import Image from "next/image";
+
 
 
 
@@ -73,6 +75,22 @@ function ContractsPage() {
     if (!selectedFile) {
       setErrorMsg({
         msg: "please select a file",
+        details: "",
+      });
+      setUploading(false);
+      return;
+    }
+    if (name.length === 0) {
+      setErrorMsg({
+        msg: "please add a name",
+        details: "",
+      });
+      setUploading(false);
+      return;
+    }
+    if (description.length === 0) {
+      setErrorMsg({
+        msg: "please add a description",
         details: "",
       });
       setUploading(false);
@@ -177,34 +195,40 @@ function ContractsPage() {
       const resProgress = await axios(progressOptions);
       const { progress: videoProgress } = resProgress.data.body.videos[0];
       console.log(videoProgress);
-      setUploadProgress(videoProgress);
+      setUploadProgress(uploadProgress + videoProgress);
       progress = videoProgress;
     }
+    let obj = {_name: name,
+      _description: description,
+      _videoURL: `https://api.thetavideoapi.com/video/${videoid}`,
+      _tier: selectedTier}
     //push the video to the smart contract
     //push id, name, description and creation_date
+    if (!isWeb3Enabled) await enableWeb3();
     runContractFunction({
       params: {
-        userProfileAbi,
-        contractAddress,
+        abi:userProfileAbi,
+        contractAddress:_currentCreatorContractAddress,
         functionName: "addVideo",
         params: {
-          _name: name,
+          _name: name,          
+          _videoURL: `https://api.thetavideoapi.com/video/${videoid}`,
           _description: description,
-          _videoURL: "https://api.thetavideoapi.com/video/${videoid}",
           _tier: selectedTier
         },
       },
 
       // ethers.utils.parseEther(subscriptionCost)
       //
-      // onError: error => {
-      //   failureNotification(error.message);
-      //   console.error(error);
-      // },
-      // onSuccess: data => {
-      //   Router.push("/creators");
-      //   successNotification(`Signed Up Successfully!`);
-      // },
+      onError: error => {
+        // failureNotification(error.message);
+        console.error('error calling smart contract',error);
+      },
+      onSuccess: data => {
+        console.log('succes',data)
+        // Router.push("/creators");
+        // successNotification(`Video uploaded succefully!`);
+      },
     });
 
     await delay(5);
@@ -281,6 +305,39 @@ function ContractsPage() {
           creatorContractAddress?.toString().toLowerCase() ==
             _currentCreatorContractAddress?.toString().toLowerCase() ? (
             <div>
+              
+              selected tier: {selectedTier}, click tiers to select
+              
+              <div className="coin bronze" onClick={()=>{setSelectedTier(1);}}>
+                  <p>
+                    <Image
+                      src={tfuel}
+                      style={{
+                        width: "12px !important",
+                      }}
+                    ></Image>
+                  </p>
+                </div>
+              <div className="coin silver" onClick={()=>{setSelectedTier(2);}}>
+                  <p>
+                    <Image
+                      src={tfuel}
+                      style={{
+                        width: "12px !important",
+                      }}
+                    ></Image>
+                  </p>
+                </div>
+                <div className="coin gold" onClick={()=>{setSelectedTier(3);}}>
+                  <p>
+                    <Image
+                      src={tfuel}
+                      style={{
+                        width: "12px !important",
+                      }}
+                    ></Image>
+                  </p>
+                </div>
               Name
               <input value={name} type="text" onChange={onChangeName} />
               Description
@@ -289,31 +346,6 @@ function ContractsPage() {
                 type="text"
                 onChange={onChangeDescription}
               />
-              selected tier: {selectedTier}, click tiers to select
-              <p onClick={()=>{setSelectedTier(1);}}>
-                <Image
-                  src={tfuel}
-                  style={{
-                    width: "12px !important",
-                  }}
-                ></Image>
-              </p>
-              <p onClick={()=>{setSelectedTier(2);}}>
-                <Image
-                  src={tfuel}
-                  style={{
-                    width: "12px !important",
-                  }}
-                ></Image>
-              </p>
-              <p onClick={()=>{setSelectedTier(3);}}>
-                <Image
-                  src={tfuel}
-                  style={{
-                    width: "12px !important",
-                  }}
-                ></Image>
-              </p>
               <input
                 type="file"
                 accept="video/mp4,video/x-m4v,video/*"
