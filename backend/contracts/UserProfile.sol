@@ -11,7 +11,14 @@ contract UserProfile is ERC721, Ownable {
         string videoURL;
         string description;
         bool hidden;
+        uint tier;
         // string previewVideoImage; //??maybe
+    }
+
+    struct Tier{
+        string name;
+        uint price;//required $ have to pay for subscribe, in drop(wei of tfuel)
+        uint suscriptionsAmount;
     }
 
     //USER PROFILE LOGIC
@@ -22,13 +29,16 @@ contract UserProfile is ERC721, Ownable {
     //BUISNESS LOGIC
     uint public tokenIdNumber;//amount tokens released
     uint public amountPublishedVideos;
-    uint public subscribeAmount; //required $ have to pay for subscribe, in drop(wei of tfuel)
     VideoData[] public publishedVideos;
     mapping(string=>uint) public videosIndex;
     uint public amountCreator; //amount creator have to withdraw
     uint public totalDonated; //total amount donated, analytics, this variable have not use yet
 
+    //TIERS LOGIC
+    mapping(address=>uint) public userTier; //tier of each user 1-bronze 2-silver 3-gold
+    mapping(uint=>Tier) public tierData;
 
+    //SUBSCRIPTION LOGIC
     uint public subscriptionDuration = 30 days; //30 days
     //mapping subscriber to due date
     mapping(address=>uint) public subscriberDueDate;
@@ -38,37 +48,51 @@ contract UserProfile is ERC721, Ownable {
     mapping(address=>bool) userSubscribed;  //PREVENT MULTIPLE SUBSCRIPTIONS FROM SAME USER
 
 
-    constructor(string memory _tokenName,string memory _tokenSymbol,address _sender,string memory _name,string memory _description,uint _subscribeAmount) ERC721(_tokenName,_tokenSymbol) 
+    constructor(string memory _tokenName,string memory _tokenSymbol,address _sender,string memory _name,
+    string memory _description,uint _bronzePrice,uint _silverPrice,uint _goldPrice) ERC721(_tokenName,_tokenSymbol) 
     {
         _transferOwnership(_sender);
         profileName = _name;
         profileDescription = _description;
-        subscribeAmount = _subscribeAmount * 1000000;//convert tfuel to drop
+        //* 1000000; //convert tfuel to drop
+        //create tiers
+        tierData[1] = Tier("bronze",_bronzePrice * 1000000,0);
+        tierData[2] = Tier("silver",_silverPrice * 1000000,0);
+        tierData[3] = Tier("gold",_goldPrice * 1000000,0);
+
     }
 
 
-    function userSubscribe() public payable {
+    function userSubscribe(uint _tier) public payable {
+        //existing tier
+        require(_tier>=1,"invalid tier");
+        require(_tier<=3,"invalid tier");
         //if user does not own NFT
         if(balanceOf(msg.sender) == 0) {
-        require(msg.value > subscribeAmount);
-        tokenIdNumber = tokenIdNumber + 1;
-        _safeMint(msg.sender, tokenIdNumber);  
-        amountCreator += msg.value;
-        userSubscribed[msg.sender] = true;
-
-        subscriberDueDate[msg.sender] = block.timestamp + subscriptionDuration;
-        subscriberLastPaid[msg.sender] = block.timestamp;
-
-        }
-        //if user owns NFT, check if they have paid their subscription, if not pay and update due date and subscription status
-        else {
-            require(userSubscribed[msg.sender] == false,"user already subscribed");
-            require(msg.value > subscribeAmount);
+            require(msg.value > tierData[_tier].price);
+            tokenIdNumber = tokenIdNumber + 1;
+            _safeMint(msg.sender, tokenIdNumber);  
             amountCreator += msg.value;
             userSubscribed[msg.sender] = true;
 
             subscriberDueDate[msg.sender] = block.timestamp + subscriptionDuration;
             subscriberLastPaid[msg.sender] = block.timestamp;
+            userTier[msg.sender] = _tier;
+            tierData[_tier].suscriptionsAmount += 1;
+
+        }
+        //if user owns NFT, check if they have paid their subscription, if not pay and update due date and subscription status
+        else {
+            require(userSubscribed[msg.sender] == false,"user already subscribed");
+            require(msg.value > tierData[_tier].price);
+            amountCreator += msg.value;
+            userSubscribed[msg.sender] = true;
+
+            subscriberDueDate[msg.sender] = block.timestamp + subscriptionDuration;
+            subscriberLastPaid[msg.sender] = block.timestamp;
+            userTier[msg.sender] = _tier;
+            tierData[_tier].suscriptionsAmount += 1;
+
 
         }
     }
@@ -93,14 +117,14 @@ contract UserProfile is ERC721, Ownable {
     }
 
     // restricted to owner
-    function addVideo(string memory _name, string memory _videoURL, string memory _description) public onlyOwner{
+    function addVideo(string memory _name, string memory _videoURL, string memory _description,uint _tier) public onlyOwner{
         //prevent user reupload videos
         require(videosIndex[_videoURL] == 0);
         //index the video
         amountPublishedVideos += 1;
         videosIndex[_videoURL] = amountPublishedVideos;
         //add video data
-        publishedVideos.push(VideoData(_name,_videoURL,_description,false));
+        publishedVideos.push(VideoData(_name,_videoURL,_description,false,_tier));
         //check subscribers
         checkSubscribers();
         
@@ -151,12 +175,12 @@ contract UserProfile is ERC721, Ownable {
         checkSubscribers();
     }
 
-    function getProfileData() external view returns(string memory,string memory,uint,uint,uint,uint){
-        return (profileName,profileDescription,tokenIdNumber,amountPublishedVideos,subscribeAmount,amountCreator);
+    function getProfileData() external view returns(string memory,string memory,uint,uint,uint,Tier memory,Tier memory,Tier memory){
+        return (profileName,profileDescription,tokenIdNumber,amountPublishedVideos,amountCreator,tierData[1],tierData[2],tierData[3]);
     }
 
-    function getCreatorInfo() external view returns(string memory,string memory,uint){
-        return (profileName,profileDescription,subscribeAmount);
+    function getCreatorInfo() external view returns(string memory,string memory){
+        return (profileName,profileDescription);
     }
 
     function isSubscribed(address _sender) external view returns(bool){
