@@ -183,7 +183,7 @@ const Creators = () => {
                 ></textarea>
               </div>
               <div className="input">
-                <div class="coin bronze">
+                <div className="coin bronze">
                   <p>
                     <Image
                       src={tfuel}
@@ -214,7 +214,7 @@ const Creators = () => {
                 </span>
               </div>
               <div className="input">
-                <div class="coin silver">
+                <div className="coin silver">
                   <p>
                     <Image
                       src={tfuel}
@@ -245,7 +245,7 @@ const Creators = () => {
                 </span>
               </div>
               <div className="input">
-                <div class="coin gold">
+                <div className="coin gold">
                   <p>
                     <Image
                       src={tfuel}
