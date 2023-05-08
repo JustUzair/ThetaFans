@@ -66,7 +66,25 @@ const SubscriptionCard = ({ creator }) => {
     <>
       {contractAddress ? (
         <div className="subscription-card--container">
-          <div className="subscription-card--grid">
+          <div
+            className="subscription-card--grid"
+            style={
+              creator?.silver?.silverSubscriptionAmount > 0
+                ? creator?.silver?.silverSubscriptionAmount != 0 &&
+                  creator?.gold?.goldSubscriptionAmount == 0
+                  ? {
+                      display: "grid !important",
+                      gridTemplateColumns: "repeat(2,1fr)",
+                      margin: "0 auto !important",
+                    }
+                  : {}
+                : {
+                    display: "grid !important",
+                    gridTemplateColumns: "repeat(1,1fr)",
+                    margin: "0 auto !important",
+                  }
+            }
+          >
             <div className="subscription-card card1">
               <h3>Bronze</h3>
               <h2>{creator?.bronze?.bronzeSubscriptionAmount}</h2>
