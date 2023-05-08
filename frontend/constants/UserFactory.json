@@ -1,1 +1,299 @@
-[{"type":"constructor","payable":false,"inputs":[]},{"type":"function","name":"admin","constant":true,"stateMutability":"view","payable":false,"inputs":[],"outputs":[{"type":"address"}]},{"type":"function","name":"createProfile","constant":false,"payable":false,"inputs":[{"type":"string","name":"_tokenName"},{"type":"string","name":"_tokenSymbol"},{"type":"string","name":"_name"},{"type":"string","name":"_description"},{"type":"uint256","name":"_subscriptionAmount"}],"outputs":[]},{"type":"function","name":"createdProfiles","constant":true,"stateMutability":"view","payable":false,"inputs":[{"type":"uint256"}],"outputs":[{"type":"address"}]},{"type":"function","name":"creatorContract","constant":true,"stateMutability":"view","payable":false,"inputs":[{"type":"address"}],"outputs":[{"type":"address"}]},{"type":"function","name":"getAllCreators","constant":true,"stateMutability":"view","payable":false,"inputs":[],"outputs":[{"type":"address[]"}]},{"type":"function","name":"getCreator","constant":true,"stateMutability":"view","payable":false,"inputs":[{"type":"address","name":"_creator"}],"outputs":[{"type":"string"},{"type":"string"},{"type":"uint256"}]},{"type":"function","name":"getCreatorContractAddress","constant":true,"stateMutability":"view","payable":false,"inputs":[{"type":"address","name":"_creatorAddress"}],"outputs":[{"type":"address"}]},{"type":"function","name":"getCreatorOld","constant":true,"stateMutability":"view","payable":false,"inputs":[{"type":"address","name":"_creator"}],"outputs":[{"type":"string"},{"type":"string"},{"type":"uint256"},{"type":"uint256"},{"type":"uint256"},{"type":"uint256"}]},{"type":"function","name":"isSignedUp","constant":true,"stateMutability":"view","payable":false,"inputs":[{"type":"address","name":"_creatorAddress"}],"outputs":[{"type":"bool"}]},{"type":"function","name":"userProfile","constant":true,"stateMutability":"view","payable":false,"inputs":[{"type":"string"}],"outputs":[{"type":"address"}]},{"type":"function","name":"working","constant":true,"stateMutability":"pure","payable":false,"inputs":[],"outputs":[{"type":"string"}]}]
+[
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "admin",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_tokenName",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_tokenSymbol",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "_description",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_bronzePrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_silverPrice",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_goldPrice",
+				"type": "uint256"
+			}
+		],
+		"name": "createProfile",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "createdProfiles",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"name": "creatorContract",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "getAllCreators",
+		"outputs": [
+			{
+				"internalType": "address[]",
+				"name": "",
+				"type": "address[]"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_creator",
+				"type": "address"
+			}
+		],
+		"name": "getCreator",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_creator",
+				"type": "address"
+			}
+		],
+		"name": "getCreatorOld",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "suscriptionsAmount",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct UserProfile.Tier",
+				"name": "",
+				"type": "tuple"
+			},
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "suscriptionsAmount",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct UserProfile.Tier",
+				"name": "",
+				"type": "tuple"
+			},
+			{
+				"components": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "price",
+						"type": "uint256"
+					},
+					{
+						"internalType": "uint256",
+						"name": "suscriptionsAmount",
+						"type": "uint256"
+					}
+				],
+				"internalType": "struct UserProfile.Tier",
+				"name": "",
+				"type": "tuple"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_creatorAddress",
+				"type": "address"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			}
+		],
+		"name": "isSignedUp",
+		"outputs": [
+			{
+				"internalType": "bool",
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"name": "userProfile",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "working",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "pure",
+		"type": "function"
+	}
+]
