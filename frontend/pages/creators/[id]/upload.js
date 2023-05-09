@@ -8,10 +8,7 @@ import { ethers } from "ethers";
 import { useMoralis, useWeb3Contract } from "react-moralis";
 import tfuel from "../../../assets/img/tfuel-logo.svg";
 import Image from "next/image";
-
-
-
-
+import GreenTick from "../../../assets/img/Green-Tick.png";
 function ContractsPage() {
   const router = useRouter();
 
@@ -52,7 +49,36 @@ function ContractsPage() {
           contractAddresses[chainId]["UserFactory"].length - 1
         ]
       : null;
+  async function uploadVideoDataToChain(videoid) {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi: userProfileAbi,
+          contractAddress: _currentCreatorContractAddress,
+          functionName: "addVideo",
+          params: {
+            _name: name,
+            _videoURL: `https://api.thetavideoapi.com/video/${videoid}`,
+            _description: description,
+            _tier: selectedTier,
+          },
+        },
 
+        // ethers.utils.parseEther(subscriptionCost)
+        //
+        onError: error => {
+          // failureNotification(error.message);
+          console.error("error calling smart contract", error);
+        },
+        onSuccess: data => {
+          console.log("succes", data);
+          // Router.push("/creators");
+          // successNotification(`Video uploaded succefully!`);
+        },
+      });
+    }
+  }
   function delay(seconds) {
     return new Promise(resolve => {
       setTimeout(resolve, seconds * 1000);
@@ -198,39 +224,18 @@ function ContractsPage() {
       setUploadProgress(uploadProgress + videoProgress);
       progress = videoProgress;
     }
-    let obj = {_name: name,
-      _description: description,
-      _videoURL: `https://api.thetavideoapi.com/video/${videoid}`,
-      _tier: selectedTier}
+    // let obj = {
+    //   _name: name,
+    //   _description: description,
+    //   _videoURL: `https://api.thetavideoapi.com/video/${videoid}`,
+    //   _tier: selectedTier,
+    // };
+    console.log(
+      `Name:${name}, Description :${description}, videoURL:${`https://api.thetavideoapi.com/video/${videoid}`}, Tier:${selectedTier} `
+    );
     //push the video to the smart contract
     //push id, name, description and creation_date
-    if (!isWeb3Enabled) await enableWeb3();
-    runContractFunction({
-      params: {
-        abi:userProfileAbi,
-        contractAddress:_currentCreatorContractAddress,
-        functionName: "addVideo",
-        params: {
-          _name: name,          
-          _videoURL: `https://api.thetavideoapi.com/video/${videoid}`,
-          _description: description,
-          _tier: selectedTier
-        },
-      },
-
-      // ethers.utils.parseEther(subscriptionCost)
-      //
-      onError: error => {
-        // failureNotification(error.message);
-        console.error('error calling smart contract',error);
-      },
-      onSuccess: data => {
-        console.log('succes',data)
-        // Router.push("/creators");
-        // successNotification(`Video uploaded succefully!`);
-      },
-    });
-
+    uploadVideoDataToChain(videoid);
     await delay(5);
     //show video in the frontend
     setVideourl(`https://player.thetavideoapi.com/video/${videoid}`);
@@ -305,39 +310,58 @@ function ContractsPage() {
           creatorContractAddress?.toString().toLowerCase() ==
             _currentCreatorContractAddress?.toString().toLowerCase() ? (
             <div>
-              
               selected tier: {selectedTier}, click tiers to select
-              
-              <div className="coin bronze" onClick={()=>{setSelectedTier(1);}}>
-                  <p>
+              <div
+                className="coin bronze"
+                onClick={() => {
+                  setSelectedTier(1);
+                }}
+              >
+                <p>
+                  {selectedTier == 1 && (
                     <Image
-                      src={tfuel}
+                      src={GreenTick}
                       style={{
                         width: "12px !important",
                       }}
                     ></Image>
-                  </p>
-                </div>
-              <div className="coin silver" onClick={()=>{setSelectedTier(2);}}>
-                  <p>
+                  )}
+                </p>
+              </div>
+              <div
+                className="coin silver"
+                onClick={() => {
+                  setSelectedTier(2);
+                }}
+              >
+                <p>
+                  {selectedTier == 2 && (
                     <Image
-                      src={tfuel}
+                      src={GreenTick}
                       style={{
                         width: "12px !important",
                       }}
                     ></Image>
-                  </p>
-                </div>
-                <div className="coin gold" onClick={()=>{setSelectedTier(3);}}>
-                  <p>
+                  )}
+                </p>
+              </div>
+              <div
+                className="coin gold"
+                onClick={() => {
+                  setSelectedTier(3);
+                }}
+              >
+                <p>
+                  {selectedTier == 3 && (
                     <Image
-                      src={tfuel}
+                      src={GreenTick}
                       style={{
                         width: "12px !important",
                       }}
                     ></Image>
-                  </p>
-                </div>
+                  )}
+                </p>
+              </div>
               Name
               <input value={name} type="text" onChange={onChangeName} />
               Description

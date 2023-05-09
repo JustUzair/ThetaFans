@@ -37,7 +37,7 @@ contract UserFactory {
         return creatorContract[_creatorAddress];
     }
     function working() public pure returns(string memory){
-        return "yes smartcontract deployed";
+        return "yes smart contract deployed";
     }
     function getAllCreators() public view returns(address[] memory){
         return createdProfiles;
