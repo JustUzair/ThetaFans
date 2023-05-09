@@ -14,8 +14,10 @@ const Creators = () => {
   const router = useRouter();
   const _creator = router.query.id;
   const [creatorData, setCreatorData] = useState({});
+  const [videos, setVideos] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
   const [isUserSubscribed, setIsUserSubscribed] = useState(false);
+  const [subscriptionTier, setSubscriptionTier] = useState(1);
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
   const { enableWeb3, authenticate, account, isWeb3Enabled } = useMoralis();
@@ -48,52 +50,6 @@ const Creators = () => {
   async function getCreatorData() {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
-      //   runContractFunction({
-      //     params: {
-      //       abi,
-      //       contractAddress,
-      //       functionName: "getCreator",
-      //       params: { _creator },
-      //     },
-      //     //
-      //     onError: error => {
-      //       failureNotification(error.message);
-      //       console.error(error);
-      //     },
-      //     onSuccess: data => {
-      //       successNotification(
-      //         `Data for Creator ${
-      //           _creator?.substr(0, 4) +
-      //           "..." +
-      //           _creator?.substr(_creator?.length - 4)
-      //         } fetched `
-      //       );
-      //       const creator = {};
-      //       creator["name"] = data[0];
-      //       creator["address"] = _creator;
-      //       creator["description"] = data[1];
-      //       creator["subscriptionAmount"] = parseInt(
-      //         ethers.utils
-      //           .formatEther(
-      //             (
-      //               parseFloat(
-      //                 ethers.BigNumber.from(
-      //                   ethers.utils.parseEther(data[2].toString())
-      //                 ).toString()
-      //               ) / 1000000
-      //             ).toString()
-      //           )
-      //           .toString()
-      //       );
-      //       creator["subscriptionAmountInHex"] = ethers.utils.parseEther(
-      //         data[2].toString()
-      //       );
-      //       console.log(creator);
-
-      //       setCreatorData(creator);
-      //     },
-      //   });
-
       runContractFunction({
         params: {
           abi,
@@ -207,6 +163,40 @@ const Creators = () => {
       });
     }
   }
+  async function getVideos() {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi: userProfileAbi,
+          contractAddress: _creator,
+          functionName: "getVideosData",
+          params: {},
+        },
+        //
+        onError: error => {
+          failureNotification(error.message);
+          console.error(error);
+        },
+        onSuccess: data => {
+          console.log(data);
+          data.map((item, index) => {
+            console.log(`Item : ${item[index]}`);
+            const video = {};
+            video["name"] = item[0];
+            video["videoURL"] = item[1];
+            video["description"] = item[2];
+            video["hidden"] = item[3];
+            video["tier"] = parseInt(item[4]?.toString());
+
+            const arr1 = [video];
+            console.log(arr1);
+            setVideos(prevState => [...prevState, ...arr1]);
+          });
+        },
+      });
+    }
+  }
   async function checkOwner() {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
@@ -229,6 +219,7 @@ const Creators = () => {
           if (account.toLowerCase() == data.toLowerCase()) {
             setIsOwner(true);
             setIsUserSubscribed(true);
+            setSubscriptionTier(3);
           }
         },
       });
@@ -238,7 +229,9 @@ const Creators = () => {
     getCreatorData();
     getUserSignupData();
     checkOwner();
+    getVideos();
   }, [account]);
+
   return (
     <>
       <Head>
@@ -254,14 +247,30 @@ const Creators = () => {
           !isUserSubscribed && !isOwner ? (
             <SubscriptionCard creator={creatorData} />
           ) : (
-            <h1
+            // <h1
+            //   style={{
+            //     width: "100vw",
+            //     fontSize: "12rem",
+            //   }}
+            // >
+            //   {/* User Subscribed */}
+
+            // </h1>
+            <div
               style={{
-                width: "100vw",
-                fontSize: "12rem",
+                paddingTop: "12rem",
               }}
             >
-              User Subscribed
-            </h1>
+              {videos.length > 0 &&
+                videos.map((data, index) => (
+                  <iframe
+                    key={index}
+                    src={data.videoURL}
+                    width="100%"
+                    height="400"
+                  ></iframe>
+                ))}
+            </div>
           )
         ) : (
           <>

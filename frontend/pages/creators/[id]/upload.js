@@ -59,7 +59,7 @@ function ContractsPage() {
           functionName: "addVideo",
           params: {
             _name: name,
-            _videoURL: `https://api.thetavideoapi.com/video/${videoid}`,
+            _videoURL: `https://player.thetavideoapi.com/video/${videoid}`,
             _description: description,
             _tier: selectedTier,
           },
