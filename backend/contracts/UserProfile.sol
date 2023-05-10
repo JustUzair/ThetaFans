@@ -3,6 +3,7 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./UserFactory.sol";
 
 contract UserProfile is ERC721, Ownable {
 
@@ -21,6 +22,9 @@ contract UserProfile is ERC721, Ownable {
         uint suscriptionsAmount;
     }
 
+    //FACTORY CONTRACT
+    address factoryContractAddr;
+
     //USER PROFILE LOGIC
     string public profileName;
     string public profileDescription;
@@ -33,6 +37,7 @@ contract UserProfile is ERC721, Ownable {
     mapping(string=>uint) public videosIndex;
     uint public amountCreator; //amount creator have to withdraw
     uint public totalDonated; //total amount donated, analytics, this variable have not use yet
+    uint public suscriptionFee; //20% of 100
 
     //TIERS LOGIC
     mapping(address=>uint) public userTier; //tier of each user 1-bronze 2-silver 3-gold
@@ -49,11 +54,13 @@ contract UserProfile is ERC721, Ownable {
 
 
     constructor(string memory _tokenName,string memory _tokenSymbol,address _sender,string memory _name,
-    string memory _description,uint _bronzePrice,uint _silverPrice,uint _goldPrice) ERC721(_tokenName,_tokenSymbol) 
+    string memory _description,uint _bronzePrice,uint _silverPrice,uint _goldPrice,uint _suscriptionFee) ERC721(_tokenName,_tokenSymbol) 
     {
+        factoryContractAddr = msg.sender;
         _transferOwnership(_sender);
         profileName = _name;
         profileDescription = _description;
+        suscriptionFee = _suscriptionFee;
         //* 1000000; //convert tfuel to drop
         //create tiers
         tierData[1] = Tier("bronze",_bronzePrice * 1000000,0);
@@ -66,13 +73,23 @@ contract UserProfile is ERC721, Ownable {
     function userSubscribe(uint _tier) public payable {
         //existing tier
         require(_tier>=1,"invalid tier");
-        require(_tier<=3,"invalid tier");
+        require(_tier<=3,"invalid tier");            
+        require(msg.value > tierData[_tier].price);
+            
+        //fees logic
+        UserFactory factoryContract = UserFactory(factoryContractAddr);
+        uint organizationFees = suscriptionFee * msg.value/100;            
+
         //if user does not own NFT
         if(balanceOf(msg.sender) == 0) {
-            require(msg.value > tierData[_tier].price);
+            //mint nft
             tokenIdNumber = tokenIdNumber + 1;
             _safeMint(msg.sender, tokenIdNumber);  
-            amountCreator += msg.value;
+           
+           //recaude fees
+            factoryContract.recaudeFees{value:organizationFees}();
+            amountCreator += msg.value - organizationFees;
+
             userSubscribed[msg.sender] = true;
 
             subscriberDueDate[msg.sender] = block.timestamp + subscriptionDuration;
@@ -84,14 +101,16 @@ contract UserProfile is ERC721, Ownable {
         //if user owns NFT, check if they have paid their subscription, if not pay and update due date and subscription status
         else {
             require(userSubscribed[msg.sender] == false,"user already subscribed");
-            require(msg.value > tierData[_tier].price);
-            amountCreator += msg.value;
+            //recaude fees
+            factoryContract.recaudeFees{value:organizationFees}();
+            amountCreator += msg.value - organizationFees;
+            //renew suscription
             userSubscribed[msg.sender] = true;
-
             subscriberDueDate[msg.sender] = block.timestamp + subscriptionDuration;
             subscriberLastPaid[msg.sender] = block.timestamp;
             userTier[msg.sender] = _tier;
             tierData[_tier].suscriptionsAmount += 1;
+
 
 
         }
@@ -111,7 +130,12 @@ contract UserProfile is ERC721, Ownable {
 
     function donate()public payable{
 
-        amountCreator += msg.value;
+        //fees logic
+        UserFactory factoryContract = UserFactory(factoryContractAddr);
+        uint organizationFees = suscriptionFee * msg.value/100; 
+        //distribute fees
+        factoryContract.recaudeFees{value:organizationFees}();
+        amountCreator += msg.value - organizationFees;
         totalDonated += msg.value;
 
     }
@@ -179,15 +203,10 @@ contract UserProfile is ERC721, Ownable {
         return (profileName,profileDescription,tokenIdNumber,amountPublishedVideos,amountCreator,tierData[1],tierData[2],tierData[3]);
     }
 
-    function getCreatorInfo() external view returns(string memory,string memory){
-        return (profileName,profileDescription);
-    }
 
     function isSubscribed(address _sender) external view returns(bool){
         return userSubscribed[_sender];
     }
-
-
 
 
    /**
@@ -198,25 +217,25 @@ contract UserProfile is ERC721, Ownable {
 
     //override approve function for prevent approve
     function approve(address to, uint256 tokenId) public override{
-        require(false, "approvals disabled.");
+        require(false);
     }
     //override setApprovalForAll function for prevent approve
     function setApprovalForAll(address operator, bool approved) public override{
-        require(false, "approvals disabled.");
+        require(false);
     }
 
     //override transferFrom function for prevent transfer
     function transferFrom(address from, address to, uint256 tokenId) public override{
-        require(false, "transfers disabled.");
+        require(false);
     }
 
     //override safeTransferFrom function for prevent transfer
     function safeTransferFrom(address from, address to, uint256 tokenId) public override{
-        require(false, "transfers disabled.");
+        require(false);
     }
 
     //override safeTransferFrom function for prevent transfer
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public override{
-        require(false, "transfers disabled.");
+        require(false);
     }
 }
