@@ -52,10 +52,10 @@ const Creators = () => {
     if (account) {
       runContractFunction({
         params: {
-          abi,
-          contractAddress,
-          functionName: "getCreatorDataExtended",
-          params: { _creator },
+          abi: userProfileAbi,
+          contractAddress: _creator,
+          functionName: "getProfileData",
+          params: {},
         },
         //
         onError: error => {
@@ -63,6 +63,7 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
+          //   console.log("calling user contract instance");
           console.log(data);
           const creator = {};
           creator["name"] = data[0];

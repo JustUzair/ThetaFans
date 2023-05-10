@@ -9,6 +9,9 @@ import { useMoralis, useWeb3Contract } from "react-moralis";
 import { useNotification } from "web3uikit";
 import { useEffect } from "react";
 import { ethers } from "ethers";
+
+import userProfileAbi from "../../constants/UserProfile.json";
+
 const Creators = () => {
   const [contentCreators, setContentCreators] = useState([]);
   const dispatch = useNotification();
@@ -39,17 +42,6 @@ const Creators = () => {
       position: "bottomR",
     });
   };
-  //   const {
-  //     // FOR REFERENCE
-  //     runContractFunction: getAllCreators,
-  //     isLoading,
-  //     isFetching,
-  //   } = useWeb3Contract({
-  //     abi,
-  //     contractAddress,
-  //     functionName: "getAllCreators",
-  //     params: {},
-  //   });
   const getContentCreators = async function () {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
@@ -70,10 +62,10 @@ const Creators = () => {
           data.map(_creator => {
             runContractFunction({
               params: {
-                abi,
-                contractAddress,
-                functionName: "getCreatorDataExtended",
-                params: { _creator },
+                abi: userProfileAbi,
+                contractAddress: _creator,
+                functionName: "getProfileData",
+                params: {},
               },
               //
               onError: error => {
@@ -81,6 +73,7 @@ const Creators = () => {
                 console.error(error);
               },
               onSuccess: data => {
+                console.log("called user profile");
                 console.log(data);
                 const creator = {};
                 creator["name"] = data[0];
