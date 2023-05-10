@@ -227,6 +227,11 @@ const Creators = () => {
     }
   }
   useEffect(() => {
+    setIsOwner(false);
+    setIsUserSubscribed(false);
+  }, [account]);
+
+  useEffect(() => {
     getCreatorData();
     getUserSignupData();
     checkOwner();
