@@ -11,9 +11,12 @@ contract UserFactory {
     mapping(string=>address) public userProfile;
     mapping(address=>address) public creatorContract;
     address public admin;
+    uint public suscriptionFee; //20% of 100
+    uint public amountRecaudedFees;
 
     constructor(){
         admin = msg.sender;
+        suscriptionFee = 20;
     }
 
     function createProfile(string memory _tokenName,string memory _tokenSymbol,
@@ -22,7 +25,7 @@ contract UserFactory {
         address profileAddress = userProfile[_name];
         require(creatorContract[msg.sender] == address(0),"address already has an account");
         require(profileAddress == address(0));
-        UserProfile newUser = new UserProfile(_tokenName,_tokenSymbol,msg.sender,_name,_description, _bronzePrice, _silverPrice, _goldPrice);
+        UserProfile newUser = new UserProfile(_tokenName,_tokenSymbol,msg.sender,_name,_description, _bronzePrice, _silverPrice, _goldPrice,suscriptionFee);
         address addr = address(newUser);
         //add the created profile to store data variables
         createdProfiles.push(addr);
@@ -33,20 +36,27 @@ contract UserFactory {
         if(creatorContract[_creatorAddress] == address(0)) return false;
         return true;
     }
+
+    function recaudeFees()external payable{
+        amountRecaudedFees += msg.value;
+    }
+
+    function withdrawFees(address payable _to)public{
+        require(msg.sender==admin);
+        _to.transfer(amountRecaudedFees);
+        amountRecaudedFees = 0;
+    }
+
+
     function getCreatorContractAddress(address _creatorAddress) external view returns(address){
         return creatorContract[_creatorAddress];
+        
     }
-    function working() public pure returns(string memory){
-        return "yes smart contract deployed";
-    }
+
+    
     function getAllCreators() public view returns(address[] memory){
         return createdProfiles;
     }
 
-    function getCreator(address _creator) public view returns(string memory,string memory){
-        return UserProfile(_creator).getCreatorInfo();
-    }
-    function getCreatorDataExtended(address _creator) public view returns(string memory,string memory,uint,uint,uint,UserProfile.Tier memory,UserProfile.Tier memory,UserProfile.Tier memory){
-        return UserProfile(_creator).getProfileData();
-    }
+    
 }
