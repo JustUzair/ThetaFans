@@ -192,7 +192,7 @@ const Creators = () => {
             video["hidden"] = item[3];
             video["tier"] = parseInt(item[4]?.toString());
             console.log(videoArr);
-            if (isUserSubscribed && (isOwner || subscriptionTier == 3)) {
+            if (isOwner || subscriptionTier == 3) {
               console.log("goldTier or owner");
               videoArr.push(video);
             } else if (isUserSubscribed && subscriptionTier == 1) {
@@ -243,16 +243,16 @@ const Creators = () => {
     }
   }
 
-  useEffect(() => {
-    setIsOwner(false);
-    setIsUserSubscribed(false);
-  }, [account]);
+  //   useEffect(() => {
+  //     setIsOwner(false);
+  //     setIsUserSubscribed(false);
+  //   }, [account]);
 
   useEffect(() => {
     getCreatorData();
     getUserSignupData();
     checkOwner();
-    getVideos();
+    // getVideos();
   }, [account]);
 
   useEffect(() => {

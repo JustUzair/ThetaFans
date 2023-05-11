@@ -101,7 +101,18 @@ const SubscriptionCard = ({ creator }) => {
 
               <hr />
               <p>Premium Content</p>
-              <p>Unlock Bronze Pack</p>
+              <p>
+                Unlock{" "}
+                <span
+                  style={{
+                    fontStyle: "italic",
+                    fontWeight: "600",
+                  }}
+                >
+                  Bronze{" "}
+                </span>{" "}
+                Pack
+              </p>
               <button
                 onClick={e => {
                   // console.log(
@@ -141,7 +152,18 @@ const SubscriptionCard = ({ creator }) => {
                 </h4>
                 <hr />
                 <p>Premium Plus Content</p>
-                <p>Unlock Silver Pack</p>
+                <p>
+                  Unlock{" "}
+                  <span
+                    style={{
+                      fontStyle: "italic",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Silver + Bronze{" "}
+                  </span>{" "}
+                  Pack
+                </p>
                 <button
                   onClick={e => {
                     subscribeUser(
@@ -171,7 +193,18 @@ const SubscriptionCard = ({ creator }) => {
                 </h4>
                 <hr />
                 <p>Unlimited Content</p>
-                <p>Unlock Gold Pack</p>
+                <p>
+                  Unlock{" "}
+                  <span
+                    style={{
+                      fontStyle: "italic",
+                      fontWeight: "600",
+                    }}
+                  >
+                    Gold + Silver + Bronze
+                  </span>
+                  Pack
+                </p>
                 <button
                   onClick={e => {
                     subscribeUser(
