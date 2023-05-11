@@ -273,30 +273,54 @@ const Creators = () => {
           !isUserSubscribed && !isOwner ? (
             <SubscriptionCard creator={creatorData} />
           ) : (
-            // <h1
-            //   style={{
-            //     width: "100vw",
-            //     fontSize: "12rem",
-            //   }}
-            // >
-            //   {/* User Subscribed */}
-
-            // </h1>
-            <div
-              style={{
-                paddingTop: "12rem",
-              }}
-            >
-              {videos.length > 0 &&
-                videos.map((data, index) => (
-                  <iframe
-                    key={index}
-                    src={data.videoURL}
-                    width="100%"
-                    height="400"
-                  ></iframe>
-                ))}
-            </div>
+            <>
+              <div
+                style={{
+                  paddingTop: "12rem",
+                }}
+              >
+                <section className="aks-container">
+                  <div className="iframe-video--grid">
+                    {videos.length > 0 &&
+                      videos.map((data, index) => (
+                        <div className="iframe-video--card" key={data.videoURL}>
+                          <h3 className="iframe-card--heading">{data.name}</h3>
+                          <hr />
+                          <div className="iframe--container">
+                            <iframe
+                              src={data.videoURL}
+                              title={data.name}
+                              frameBorder="0"
+                              allow="accelerometer; autoplay; encrypted-media;"
+                              loading="lazy"
+                              //   allowTransparency
+                              allowFullScreen
+                            ></iframe>
+                          </div>
+                          <p className="iframe-card--description">
+                            {data.description.substring(0, 40) + "..."}
+                          </p>
+                        </div>
+                      ))}
+                  </div>
+                </section>
+              </div>
+              {/* <div
+                style={{
+                  paddingTop: "12rem",
+                }}
+              >
+                {videos.length > 0 &&
+                  videos.map((data, index) => (
+                    <iframe
+                      key={index}
+                      src={data.videoURL}
+                      width="100%"
+                      height="400"
+                    ></iframe>
+                  ))}
+              </div> */}
+            </>
           )
         ) : (
           <>
