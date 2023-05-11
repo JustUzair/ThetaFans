@@ -9,7 +9,7 @@ import contractAddresses from "../../../constants/networkMapping.json";
 import abi from "../../../constants/UserFactory.json";
 import userProfileAbi from "../../../constants/UserProfile.json";
 import { ethers } from "ethers";
-
+import { MdVideoLibrary } from "react-icons/md";
 const Creators = () => {
   const router = useRouter();
   const _creator = router.query.id;
@@ -284,7 +284,20 @@ const Creators = () => {
                     {videos.length > 0 &&
                       videos.map((data, index) => (
                         <div className="iframe-video--card" key={data.videoURL}>
-                          <h3 className="iframe-card--heading">{data.name}</h3>
+                          <h3 className="iframe-card--heading">
+                            <span>
+                              {" "}
+                              <span
+                                style={{
+                                  //   color: "rgba(220, 53, 69, 0.8)",
+                                  color: "#18c99d",
+                                }}
+                              >
+                                <MdVideoLibrary />
+                              </span>
+                              {data.name}
+                            </span>
+                          </h3>
                           <hr />
                           <div className="iframe--container">
                             <iframe
@@ -293,7 +306,6 @@ const Creators = () => {
                               frameBorder="0"
                               allow="accelerometer; autoplay; encrypted-media;"
                               loading="lazy"
-                              //   allowTransparency
                               allowFullScreen
                             ></iframe>
                           </div>
