@@ -182,7 +182,7 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
-          const arr1 = [];
+          const videoArr = [];
           data.map((item, index) => {
             // console.log(`Item : ${item[index]}`);
             const video = {};
@@ -191,29 +191,25 @@ const Creators = () => {
             video["description"] = item[2];
             video["hidden"] = item[3];
             video["tier"] = parseInt(item[4]?.toString());
-            // arr1.push(video);
-            console.log(arr1);
-            // setVideos(prevState => [...prevState, ...arr1]);
+            console.log(videoArr);
             if (isUserSubscribed && (isOwner || subscriptionTier == 3)) {
               console.log("goldTier or owner");
-              arr1.push(video);
+              videoArr.push(video);
             } else if (isUserSubscribed && subscriptionTier == 1) {
               console.log("bronzeTier");
               if (video.tier == 1) {
-                // const bronzeArr = [video];
-                // setVideos(prevState => [...prevState, ...bronzeArr]);
-                arr1.push(video);
+                videoArr.push(video);
               }
             } else if (isUserSubscribed && subscriptionTier == 2) {
               console.log("silverTier");
               if (video.tier <= 2 && video.tier >= 1) {
                 // const silverArr = [video];
                 // setVideos(prevState => [...prevState, ...silverArr]);
-                arr1.push(video);
+                videoArr.push(video);
               }
             }
           });
-          setVideos(arr1);
+          setVideos(videoArr);
         },
       });
     }
