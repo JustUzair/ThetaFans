@@ -78,7 +78,7 @@ const Navbar = () => {
           console.error(error);
         },
         onSuccess: data => {
-          console.log(`data : ${data}`);
+          //   console.log(`data : ${data}`);
           setIsSignedUp(data);
         },
       });
@@ -100,7 +100,7 @@ const Navbar = () => {
           console.error(error);
         },
         onSuccess: data => {
-          console.log(data);
+          //   console.log(data);
           setCreatorContractAddress(data.toString());
         },
       });
@@ -122,7 +122,6 @@ const Navbar = () => {
             height="60"
             viewBox="0 0 292 104"
           >
-            <title>Patreon wordmark</title>
             <g>
               <path
                 fillRule="evenodd"

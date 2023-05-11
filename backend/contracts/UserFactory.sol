@@ -23,7 +23,7 @@ contract UserFactory {
     string memory _name,string memory _description,uint _bronzePrice,uint _silverPrice,uint _goldPrice) public
     {
         address profileAddress = userProfile[_name];
-        require(creatorContract[msg.sender] == address(0),"address already has an account");
+        require(creatorContract[msg.sender] == address(0),"duplicate account");
         require(profileAddress == address(0));
         UserProfile newUser = new UserProfile(_tokenName,_tokenSymbol,msg.sender,_name,_description, _bronzePrice, _silverPrice, _goldPrice,suscriptionFee);
         address addr = address(newUser);

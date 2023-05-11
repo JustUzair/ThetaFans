@@ -204,8 +204,8 @@ contract UserProfile is ERC721, Ownable {
     }
 
 
-    function isSubscribed(address _sender) external view returns(bool){
-        return userSubscribed[_sender];
+    function isSubscribed(address _sender) external view returns(bool,uint){
+        return (userSubscribed[_sender],userTier[_sender]);
     }
 
 

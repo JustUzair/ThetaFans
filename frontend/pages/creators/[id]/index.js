@@ -159,13 +159,15 @@ const Creators = () => {
         },
         onSuccess: data => {
           console.log(data);
-          setIsUserSubscribed(data);
+          setIsUserSubscribed(data[0]);
+          setSubscriptionTier(parseInt(data[1].toString()));
         },
       });
     }
   }
   async function getVideos() {
     if (!isWeb3Enabled) await enableWeb3();
+    console.log(subscriptionTier, isUserSubscribed, isOwner);
     if (account) {
       runContractFunction({
         params: {
@@ -180,20 +182,38 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
-          console.log(data);
+          const arr1 = [];
           data.map((item, index) => {
-            console.log(`Item : ${item[index]}`);
+            // console.log(`Item : ${item[index]}`);
             const video = {};
             video["name"] = item[0];
             video["videoURL"] = item[1];
             video["description"] = item[2];
             video["hidden"] = item[3];
             video["tier"] = parseInt(item[4]?.toString());
-
-            const arr1 = [video];
+            // arr1.push(video);
             console.log(arr1);
-            setVideos(prevState => [...prevState, ...arr1]);
+            // setVideos(prevState => [...prevState, ...arr1]);
+            if (isUserSubscribed && (isOwner || subscriptionTier == 3)) {
+              console.log("goldTier or owner");
+              arr1.push(video);
+            } else if (isUserSubscribed && subscriptionTier == 1) {
+              console.log("bronzeTier");
+              if (video.tier == 1) {
+                // const bronzeArr = [video];
+                // setVideos(prevState => [...prevState, ...bronzeArr]);
+                arr1.push(video);
+              }
+            } else if (isUserSubscribed && subscriptionTier == 2) {
+              console.log("silverTier");
+              if (video.tier <= 2 && video.tier >= 1) {
+                // const silverArr = [video];
+                // setVideos(prevState => [...prevState, ...silverArr]);
+                arr1.push(video);
+              }
+            }
           });
+          setVideos(arr1);
         },
       });
     }
@@ -214,8 +234,8 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
-          console.log(`Account : ${account}`);
-          console.log(`data : ${data}`);
+          //   console.log(`Account : ${account}`);
+          //   console.log(`data : ${data}`);
 
           if (account.toLowerCase() == data.toLowerCase()) {
             setIsOwner(true);
@@ -226,6 +246,7 @@ const Creators = () => {
       });
     }
   }
+
   useEffect(() => {
     setIsOwner(false);
     setIsUserSubscribed(false);
@@ -238,6 +259,9 @@ const Creators = () => {
     getVideos();
   }, [account]);
 
+  useEffect(() => {
+    getVideos();
+  }, [subscriptionTier, isUserSubscribed, isOwner]);
   return (
     <>
       <Head>
