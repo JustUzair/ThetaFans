@@ -158,9 +158,33 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
-          console.log(data);
-          setIsUserSubscribed(data[0]);
           setSubscriptionTier(parseInt(data[1].toString()));
+        },
+      });
+    }
+  }
+
+  async function userSuscribedNftverification () {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi: userProfileAbi,
+          contractAddress: _creator,
+          functionName: "balanceOf",
+          params: { owner: account },
+        },
+        //
+        onError: error => {
+          failureNotification(error.message);
+          console.error(error);
+        },
+        onSuccess: data => {
+          if(parseInt(data._hex>0)){
+            setIsUserSubscribed(true);
+          }else{
+            setIsUserSubscribed(false);
+          }          
         },
       });
     }
@@ -249,6 +273,7 @@ const Creators = () => {
   //   }, [account]);
 
   useEffect(() => {
+    userSuscribedNftverification();
     getCreatorData();
     getUserSignupData();
     checkOwner();
