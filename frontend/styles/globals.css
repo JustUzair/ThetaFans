@@ -1210,3 +1210,148 @@ input[type="number"] {
 .iframe-card--description {
   margin: 12px 0 0 0;
 }
+
+/* Video Upload Container */
+.upload-video--container {
+  background: #0c0f1a;
+  color: #18c99d;
+  width: 70%;
+  margin: 0 auto;
+  height: 100%;
+}
+
+.field {
+  display: flex;
+  flex-flow: column-reverse;
+  width: 100%;
+  margin: 0 auto;
+}
+.field label,
+.field input {
+  transition: all 200ms ease;
+}
+.field input {
+  font-size: 24px;
+  border: 0;
+  border-bottom: 1px solid #ccc;
+  -webkit-appearance: none;
+  border-radius: 0;
+  padding: 5px 10px;
+  color: #fff;
+  background: #0c0f1a;
+}
+.field input:focus {
+  outline: 0;
+  border-color: #18c99d;
+}
+.field input:-moz-placeholder-shown + label {
+  cursor: text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform-origin: left bottom;
+  transform: translate(0, 3.125em) scale(1.5);
+}
+.field input:-ms-input-placeholder + label {
+  cursor: text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform-origin: left bottom;
+  transform: translate(0, 3.125em) scale(1.5);
+}
+.field input:placeholder-shown + label {
+  cursor: text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transform-origin: left bottom;
+  transform: translate(0, 3.125em) scale(1.5);
+}
+.field input:not(:-moz-placeholder-shown) + label {
+  transform: translate(0, 0) scale(1);
+  cursor: default;
+  color: #18c99d;
+}
+.field input:not(:-ms-input-placeholder) + label {
+  transform: translate(0, 0) scale(1);
+  cursor: default;
+  color: #18c99d;
+}
+.field input:not(:placeholder-shown) + label,
+.field input:focus + label {
+  transform: translate(0, 0) scale(1);
+  cursor: default;
+  color: #18c99d;
+}
+label {
+  max-width: 66.666%;
+  color: #18c99d;
+}
+::-webkit-input-placeholder {
+  opacity: 0;
+  -webkit-transition: inherit;
+  transition: inherit;
+}
+.select-tier--container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.upload-video--btn {
+  border: 1px solid #18c99d;
+  color: #18c99d;
+  background: #0c0f1a;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+.upload-progress--btn {
+  border: 1px solid #18c99d;
+  color: #18c99d;
+  background: #0c0f1a;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-left: 10px;
+}
+.upload-video--btn:hover {
+  transition: all 0.2s;
+  background: #18c99d;
+  color: #fff;
+}
+.input-file {
+  border: 1px solid #18c99d;
+  color: #18c99d;
+  background: #0c0f1a;
+  padding: 10px 20px;
+  border-radius: 10px;
+}
+.input-file:hover {
+  transition: all 0.2s;
+  background: #18c99d;
+  color: #fff;
+}
+input[type="file"] {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+.input-file + .custom-file-upload {
+  border: 1px solid #18c99d;
+  color: #18c99d;
+  background: #0c0f1a;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.input-file + .custom-file-upload:hover {
+  transition: all 0.2s;
+  background: #18c99d;
+  color: #fff;
+}
+
+/* End Video Upload */

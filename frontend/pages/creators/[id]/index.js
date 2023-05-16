@@ -10,6 +10,8 @@ import abi from "../../../constants/UserFactory.json";
 import userProfileAbi from "../../../constants/UserProfile.json";
 import { ethers } from "ethers";
 import { MdVideoLibrary } from "react-icons/md";
+import { motion } from "framer-motion";
+import { fadeInUp, routeAnimation, stagger } from "../../../utils/animations";
 const Creators = () => {
   const router = useRouter();
   const _creator = router.query.id;
@@ -164,7 +166,7 @@ const Creators = () => {
     }
   }
 
-  async function userSuscribedNftverification () {
+  async function userSuscribedNftverification() {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
       runContractFunction({
@@ -180,11 +182,11 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
-          if(parseInt(data._hex>0)){
+          if (parseInt(data._hex > 0)) {
             setIsUserSubscribed(true);
-          }else{
+          } else {
             setIsUserSubscribed(false);
-          }          
+          }
         },
       });
     }
@@ -305,10 +307,21 @@ const Creators = () => {
                 }}
               >
                 <section className="aks-container">
-                  <div className="iframe-video--grid">
+                  <motion.div
+                    className="iframe-video--grid"
+                    variants={stagger}
+                    initial="initial"
+                    animate="animate"
+                  >
                     {videos.length > 0 &&
                       videos.map((data, index) => (
-                        <div className="iframe-video--card" key={data.videoURL}>
+                        <motion.div
+                          variants={fadeInUp}
+                          initial="initial"
+                          animate="animate"
+                          className="iframe-video--card"
+                          key={data.videoURL}
+                        >
                           <h3 className="iframe-card--heading">
                             <span>
                               {" "}
@@ -337,9 +350,9 @@ const Creators = () => {
                           <p className="iframe-card--description">
                             {data.description.substring(0, 40) + "..."}
                           </p>
-                        </div>
+                        </motion.div>
                       ))}
-                  </div>
+                  </motion.div>
                 </section>
               </div>
               {/* <div

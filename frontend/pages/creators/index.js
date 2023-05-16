@@ -9,7 +9,8 @@ import { useMoralis, useWeb3Contract } from "react-moralis";
 import { useNotification } from "web3uikit";
 import { useEffect } from "react";
 import { ethers } from "ethers";
-
+import { motion } from "framer-motion";
+import { fadeInUp, routeAnimation, stagger } from "../../utils/animations";
 import userProfileAbi from "../../constants/UserProfile.json";
 
 const Creators = () => {
@@ -167,7 +168,12 @@ const Creators = () => {
       </Head>
       {contractAddress != null ? (
         <div className="shell">
-          <div className="card-container">
+          <motion.div
+            variants={stagger}
+            initial="initial"
+            animate="animate"
+            className="card-container"
+          >
             {contentCreators.length > 0 ? (
               contentCreators.map((_creator, index) => {
                 // Formatting the amount to ether
@@ -186,7 +192,13 @@ const Creators = () => {
                 // );
 
                 return (
-                  <div className="creator-card" key={index}>
+                  <motion.div
+                    variants={fadeInUp}
+                    initial="initial"
+                    animate="animate"
+                    className="creator-card"
+                    key={index}
+                  >
                     <div className="wsk-cp-img">
                       <img
                         src={
@@ -237,7 +249,7 @@ const Creators = () => {
                         </Link>
                       </div>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })
             ) : (
@@ -273,7 +285,7 @@ const Creators = () => {
                 </div>
               </>
             )}
-          </div>
+          </motion.div>
         </div>
       ) : (
         <>

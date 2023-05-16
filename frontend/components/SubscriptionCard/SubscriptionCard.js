@@ -6,7 +6,8 @@ import { useMoralis, useWeb3Contract } from "react-moralis";
 import contractAddresses from "../../constants/networkMapping.json";
 import abi from "../../constants/UserFactory.json";
 import userProfileAbi from "../../constants/UserProfile.json";
-
+import { motion } from "framer-motion";
+import { fadeInUp, routeAnimation, stagger } from "../../utils/animations";
 import { ethers } from "ethers";
 const SubscriptionCard = ({ creator }) => {
   console.log(creator);
@@ -66,7 +67,10 @@ const SubscriptionCard = ({ creator }) => {
     <>
       {contractAddress ? (
         <div className="subscription-card--container">
-          <div
+          <motion.div
+            variants={stagger}
+            initial="initial"
+            animate="animate"
             className="subscription-card--grid"
             style={
               creator?.silver?.silverSubscriptionAmount > 0
@@ -85,7 +89,12 @@ const SubscriptionCard = ({ creator }) => {
                   }
             }
           >
-            <div className="subscription-card card1">
+            <motion.div
+              variants={fadeInUp}
+              initial="initial"
+              animate="animate"
+              className="subscription-card card1"
+            >
               <h3>Bronze</h3>
               <h2>{creator?.bronze?.bronzeSubscriptionAmount}</h2>
               <h4>
@@ -134,10 +143,15 @@ const SubscriptionCard = ({ creator }) => {
               >
                 Subscribe Now
               </button>
-            </div>
+            </motion.div>
 
             {creator?.silver?.silverSubscriptionAmount > 0 && (
-              <div className="subscription-card card2">
+              <motion.div
+                variants={fadeInUp}
+                initial="initial"
+                animate="animate"
+                className="subscription-card card2"
+              >
                 <h3>SILVER</h3>
                 <h2>{creator?.silver?.silverSubscriptionAmount}</h2>
                 <h4>
@@ -175,10 +189,15 @@ const SubscriptionCard = ({ creator }) => {
                 >
                   Subscribe Now
                 </button>
-              </div>
+              </motion.div>
             )}
             {creator?.gold?.goldSubscriptionAmount > 0 && (
-              <div className="subscription-card card3">
+              <motion.div
+                variants={fadeInUp}
+                initial="initial"
+                animate="animate"
+                className="subscription-card card3"
+              >
                 <h3>GOLD</h3>
                 <h2>{creator?.gold?.goldSubscriptionAmount}</h2>
                 <h4>
@@ -202,7 +221,7 @@ const SubscriptionCard = ({ creator }) => {
                     }}
                   >
                     Gold + Silver + Bronze
-                  </span>
+                  </span>{" "}
                   Pack
                 </p>
                 <button
@@ -216,9 +235,9 @@ const SubscriptionCard = ({ creator }) => {
                 >
                   Subscribe Now
                 </button>
-              </div>
+              </motion.div>
             )}
-          </div>
+          </motion.div>
         </div>
       ) : (
         <>
