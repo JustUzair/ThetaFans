@@ -19,6 +19,7 @@ const Creators = () => {
   const [videos, setVideos] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
   const [isUserSubscribed, setIsUserSubscribed] = useState(false);
+  const [suscriptionRenewed,setSuscriptionRenewed] = useState(false);
   const [subscriptionTier, setSubscriptionTier] = useState(1);
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
@@ -160,12 +161,13 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
+          setSuscriptionRenewed(data[0]);
           setSubscriptionTier(parseInt(data[1].toString()));
         },
       });
     }
   }
-
+  console.log('setSuscriptionRenewed',suscriptionRenewed)
   async function userSuscribedNftverification() {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
