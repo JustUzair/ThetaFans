@@ -485,8 +485,9 @@ a.buy-btn:focus {
 .subscription-card {
   width: 325px;
   border-radius: 10px;
-  padding: 30px 20px 59px 20px;
+  padding: 30px 20px 80px 20px;
   border: 0;
+  position: relative;
 }
 
 .card1 {
@@ -567,6 +568,8 @@ a.buy-btn:focus {
   border-radius: 6px;
   transition: background-color 0.5s;
   display: block;
+  position: absolute;
+  bottom: 30px;
 }
 
 .subscription-card button:hover {
@@ -1214,10 +1217,12 @@ input[type="number"] {
 /* Video Upload Container */
 .upload-video--container {
   background: #0c0f1a;
+  border-radius: 15px;
   color: #18c99d;
   width: 70%;
   margin: 0 auto;
   height: 100%;
+  box-shadow: 11px -2px 8px rgba(0, 0, 0, 0.12), 0px 4px 13px #0c0f1a;
 }
 
 .field {

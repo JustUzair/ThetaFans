@@ -13,6 +13,10 @@ import GreenTick from "../../../assets/img/Green-Tick.png";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { HiOutlineUpload } from "react-icons/hi";
 import Head from "next/head";
+import { motion } from "framer-motion";
+import { fadeInUp, routeAnimation, stagger } from "../../../utils/animations";
+import { useNotification } from "web3uikit";
+
 import loadingSpinner from "../../../assets/img/loading-spinner.svg";
 function ContractsPage() {
   const router = useRouter();
@@ -35,6 +39,7 @@ function ContractsPage() {
     msg: "",
     details: "",
   });
+  const dispatch = useNotification();
 
   //video url = https://player.thetavideoapi.com/video/:videoid example.https://player.thetavideoapi.com/video/video_d5kiagg6ip7u6aup5wkm2g8m79
   const [videourl, setVideourl] = useState("");
@@ -54,6 +59,23 @@ function ContractsPage() {
           contractAddresses[chainId]["UserFactory"].length - 1
         ]
       : null;
+  const successNotification = msg => {
+    dispatch({
+      type: "success",
+      message: `${msg} Successfully! (Reload after the transaction succeeds)`,
+      title: `${msg}`,
+      position: "bottomR",
+    });
+  };
+
+  const failureNotification = msg => {
+    dispatch({
+      type: "error",
+      message: `${msg} ( View console for more info )`,
+      title: `${msg}`,
+      position: "bottomR",
+    });
+  };
   async function uploadVideoDataToChain(videoid) {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
@@ -73,13 +95,13 @@ function ContractsPage() {
         // ethers.utils.parseEther(subscriptionCost)
         //
         onError: error => {
-          // failureNotification(error.message);
+          failureNotification(error.message);
           console.error("error calling smart contract", error);
         },
         onSuccess: data => {
           console.log("succes", data);
           // Router.push("/creators");
-          // successNotification(`Video uploaded succefully!`);
+          successNotification(`Video uploaded`);
         },
       });
     }
@@ -309,7 +331,7 @@ function ContractsPage() {
     }
   }, [account, isSignedUp]);
   return (
-    <>
+    <motion.div variants={stagger} initial="initial" animate="animate">
       <Head>
         <title>Upload Video</title>
       </Head>
@@ -320,7 +342,12 @@ function ContractsPage() {
         }}
       ></div>
       {contractAddress ? (
-        <div className="upload-video--container">
+        <motion.div
+          variants={fadeInUp}
+          initial="initial"
+          animate="animate"
+          className="upload-video--container"
+        >
           {isSignedUp &&
           creatorContractAddress?.toString().toLowerCase() ==
             _currentCreatorContractAddress?.toString().toLowerCase() ? (
@@ -331,139 +358,143 @@ function ContractsPage() {
               }}
             >
               {/* selected tier: {selectedTier}, click tiers to select */}
-              <br />
-              <div className="field">
-                <input
-                  type="text"
-                  name="fullname"
-                  id="fullname"
-                  placeholder="Full Name"
-                  value={name}
-                  onChange={onChangeName}
-                />
-                <label htmlFor="fullname">Name</label>
-              </div>
-              <br />
-              <div className="field">
-                <input
-                  type="text"
-                  name="description"
-                  id="description"
-                  placeholder="Description"
-                  value={description}
-                  onChange={onChangeDescription}
-                />
-                <label htmlFor="description">Description</label>
-              </div>
-              <br />
-              <div className="select-tier--container">
-                <span
-                  style={{
-                    fontSize: "1.7rem",
-                  }}
-                >
-                  Select Video Tier
-                </span>
-                <div
-                  className="coin bronze"
-                  onClick={() => {
-                    setSelectedTier(1);
-                  }}
-                >
-                  <p>
-                    {selectedTier == 1 && (
-                      <Image
-                        src={GreenTick}
-                        style={{
-                          width: "12px !important",
-                        }}
-                      ></Image>
-                    )}
-                  </p>
-                </div>
-                <div
-                  className="coin silver"
-                  onClick={() => {
-                    setSelectedTier(2);
-                  }}
-                >
-                  <p>
-                    {selectedTier == 2 && (
-                      <Image
-                        src={GreenTick}
-                        style={{
-                          width: "12px !important",
-                        }}
-                      ></Image>
-                    )}
-                  </p>
-                </div>
-                <div
-                  className="coin gold"
-                  onClick={() => {
-                    setSelectedTier(3);
-                  }}
-                >
-                  <p>
-                    {selectedTier == 3 && (
-                      <Image
-                        src={GreenTick}
-                        style={{
-                          width: "12px !important",
-                        }}
-                      ></Image>
-                    )}
-                  </p>
-                </div>
-              </div>
-              <br />
-              <input
-                type="file"
-                accept="video/mp4,video/x-m4v,video/*"
-                onChange={handleFileChange}
-                name="file-upload"
-                id="file-upload"
-                className="input-file"
-              />
-              <label htmlFor="file-upload" className="custom-file-upload">
-                <span
-                  style={{
-                    fontSize: "1.4rem",
-                    marginRight: "10px",
-                  }}
-                >
-                  <HiOutlineUpload />
-                </span>
-                Choose Video
-              </label>
-              <span
-                style={{
-                  fontSize: "1.2rem",
-                  textDecoration: "underline",
-                  color: "#fff",
-                  marginLeft: "13px",
-                }}
-              >
-                {selectedFile == null ? "" : selectedFile?.name}
-              </span>
-              <button
-                className="upload-video--btn"
-                onClick={() => {
-                  //   handleUpload(collectionAddress);
-                  handleUpload(_currentCreatorContractAddress);
-                }}
-              >
-                <span
-                  style={{
-                    fontSize: "1.4rem",
-                    marginRight: "10px",
-                  }}
-                >
-                  <AiOutlineCloudUpload />
-                </span>
-                Upload
-              </button>
-              <br />
+              {!uploading && (
+                <>
+                  <br />
+                  <div className="field">
+                    <input
+                      type="text"
+                      name="fullname"
+                      id="fullname"
+                      placeholder="Full Name"
+                      value={name}
+                      onChange={onChangeName}
+                    />
+                    <label htmlFor="fullname">Name</label>
+                  </div>
+                  <br />
+                  <div className="field">
+                    <input
+                      type="text"
+                      name="description"
+                      id="description"
+                      placeholder="Description"
+                      value={description}
+                      onChange={onChangeDescription}
+                    />
+                    <label htmlFor="description">Description</label>
+                  </div>
+                  <br />
+                  <div className="select-tier--container">
+                    <span
+                      style={{
+                        fontSize: "1.7rem",
+                      }}
+                    >
+                      Select Video Tier
+                    </span>
+                    <div
+                      className="coin bronze"
+                      onClick={() => {
+                        setSelectedTier(1);
+                      }}
+                    >
+                      <p>
+                        {selectedTier == 1 && (
+                          <Image
+                            src={GreenTick}
+                            style={{
+                              width: "12px !important",
+                            }}
+                          ></Image>
+                        )}
+                      </p>
+                    </div>
+                    <div
+                      className="coin silver"
+                      onClick={() => {
+                        setSelectedTier(2);
+                      }}
+                    >
+                      <p>
+                        {selectedTier == 2 && (
+                          <Image
+                            src={GreenTick}
+                            style={{
+                              width: "12px !important",
+                            }}
+                          ></Image>
+                        )}
+                      </p>
+                    </div>
+                    <div
+                      className="coin gold"
+                      onClick={() => {
+                        setSelectedTier(3);
+                      }}
+                    >
+                      <p>
+                        {selectedTier == 3 && (
+                          <Image
+                            src={GreenTick}
+                            style={{
+                              width: "12px !important",
+                            }}
+                          ></Image>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                  <br />
+                  <input
+                    type="file"
+                    accept="video/mp4,video/x-m4v,video/*"
+                    onChange={handleFileChange}
+                    name="file-upload"
+                    id="file-upload"
+                    className="input-file"
+                  />
+                  <label htmlFor="file-upload" className="custom-file-upload">
+                    <span
+                      style={{
+                        fontSize: "1.4rem",
+                        marginRight: "10px",
+                      }}
+                    >
+                      <HiOutlineUpload />
+                    </span>
+                    Choose Video
+                  </label>
+                  <span
+                    style={{
+                      fontSize: "1.2rem",
+                      textDecoration: "underline",
+                      color: "#fff",
+                      marginLeft: "13px",
+                    }}
+                  >
+                    {selectedFile == null ? "" : selectedFile?.name}
+                  </span>
+                  <button
+                    className="upload-video--btn"
+                    onClick={() => {
+                      //   handleUpload(collectionAddress);
+                      handleUpload(_currentCreatorContractAddress);
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "1.4rem",
+                        marginRight: "10px",
+                      }}
+                    >
+                      <AiOutlineCloudUpload />
+                    </span>
+                    Upload
+                  </button>
+                  <br />
+                </>
+              )}
 
               {/*show messages errors, add notification for it*/}
               {errorMsg.msg.length > 0 && (
@@ -566,7 +597,7 @@ function ContractsPage() {
               </div>
             </>
           )}
-        </div>
+        </motion.div>
       ) : (
         <>
           <div
@@ -595,7 +626,7 @@ function ContractsPage() {
           </div>
         </>
       )}
-    </>
+    </motion.div>
   );
 }
 

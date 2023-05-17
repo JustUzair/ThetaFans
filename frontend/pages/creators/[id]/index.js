@@ -348,7 +348,9 @@ const Creators = () => {
                             ></iframe>
                           </div>
                           <p className="iframe-card--description">
-                            {data.description.substring(0, 40) + "..."}
+                            {data?.description?.length <= 200
+                              ? data?.description
+                              : data.description.substring(0, 200) + "..."}
                           </p>
                         </motion.div>
                       ))}

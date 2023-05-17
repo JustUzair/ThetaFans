@@ -59,6 +59,7 @@ const SubscriptionCard = ({ creator }) => {
         },
         onSuccess: data => {
           console.log(data);
+          successNotification("Subscribed to Creator");
         },
       });
     }
