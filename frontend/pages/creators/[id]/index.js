@@ -182,7 +182,7 @@ const Creators = () => {
           console.error(error);
         },
         onSuccess: data => {
-          if (parseInt(data._hex > 0)) {
+          if (parseInt(data._hex) > 0) {
             setIsUserSubscribed(true);
           } else {
             setIsUserSubscribed(false);
