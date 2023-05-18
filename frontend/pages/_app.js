@@ -137,7 +137,7 @@ function MyApp({ Component, pageProps }) {
                 }}
                 exit={{
                   opacity: 0,
-                  backgroundColor: "#000",
+                  backgroundColor: "transparent",
 
                   transition: {
                     delay: 0.25,

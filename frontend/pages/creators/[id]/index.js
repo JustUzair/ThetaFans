@@ -316,8 +316,18 @@ const Creators = () => {
         </title>
       </Head>
       <div className="bg-color-profileuser">
-        <div style={{ paddingTop: "6rem" }}>
-          <div className="user-profile-card">
+        <motion.div
+          style={{ paddingTop: "6rem" }}
+          variants={stagger}
+          initial="initial"
+          animate="animate"
+        >
+          <motion.div
+            className="user-profile-card"
+            variants={fadeInUp}
+            initial="initial"
+            animate="animate"
+          >
             <div className="user-profile-card-header">
               <div>
                 <img
@@ -443,8 +453,8 @@ const Creators = () => {
                 <></>
               )}
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
         {contractAddress ? (
           !isUserSubscribed && !subscriptionRenewed && !isOwner ? (
             <SubscriptionCard creator={creatorData} />
