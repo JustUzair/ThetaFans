@@ -12,14 +12,21 @@ import { ethers } from "ethers";
 import { MdVideoLibrary } from "react-icons/md";
 import { motion } from "framer-motion";
 import { fadeInUp, routeAnimation, stagger } from "../../../utils/animations";
+import Image from "next/dist/client/image";
+import tfuel from "../../../assets/img/tfuel-logo.svg"
 const Creators = () => {
   const router = useRouter();
   const _creator = router.query.id;
-  const [creatorData, setCreatorData] = useState({});
+  const [creatorData, setCreatorData] = useState({ 
+    amountPublishedVideos: { _hex: 0 },
+     tokenIdNumber: { _hex: 0 },
+      bronze: { bronzeSubscriptionCount: 0,bronzeSubscriptionAmount:0 }, 
+      silver: { silverSubscriptionCount: 0,silverSubscriptionAmount:0 },
+       gold: { SubscriptionCount: 0,goldSubscriptionAmount:0 } });
   const [videos, setVideos] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
   const [isUserSubscribed, setIsUserSubscribed] = useState(false);
-  const [suscriptionRenewed,setSuscriptionRenewed] = useState(false);
+  const [suscriptionRenewed, setSuscriptionRenewed] = useState(false);
   const [subscriptionTier, setSubscriptionTier] = useState(1);
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
@@ -29,8 +36,8 @@ const Creators = () => {
   const contractAddress =
     chainId in contractAddresses
       ? contractAddresses[chainId]["UserFactory"][
-          contractAddresses[chainId]["UserFactory"].length - 1
-        ]
+      contractAddresses[chainId]["UserFactory"].length - 1
+      ]
       : null;
   const successNotification = msg => {
     dispatch({
@@ -167,7 +174,7 @@ const Creators = () => {
       });
     }
   }
-  console.log('setSuscriptionRenewed',suscriptionRenewed)
+  console.log('setSuscriptionRenewed', suscriptionRenewed)
   async function userSuscribedNftverification() {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
@@ -193,6 +200,7 @@ const Creators = () => {
       });
     }
   }
+  console.log('cratordata', creatorData)
   async function getVideos() {
     if (!isWeb3Enabled) await enableWeb3();
     console.log(subscriptionTier, isUserSubscribed, isOwner);
@@ -275,7 +283,8 @@ const Creators = () => {
   //     setIsOwner(false);
   //     setIsUserSubscribed(false);
   //   }, [account]);
-
+  console.log('creator dataaa', creatorData)
+  console.log('--------', creatorData.bronze.bronzeSubscriptionCount)
   useEffect(() => {
     userSuscribedNftverification();
     getCreatorData();
@@ -287,6 +296,11 @@ const Creators = () => {
   useEffect(() => {
     getVideos();
   }, [subscriptionTier, isUserSubscribed, isOwner]);
+
+  const tfuelImage = <span className="image-smaller">
+    <span className="tfuel-image--container ">
+      <Image style={{width:"24px"}} src={tfuel}></Image>
+    </span></span>
   return (
     <>
       <Head>
@@ -298,14 +312,104 @@ const Creators = () => {
         </title>
       </Head>
       <>
+        <div style={{ paddingTop: "12rem" }}>
+          <div className="user-profile-card">
+            <div className="user-profile-card-header">
+              <div>
+                <img className="user-profile-card-image" src={"https://s.yimg.com/uu/api/res/1.2/T0JXIlePkQy.jLDbMfMr5w--~B/Zmk9ZmlsbDtoPTU1NDt3PTg3NTthcHBpZD15dGFjaHlvbg--/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2021-12/9908fc00-5398-11ec-b7bf-8dded52a981b.cf.webp"}></img>
+              </div>
+              <div>
+                @{creatorData.name}
+              </div>
+              <div className="user-profile-data-container">
+                <div className="user-profile-data-con">
+                  <div className="user-profile-title">
+                    suscribers
+                  </div>
+                  <div className="user-profile-data">
+                    {parseInt(creatorData.tokenIdNumber._hex)}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="user-svg">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+
+                  </div>
+                </div>
+                <div className="user-profile-data-con">
+                  <div className="user-profile-title">
+                    videos
+                  </div>
+                  <div className="user-profile-data">
+                    {parseInt(creatorData.amountPublishedVideos._hex)}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                      <path stroke-linecap="round" d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
+                    </svg>
+
+                  </div>
+                </div>
+
+              </div>
+              <div className="user-profile-data-con">
+                <div className="user-profile-title">
+                  tier suscribers
+                </div>
+                <div className="user-profile-card-tiers">
+                  <div className="data-coin">
+                    <div
+                      className="coin bronze"
+                    ></div>
+                    <div className="center-data-coin">
+                      {creatorData.bronze.bronzeSubscriptionCount}
+                    </div>
+
+                  </div>
+                  <div className="data-coin">
+                    <div
+                      className="coin silver"
+                    ></div>
+                    <div className="center-data-coin">
+                      {creatorData.silver.silverSubscriptionCount}
+                    </div>
+                  </div>
+                  <div className="data-coin">
+                    <div
+                      className="coin gold"
+                    ></div>
+                    <div className="center-data-coin">
+                      {creatorData.gold.goldSubscriptionCount}
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {/* <div className="container-buy-tiers">
+                <div className="container-renew-tier renew-bronze">
+                  suscribe {creatorData.bronze.bronzeSubscriptionAmount} {tfuelImage}
+                </div>
+                <div className="container-renew-tier renew-silver">
+                  suscribe {creatorData.silver.silverSubscriptionAmount} {tfuelImage}
+                </div>
+                <div className="container-renew-tier renew-gold">
+                  suscribe {creatorData.gold.goldSubscriptionAmount} {tfuelImage}
+                </div>
+              </div> */}
+
+
+            </div>
+          </div>
+
+
+
+
+
+        </div>
         {contractAddress ? (
-          !isUserSubscribed && !isOwner ? (
+          !isUserSubscribed && !suscriptionRenewed && !isOwner ? (
             <SubscriptionCard creator={creatorData} />
           ) : (
             <>
               <div
                 style={{
-                  paddingTop: "12rem",
+                  paddingTop: "4rem",
                 }}
               >
                 <section className="aks-container">

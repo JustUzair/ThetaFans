@@ -1358,91 +1358,111 @@ input[type="file"] {
   background: #18c99d;
   color: #fff;
 }
-
-/* End Video Upload */
-
-/* Admin Card */
-
-.admin-card {
-  width: 20em;
-  background-color: rgb(255, 255, 255);
-  overflow: hidden;
-  border-radius: 1em;
-  text-align: center;
-  font-size: 1em;
-  color: #18c99d;
-  border: 1px solid #0c0f1a;
+.user-profile-card{
+  display:flex;
+  flex-direction: column;
+  gap:15px;
+  width:1125px;
+  margin: auto;
+  color: #fff;
+  padding: 1rem;
 }
 
-.admin-card--image {
-  padding: 3em 0;
-
+.user-profile-card-header{
   background: #0c0f1a;
+  display:flex;
+  flex-direction: column;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+  color:#18c99d;
+  font-size: 32px;
+  font-weight: bold;
+  padding: 1rem;
+  gap:20px;
+
 }
 
-.admin-card--image img {
-  width: 7em;
-  height: 7em;
-  border-radius: 50%;
-  box-shadow: 0 0.6em 1.8em;
+.user-profile-card-images{
+  background: #0c0f1a;
+  border-radius: 15px;
+  padding: 1rem;
+
+}
+
+.user-profile-card-tiers{
+  width: 400px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.data-coin{
+  display: flex;
+  align-items: center;
+}
+
+.center-data-coin{
+  margin-top:5px
+}
+
+.user-profile-card-image{
+  width:150px;
+  height:150px;
+  border-radius:50%;
   object-fit: cover;
+
 }
 
-.admin-card .content {
-  color: #18c99d;
-  padding: 2.2em;
-}
-
-.name {
-  font-size: 1.5em;
-  text-transform: uppercase;
-}
-
-.admin-address {
-  font-size: 1.5rem;
-  margin-bottom: 30px;
-}
-
-.links {
+.user-profile-title{
   display: flex;
   justify-content: center;
-  margin: 1.5em 0;
+  align-items: center;
+  color:#979797;
+  font-size: 14px;
 }
 
-.admin-card content button {
-  text-decoration: none;
-  color: #565656;
-  transition: all 0.3s;
-  font-size: 2em;
-  margin-right: 1.2em;
+.user-profile-data{
+  display: flex;
+  gap:6px;
+  justify-content: center;
+  align-items: center;
+  color:white;
+  font-size: 32px;
 }
 
-.admin-card .details {
-  margin-bottom: 1.8em;
+.user-profile-data-container{
+  display: flex;
+  gap:20px;
 }
 
-/* CSS for messagin link */
-
-.effect {
-  text-align: center;
-  display: inline-block;
-  position: relative;
-  text-decoration: none;
-  color: rgb(48, 41, 41);
-  text-transform: capitalize;
-  width: 100%;
-  background: #0c0f1a;
-  font-size: 1.2em;
-  padding: 1em 3em;
-  border-radius: 5em;
-  overflow: hidden;
-  color: #18c99d;
-  border: none;
-  outline: none;
+.user-svg{
+  width: 30px;
 }
 
-.effect.effect-4:hover:before {
-  transform: scale(1, 1);
-  text-indent: 0;
+.container-buy-tiers{
+  display: flex;
+  gap:15px;
 }
-/* End Admin Card */
+
+.container-renew-tier{
+  padding: 10px;
+  width: 33%;
+  border-radius: 25px;
+  color:white;
+  font-size: 24px;
+}
+
+.renew-bronze{
+  background-color: #ff9966;
+}
+
+.renew-silver{
+  background-color: #979797;
+}
+
+.renew-gold{
+  background-color: #fdbd56;
+}
+
+
+/* End Video Upload */
