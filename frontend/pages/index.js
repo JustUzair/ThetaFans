@@ -17,10 +17,11 @@ const getStyle = {
   fontHello: {
     fontWeight: "900",
     fontSize: "3rem",
+    color: "white",
   },
   fontParagraph: {
     fontSize: "1.4rem",
-    color: "grey",
+    color: "white",
   },
   helloButton: {
     borderRadius: "20px",
@@ -29,6 +30,7 @@ const getStyle = {
   fontCreator: {
     fontWeight: "700",
     fontSize: "2.5rem",
+    color: "white",
   },
   cardSmoke: {
     backgroundColor: "whitesmoke",
@@ -46,7 +48,7 @@ const getStyle = {
     padding: "5px",
     fontSize: "1.5rem",
     fontWeight: "700",
-    color: "black",
+    color: "white",
   },
 };
 
@@ -188,7 +190,12 @@ function MembershipBenefits() {
 
 function WhoUse(props) {
   return (
-    <div className="container mt-5 mb-5 pb-5">
+    <div
+      className="container mt-5 mb-5 pb-5"
+      style={{
+        color: "white",
+      }}
+    >
       <div className="text-center pt-5 pb-5">
         <h1>
           <b>Who uses ThetaFans</b>

@@ -256,21 +256,16 @@ const Creators = () => {
               <>
                 <div
                   style={{
-                    position: "absolute",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
-                    width: "50%",
                     height: "100vh",
                     zIndex: "99",
                     color: "white",
                     fontSize: "2rem",
                     wordWrap: "break-word",
                     margin: "0 auto",
-                    top: 0,
-                    left: 0,
-                    bottom: 0,
-                    right: 0,
+                    width: "86vw",
                   }}
                 >
                   <span

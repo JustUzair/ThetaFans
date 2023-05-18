@@ -148,30 +148,8 @@ function MyApp({ Component, pageProps }) {
                 className="content"
               >
                 <div className="wrapper">
-                  <div className="box">
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                    <div></div>
-                  </div>
+                  <Component {...pageProps} />
                 </div>
-                <Component {...pageProps} />
               </motion.div>
             </NotificationProvider>
           </MoralisProvider>

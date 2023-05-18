@@ -13,15 +13,18 @@ ul {
 }
 .footer ul {
   line-height: 40px !important;
+  color: #fff !important;
 }
-
 a {
+  text-decoration: none;
+}
+nav a {
   text-decoration: none;
   color: black;
 }
+
 ul a:hover {
   transition: all 0.2s;
-  color: #000;
   text-decoration: underline;
 }
 .footer-icon {
@@ -29,7 +32,7 @@ ul a:hover {
   margin-right: 10px;
 }
 /* *****************Animated Background****************** */
-.wrapper {
+/* .wrapper {
   position: fixed;
   top: 0;
   width: 100%;
@@ -37,10 +40,20 @@ ul a:hover {
   background: #fff;
   overflow: hidden;
   z-index: -9999;
-  /*   background: -webkit-linear-gradient(to bottom, #514A9D, #24C6DC);  
-    background: linear-gradient(to bottom, #514A9D, #24C6DC);  */
-}
 
+} */
+.wrapper {
+  right: 0;
+  background-image: url("https://i.pinimg.com/originals/fa/c0/5c/fac05c110c458e9bab3a3248bfb3c376.jpg");
+  z-index: 9999;
+  background-position: center;
+  background-attachment: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
 .box div {
   position: absolute;
   width: 60px;
@@ -191,12 +204,16 @@ ul a:hover {
   margin: 50px auto !important;
 }
 .creator-card {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(33px);
   padding: 15px;
   border-radius: 6px;
+  -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
   position: relative;
   /* margin: 20px auto; */
+  color: white;
 }
 .wsk-cp-img {
   position: absolute;
@@ -1533,20 +1550,21 @@ input[type="file"] {
 /* Admin Card */
 
 .admin-card {
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(1px);
   width: 20em;
-  background-color: rgb(255, 255, 255);
   overflow: hidden;
   border-radius: 1em;
   text-align: center;
   font-size: 1em;
   color: #18c99d;
-  border: 1px solid #0c0f1a;
+  border: 1px offset white;
 }
 
 .admin-card--image {
   padding: 3em 0;
-
-  background: #0c0f1a;
+  backdrop-filter: blur(1px);
+  background: rgba(12, 15, 26);
 }
 
 .admin-card--image img {

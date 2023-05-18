@@ -41,55 +41,164 @@ const Footer = () => {
           </div>
         </div>
         <div className="col-md-3">
-          <ul>
+          <ul
+            style={{
+              color: "#fff",
+            }}
+          >
             <li>
-              <a href="">About</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                About
+              </a>
             </li>
             <li>
-              <a href="">Careers</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Careers
+              </a>
             </li>
             <li>
-              <a href="">Create on ThetaFans</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Create on ThetaFans
+              </a>
             </li>
             <li>
-              <a href="">Brand</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Brand
+              </a>
             </li>
             <li>
-              <a href="">Press</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Press
+              </a>
             </li>
             <li>
-              <a href="">Partners</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Partners
+              </a>
             </li>
             <li>
-              <a href="">Sitemap</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Sitemap
+              </a>
             </li>
           </ul>
         </div>
         <div className="col-md-3">
           <ul>
             <li>
-              <a href="">Help Center & FAQs</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Help Center & FAQs
+              </a>
             </li>
             <li>
-              <a href="">Developers</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Developers
+              </a>
             </li>
             <li>
-              <a href="">App Directory</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                App Directory
+              </a>
             </li>
             <li>
-              <a href="">Blog</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Blog
+              </a>
             </li>
             <li>
-              <a href="">ThetaFans U | Creator Coaching</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                ThetaFans U | Creator Coaching
+              </a>
             </li>
             <li>
-              <a href="">Community Guidelines</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Community Guidelines
+              </a>
             </li>
             <li>
-              <a href="">Terms of Use</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Terms of Use
+              </a>
             </li>
             <li>
-              <a href="">Privacy Policy</a>
+              <a
+                href=""
+                style={{
+                  color: "#fff",
+                }}
+              >
+                Privacy Policy
+              </a>
             </li>
           </ul>
         </div>
