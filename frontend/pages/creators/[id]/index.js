@@ -312,8 +312,8 @@ const Creators = () => {
             creatorData.address?.substr(creatorData.address?.length - 4)}
         </title>
       </Head>
-      <>
-        <div style={{ paddingTop: "12rem" }}>
+      <div className="bg-color-profileuser">
+        <div style={{ paddingTop: "6rem" }}>
           <div className="user-profile-card">
             <div className="user-profile-card-header">
               <div>
@@ -467,7 +467,7 @@ const Creators = () => {
             <>
               <div
                 style={{
-                  paddingTop: "4rem",
+                  paddingTop: "1rem",
                 }}
               >
                 <section className="aks-container">
@@ -566,7 +566,7 @@ const Creators = () => {
             </div>
           </>
         )}
-      </>
+      </div>
     </>
   );
 };

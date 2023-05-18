@@ -1353,6 +1353,9 @@ input[type="file"] {
   border-radius: 10px;
   cursor: pointer;
 }
+.bg-color-profileuser{
+  background:#0c0f1a ;
+}
 .input-file + .custom-file-upload:hover {
   transition: all 0.2s;
   background: #18c99d;
@@ -1362,10 +1365,11 @@ input[type="file"] {
   display:flex;
   flex-direction: column;
   gap:15px;
-  width:1125px;
+  width:65%;
   margin: auto;
   color: #fff;
   padding: 1rem;
+  border-bottom: 2px solid rgb(79, 79, 79);
 }
 
 .user-profile-card-header{
