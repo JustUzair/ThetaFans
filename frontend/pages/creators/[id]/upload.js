@@ -331,7 +331,14 @@ function ContractsPage() {
     }
   }, [account, isSignedUp]);
   return (
-    <motion.div variants={stagger} initial="initial" animate="animate">
+    <motion.div
+      variants={stagger}
+      initial="initial"
+      animate="animate"
+      style={{
+        height: "100vh",
+      }}
+    >
       <Head>
         <title>Upload Video</title>
       </Head>

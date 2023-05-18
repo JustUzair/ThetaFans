@@ -1249,12 +1249,12 @@ input[type="number"] {
 
 /* Video Upload Container */
 .upload-video--container {
-  background: #0c0f1a;
+  background: rgba(12, 15, 26, 0.3);
+  backdrop-filter: blur(17px);
   border-radius: 15px;
   color: #18c99d;
   width: 70%;
   margin: 0 auto;
-  height: 100%;
   box-shadow: 11px -2px 8px rgba(0, 0, 0, 0.12), 0px 4px 13px #0c0f1a;
 }
 
@@ -1276,7 +1276,7 @@ input[type="number"] {
   border-radius: 0;
   padding: 5px 10px;
   color: #fff;
-  background: #0c0f1a;
+  background: transparent;
 }
 .field input:focus {
   outline: 0;
