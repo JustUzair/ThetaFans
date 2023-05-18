@@ -30,7 +30,7 @@ const Footer = () => {
               height="50"
               viewBox="0 0 292 104"
             >
-              <title>Patreon wordmark</title>
+              <title>ThetaFans wordmark</title>
               <g>
                 <path
                   fillRule="evenodd"
@@ -49,7 +49,7 @@ const Footer = () => {
               <a href="">Careers</a>
             </li>
             <li>
-              <a href="">Create on Patreon</a>
+              <a href="">Create on ThetaFans</a>
             </li>
             <li>
               <a href="">Brand</a>
@@ -80,7 +80,7 @@ const Footer = () => {
               <a href="">Blog</a>
             </li>
             <li>
-              <a href="">Patreon U | Creator Coaching</a>
+              <a href="">ThetaFans U | Creator Coaching</a>
             </li>
             <li>
               <a href="">Community Guidelines</a>
@@ -287,7 +287,7 @@ const Footer = () => {
               </svg>
             </li>
             <li>
-              <p className="mt-3">&copy; 2019 Patreon, Inc.</p>
+              <p className="mt-3">&copy; 2023 ThetaFans, Inc.</p>
             </li>
           </ul>
         </div>

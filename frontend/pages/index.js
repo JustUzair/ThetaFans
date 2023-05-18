@@ -138,7 +138,7 @@ function MembershipBenefits() {
         <div className="text-center mt-5 mb-5">
           <h1>Why Membership?</h1>
           <p>
-            Patreon is a creator-founded company, helping creators build
+            ThetaFans is a creator-founded company, helping creators build
             membership <br />
             businesses that empower them to create on their own terms.
           </p>
@@ -191,7 +191,7 @@ function WhoUse(props) {
     <div className="container mt-5 mb-5 pb-5">
       <div className="text-center pt-5 pb-5">
         <h1>
-          <b>Who uses Patreon</b>
+          <b>Who uses ThetaFans</b>
         </h1>
       </div>
       <div className="row">
@@ -302,7 +302,7 @@ function Step(props) {
         <React.Fragment>
           <p>STEP 1</p>
           <h2>
-            <b>Tell your fans you&quot;re launching on Patreon.</b>
+            <b>Tell your fans you&quot;re launching on ThetaFans.</b>
           </h2>
           <p>
             Reach out to fans on your social channels to find out more about
@@ -330,7 +330,7 @@ function Step(props) {
           <p>
             Share updates, deliver benefits, and build community. Keep up the
             momentum by sharing on your social channels to bring more fans to
-            Patreon.
+            ThetaFans.
           </p>
         </React.Fragment>
       </LeftStep>

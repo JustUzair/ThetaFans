@@ -62,7 +62,7 @@ const { chains, provider } = configureChains(
   ]
 );
 const { connectors } = getDefaultWallets({
-  appName: "Patreon-Web3",
+  appName: "ThetaFans",
   chains,
 });
 const wagmiClient = createClient({
