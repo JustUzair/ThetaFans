@@ -1378,7 +1378,7 @@ input[type="file"] {
   color:#18c99d;
   font-size: 32px;
   font-weight: bold;
-  padding: 1rem;
+  padding: 3rem 1rem;
   gap:20px;
 
 }
@@ -1387,7 +1387,6 @@ input[type="file"] {
   background: #0c0f1a;
   border-radius: 15px;
   padding: 1rem;
-
 }
 
 .user-profile-card-tiers{
@@ -1402,7 +1401,8 @@ input[type="file"] {
 }
 
 .center-data-coin{
-  margin-top:5px
+  margin-top:5px;
+  color: white;
 }
 
 .user-profile-card-image{
@@ -1445,24 +1445,58 @@ input[type="file"] {
 }
 
 .container-renew-tier{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:5px;
   padding: 10px;
-  width: 33%;
+  min-width: 33%;
   border-radius: 25px;
   color:white;
-  font-size: 24px;
+  font-size: 20px;
+}
+
+.container-renew-data{
+  display: flex;
+  gap:10px
+}
+
+.container-renew-image{
+  flex-shrink: 0;
 }
 
 .renew-bronze{
-  background-color: #ff9966;
-}
+  background-color: #441e0a;
+  color:rgb(142, 142, 142);}
 
 .renew-silver{
-  background-color: #979797;
+  cursor: pointer;  cursor: pointer;
+  background: linear-gradient(to bottom right,  #808080, #c7c7c7);
+}
+
+.bought-gold{
+  background-color:  #865d1a;
+  color:rgb(142, 142, 142);
+}
+
+.bought-silver{
+  background-color: #404040;
+  color:rgb(142, 142, 142);
 }
 
 .renew-gold{
-  background-color: #fdbd56;
+  cursor: pointer;
+  background: linear-gradient(to bottom right, #ffb235,#e9df4c);
 }
 
+.image-smaller .tfuel-image--container span img{
+  width: 24px !important;
+}
+
+.add-gap{
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
 
 /* End Video Upload */

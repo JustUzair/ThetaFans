@@ -17,12 +17,13 @@ import tfuel from "../../../assets/img/tfuel-logo.svg"
 const Creators = () => {
   const router = useRouter();
   const _creator = router.query.id;
-  const [creatorData, setCreatorData] = useState({ 
+  const [creatorData, setCreatorData] = useState({
     amountPublishedVideos: { _hex: 0 },
-     tokenIdNumber: { _hex: 0 },
-      bronze: { bronzeSubscriptionCount: 0,bronzeSubscriptionAmount:0 }, 
-      silver: { silverSubscriptionCount: 0,silverSubscriptionAmount:0 },
-       gold: { SubscriptionCount: 0,goldSubscriptionAmount:0 } });
+    tokenIdNumber: { _hex: 0 },
+    bronze: { bronzeSubscriptionCount: 0, bronzeSubscriptionAmount: 0 },
+    silver: { silverSubscriptionCount: 0, silverSubscriptionAmount: 0 },
+    gold: { SubscriptionCount: 0, goldSubscriptionAmount: 0 }
+  });
   const [videos, setVideos] = useState([]);
   const [isOwner, setIsOwner] = useState(false);
   const [isUserSubscribed, setIsUserSubscribed] = useState(false);
@@ -299,7 +300,7 @@ const Creators = () => {
 
   const tfuelImage = <span className="image-smaller">
     <span className="tfuel-image--container ">
-      <Image style={{width:"24px"}} src={tfuel}></Image>
+      <Image style={{ width: "24px" }} src={tfuel}></Image>
     </span></span>
   return (
     <>
@@ -376,22 +377,79 @@ const Creators = () => {
                     ></div>
                     <div className="center-data-coin">
                       {creatorData.gold.goldSubscriptionCount}
-
                     </div>
                   </div>
                 </div>
               </div>
-              {/* <div className="container-buy-tiers">
-                <div className="container-renew-tier renew-bronze">
-                  suscribe {creatorData.bronze.bronzeSubscriptionAmount} {tfuelImage}
-                </div>
-                <div className="container-renew-tier renew-silver">
-                  suscribe {creatorData.silver.silverSubscriptionAmount} {tfuelImage}
-                </div>
-                <div className="container-renew-tier renew-gold">
-                  suscribe {creatorData.gold.goldSubscriptionAmount} {tfuelImage}
-                </div>
-              </div> */}
+              {
+                isUserSubscribed ? <div className="user-profile-data-con add-gap">
+                  <div className="user-profile-title">
+                    upgrade tier
+                  </div>
+                  <div className="container-buy-tiers">
+                    <div className="container-renew-tier renew-bronze">
+                      <div className="container-renew-data">
+                        <div>
+                          purchased
+                        </div>
+                      </div>
+
+                    </div>
+                    {subscriptionTier < 2 ? <div className="container-renew-tier renew-silver">
+                      <div className="container-renew-data">
+                        <div>
+                          suscribe
+                        </div>
+                        <div>
+                          {creatorData.silver.silverSubscriptionAmount}
+                        </div>
+                      </div>
+                      <div className="container-renew-image">
+                        {tfuelImage}
+                      </div>
+
+                    </div> : <div className="container-renew-tier bought-silver">
+                      <div className="container-renew-data">
+                        <div>
+                          purchased
+                        </div>
+                      </div>
+
+                    </div>}
+                    {
+                      subscriptionTier < 3 ? <div className="container-renew-tier renew-gold">
+                        <div className="container-renew-data">
+                          <div>
+                            suscribe
+                          </div>
+                          <div>
+                            {creatorData.gold.goldSubscriptionAmount}
+                          </div>
+                        </div>
+                        <div className="container-renew-image">
+                          {tfuelImage}
+                        </div>
+
+                      </div>
+                        :
+                        <div className="container-renew-tier bought-gold">
+                          <div className="container-renew-data">
+                            <div>
+                              purchased
+                            </div>
+                          </div>
+
+                        </div>
+                    }
+
+
+
+                  </div>
+                </div> : <></>
+              }
+
+
+
 
 
             </div>
