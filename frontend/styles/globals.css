@@ -1360,3 +1360,89 @@ input[type="file"] {
 }
 
 /* End Video Upload */
+
+/* Admin Card */
+
+.admin-card {
+  width: 20em;
+  background-color: rgb(255, 255, 255);
+  overflow: hidden;
+  border-radius: 1em;
+  text-align: center;
+  font-size: 1em;
+  color: #18c99d;
+  border: 1px solid #0c0f1a;
+}
+
+.admin-card--image {
+  padding: 3em 0;
+
+  background: #0c0f1a;
+}
+
+.admin-card--image img {
+  width: 7em;
+  height: 7em;
+  border-radius: 50%;
+  box-shadow: 0 0.6em 1.8em;
+  object-fit: cover;
+}
+
+.admin-card .content {
+  color: #18c99d;
+  padding: 2.2em;
+}
+
+.name {
+  font-size: 1.5em;
+  text-transform: uppercase;
+}
+
+.admin-address {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+}
+
+.links {
+  display: flex;
+  justify-content: center;
+  margin: 1.5em 0;
+}
+
+.admin-card content button {
+  text-decoration: none;
+  color: #565656;
+  transition: all 0.3s;
+  font-size: 2em;
+  margin-right: 1.2em;
+}
+
+.admin-card .details {
+  margin-bottom: 1.8em;
+}
+
+/* CSS for messagin link */
+
+.effect {
+  text-align: center;
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+  color: rgb(48, 41, 41);
+  text-transform: capitalize;
+  width: 100%;
+  background: #0c0f1a;
+  font-size: 1.2em;
+  padding: 1em 3em;
+  border-radius: 5em;
+  overflow: hidden;
+  color: #18c99d;
+  border: none;
+  outline: none;
+}
+
+.effect.effect-4:hover:before {
+  transform: scale(1, 1);
+  text-indent: 0;
+}
+/* End Admin Card */
