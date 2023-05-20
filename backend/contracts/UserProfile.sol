@@ -100,9 +100,8 @@ contract UserProfile is ERC721, Ownable {
       userTier[msg.sender] = _tier;
       tierData[_tier].suscriptionsAmount += 1;
     }
-    //if user owns NFT, check if they have paid their subscription, if not pay and update due date and subscription status
+    //if user owns NFT, check if they have paid their subscription, if not pay and update due date and subscription status, also tier upgrade option
     else {
-      require(userSubscribed[msg.sender] == false, "user already subscribed");
       //recaude fees
       factoryContract.recaudeFees{ value: organizationFees }();
       amountCreator += msg.value - organizationFees;
