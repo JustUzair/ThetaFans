@@ -602,6 +602,7 @@ a.buy-btn:focus {
 .signup-form--container {
   width: 100%;
   padding-top: 150px;
+  padding-bottom: 150px;
 }
 .signup-form {
   width: 40%;
@@ -653,9 +654,11 @@ a.buy-btn:focus {
 .input input::placeholder {
   color: #6b7280;
 }
-
+.input label {
+  color: #080808;
+}
 .input i {
-  top: 50%;
+  top: 66%;
   left: 5%;
   width: 46px;
   position: absolute;

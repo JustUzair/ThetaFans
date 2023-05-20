@@ -141,7 +141,7 @@ const Creators = () => {
                 <p>Get started for free!</p>
               </div>
 
-              <div className="input">
+              {/* <div className="input">
                 <i className="fa-solid fa-user">
                   <GiToken />
                 </i>
@@ -164,28 +164,44 @@ const Creators = () => {
                   placeholder="Token Symbol"
                   value={"PAT3"}
                 />
-              </div>
+              </div> */}
               <div className="input">
+                <label
+                  htmlFor="name"
+                  style={{
+                    color: "#000 !important",
+                  }}
+                >
+                  Creator Name
+                </label>
                 <i className="fa-solid fa-user">
                   <BiRename />
                 </i>
                 <input
                   required
+                  name="name"
                   type="texts"
-                  placeholder="Creator Name"
+                  placeholder={"Creator Name"}
                   onChange={e => {
                     const value = e.target.value;
                     setCreatorName(value);
                   }}
                 />
               </div>
-              <div className="input">
+              <div
+                className="input"
+                style={{
+                  color: "#000 !important",
+                }}
+              >
+                <label htmlFor="description">Description</label>
                 <i className="fa-solid fa-lock">
                   <TbFileDescription />
                 </i>
                 <textarea
                   required
-                  placeholder="Description"
+                  name="description"
+                  placeholder={"Description"}
                   onChange={e => {
                     const value = e.target.value;
                     setDescription(value);

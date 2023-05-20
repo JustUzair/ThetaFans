@@ -12,7 +12,6 @@ import { ethers } from "ethers";
 import { motion } from "framer-motion";
 import { fadeInUp, routeAnimation, stagger } from "../../utils/animations";
 import userProfileAbi from "../../constants/UserProfile.json";
-
 const Creators = () => {
   const [contentCreators, setContentCreators] = useState([]);
   const dispatch = useNotification();
@@ -202,12 +201,16 @@ const Creators = () => {
                     <div className="wsk-cp-img">
                       <img
                         src={
-                          (index % 3 == 0 &&
-                            "https://s.yimg.com/uu/api/res/1.2/T0JXIlePkQy.jLDbMfMr5w--~B/Zmk9ZmlsbDtoPTU1NDt3PTg3NTthcHBpZD15dGFjaHlvbg--/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2021-12/9908fc00-5398-11ec-b7bf-8dded52a981b.cf.webp") ||
-                          (index % 3 == 2 &&
+                          (index % 5 == 0 &&
+                            "https://wallpapercave.com/wp/wp12168025.jpg") ||
+                          (index % 5 == 4 &&
                             "https://mir-s3-cdn-cf.behance.net/project_modules/max_1200/b0e4f2123542479.60f0519010164.jpg") ||
-                          (index % 3 == 1 &&
-                            "https://i.seadn.io/gae/jzpknD5e9NF8Bv1Xy3dwWeorx1Ny8fYT_o6ozWhuKlhcisnQn95GycWXjeRbKclgwEF4R9IaHKRCRYEX96B8rB38XWKuSuLzQiI_ZQ?auto=format&w=1000")
+                          (index % 5 == 3 &&
+                            "https://i.seadn.io/gae/jzpknD5e9NF8Bv1Xy3dwWeorx1Ny8fYT_o6ozWhuKlhcisnQn95GycWXjeRbKclgwEF4R9IaHKRCRYEX96B8rB38XWKuSuLzQiI_ZQ?auto=format&w=1000") ||
+                          (index % 5 == 2 &&
+                            "https://wallpapercave.com/dwp1x/wp12168022.jpg") ||
+                          (index % 5 == 1 &&
+                            "https://wallpapercave.com/dwp1x/wp11268596.png")
                         }
                         alt="Creator"
                         className="img-responsive"
