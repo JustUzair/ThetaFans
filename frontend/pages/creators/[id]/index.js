@@ -58,6 +58,33 @@ const Creators = () => {
     });
   };
 
+  async function upgradeTier (_tierToSuscribe,_suscriptionAmount) {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      console.log('-------------------',_tierToSuscribe,'---------',_suscriptionAmount,"------",_creator,_suscriptionAmount.toString())
+      runContractFunction({
+        params: {
+          abi: userProfileAbi,
+          contractAddress: _creator,
+          functionName: "userSubscribe",
+          msgValue: ethers.utils
+            .parseEther(_suscriptionAmount.toString())
+            .toString(),
+          params: { _tier: _tierToSuscribe },
+        },
+        //
+        onError: error => {
+          failureNotification(error.message);
+          console.error('error',error);
+        },
+        onSuccess: data => {
+          setSubscriptionTier(_tierToSuscribe);
+          successNotification("Subscribed to Creator");
+        },
+      });
+    }
+  }
+
   async function getCreatorData() {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
@@ -284,8 +311,6 @@ const Creators = () => {
   //     setIsOwner(false);
   //     setIsUserSubscribed(false);
   //   }, [account]);
-  console.log("creator dataaa", creatorData);
-  console.log("--------", creatorData.bronze.bronzeSubscriptionCount);
   useEffect(() => {
     userSubscribedNftverification();
     getCreatorData();
@@ -296,7 +321,7 @@ const Creators = () => {
 
   useEffect(() => {
     getVideos();
-  }, [subscriptionTier, isUserSubscribed, isOwner]);
+  }, [subscriptionTier, isUserSubscribed, isOwner,subscriptionTier]);
 
   const tfuelImage = (
     <span className="image-smaller">
@@ -412,7 +437,9 @@ const Creators = () => {
                       </div>
                     </div>
                     {subscriptionTier < 2 ? (
-                      <div className="container-renew-tier renew-silver">
+                      <div className="container-renew-tier renew-silver" onClick={()=>{
+                        upgradeTier(2,creatorData.silver.silverSubscriptionAmount)
+                      }}>
                         <div className="container-renew-data">
                           <div>Subscribe</div>
                           <div>
@@ -431,7 +458,9 @@ const Creators = () => {
                       </div>
                     )}
                     {subscriptionTier < 3 ? (
-                      <div className="container-renew-tier renew-gold">
+                      <div className="container-renew-tier renew-gold" onClick={()=>{
+                        upgradeTier(3,creatorData.gold.goldSubscriptionAmount)
+                      }}>
                         <div className="container-renew-data">
                           <div>Subscribe</div>
                           <div>{creatorData.gold.goldSubscriptionAmount}</div>
