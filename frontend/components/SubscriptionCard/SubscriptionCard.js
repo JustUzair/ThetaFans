@@ -25,7 +25,7 @@ const SubscriptionCard = ({ creator }) => {
   const successNotification = msg => {
     dispatch({
       type: "success",
-      message: `${msg} Successfully`,
+      message: `${msg} Successfully (Reload page after tx confirmation)`,
       title: `${msg}`,
       position: "bottomR",
     });
@@ -59,6 +59,7 @@ const SubscriptionCard = ({ creator }) => {
         },
         onSuccess: data => {
           console.log(data);
+
           successNotification("Subscribed to Creator");
         },
       });

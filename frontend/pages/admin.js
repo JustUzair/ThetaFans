@@ -99,9 +99,10 @@ const Admin = () => {
           failureNotification(error.message);
           console.error(error);
         },
-        onSuccess: data => {
+        onSuccess: async data => {
           //   console.log(`Account : ${account}`);
           //   console.log(`data : ${data}`);
+          await data.wait(1);
           successNotification("Subscription Fees Withdrew");
         },
       });

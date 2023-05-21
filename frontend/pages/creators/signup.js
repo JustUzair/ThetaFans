@@ -35,7 +35,7 @@ const Creators = () => {
   const successNotification = msg => {
     dispatch({
       type: "success",
-      message: `${msg} Successfully`,
+      message: `${msg} Successfully (Profile is confirmed when tx confirms. Please visit back in a while)`,
       title: `${msg}`,
       position: "bottomR",
     });
