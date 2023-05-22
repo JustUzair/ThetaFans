@@ -11,7 +11,9 @@ import { fadeInUp, routeAnimation, stagger } from "../utils/animations";
 import userProfileAbi from "../constants/UserProfile.json";
 import tfuel from "../assets/img/tfuel-logo.svg";
 import Image from "next/image";
+import { useRouter } from "next/router";
 const Admin = () => {
+  const router = useRouter();
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
   const { enableWeb3, authenticate, account, isWeb3Enabled, Moralis } =
@@ -33,7 +35,7 @@ const Admin = () => {
   const successNotification = msg => {
     dispatch({
       type: "success",
-      message: `${msg} Successfully`,
+      message: `${msg} Successfully (Reload page after tx confirmation or wait for tx to complete)`,
       title: `${msg}`,
       position: "bottomR",
     });
@@ -101,9 +103,11 @@ const Admin = () => {
         },
         onSuccess: async data => {
           //   console.log(`Account : ${account}`);
-          //   console.log(`data : ${data}`);
-          await data.wait(1);
+          console.log(`data : ${data}`);
+          successNotification(`TX : ${data.hash} submitted`);
           successNotification("Subscription Fees Withdrew");
+          await data.wait(1);
+          router.reload();
         },
       });
     }

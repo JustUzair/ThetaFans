@@ -62,7 +62,7 @@ function ContractsPage() {
   const successNotification = msg => {
     dispatch({
       type: "success",
-      message: `${msg} Successfully! (Reload after the transaction succeeds)`,
+      message: `${msg} Successfully! (Reload page after tx confirmation or wait for tx to complete)`,
       title: `${msg}`,
       position: "bottomR",
     });
@@ -98,10 +98,11 @@ function ContractsPage() {
           failureNotification(error.message);
           console.error("error calling smart contract", error);
         },
-        onSuccess: data => {
+        onSuccess: async data => {
           console.log("succes", data);
           // Router.push("/creators");
           successNotification(`Video uploaded`);
+          await data.wait(1);
         },
       });
     }

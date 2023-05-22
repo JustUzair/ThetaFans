@@ -44,7 +44,7 @@ const Creators = () => {
   const successNotification = msg => {
     dispatch({
       type: "success",
-      message: `${msg} Successfully`,
+      message: `${msg} Successfully (Reload page after tx confirmation or wait for tx to complete)`,
       title: `${msg}`,
       position: "bottomR",
     });
@@ -86,9 +86,12 @@ const Creators = () => {
           failureNotification(error.message);
           console.error("error", error);
         },
-        onSuccess: data => {
+        onSuccess: async data => {
+          successNotification(`TX : ${data.hash} submitted`);
           setSubscriptionTier(_tierToSuscribe);
+          await data.wait(1);
           successNotification("Subscribed to Creator");
+          router.reload();
         },
       });
     }

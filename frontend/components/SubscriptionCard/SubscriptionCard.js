@@ -9,7 +9,9 @@ import userProfileAbi from "../../constants/UserProfile.json";
 import { motion } from "framer-motion";
 import { fadeInUp, routeAnimation, stagger } from "../../utils/animations";
 import { ethers } from "ethers";
+import { useRouter } from "next/router";
 const SubscriptionCard = ({ creator }) => {
+  const router = useRouter();
   console.log(creator);
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
@@ -25,7 +27,7 @@ const SubscriptionCard = ({ creator }) => {
   const successNotification = msg => {
     dispatch({
       type: "success",
-      message: `${msg} Successfully (Reload page after tx confirmation)`,
+      message: `${msg} Successfully (Reload page after tx confirmation or wait for tx to complete)`,
       title: `${msg}`,
       position: "bottomR",
     });
@@ -57,10 +59,12 @@ const SubscriptionCard = ({ creator }) => {
           failureNotification(error.message);
           console.error(error);
         },
-        onSuccess: data => {
+        onSuccess: async data => {
           console.log(data);
-
+          successNotification(`TX : ${data.hash} submitted`);
           successNotification("Subscribed to Creator");
+          await data.wait(1);
+          router.reload();
         },
       });
     }
