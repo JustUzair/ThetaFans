@@ -317,7 +317,7 @@ const Creators = () => {
   async function withdrawSubscriptionAmount() {
     console.log(`Creator contract : ${_creator}`);
     if (!isWeb3Enabled) await enableWeb3();
-    if (account) {
+    if (account != null && isOwner) {
       runContractFunction({
         params: {
           abi: userProfileAbi,
