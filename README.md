@@ -13,6 +13,7 @@ Fan Engagement: Interact directly with fans through live chats, fan communities,
 Discover New Creators: Explore a wide range of content across various categories and discover talented creators.
 Support Favorite Creators: Subscribe to your favorite creators, access exclusive content, and contribute directly to their success.
 Engage with the Community: Connect with fellow fans, participate in discussions, and share your thoughts on the content you love.
+# Read the in-depth documentation for ThetaFans on [Gitbook](https://thetafans.gitbook.io/thetafans-docs/)
 
 # Getting Started 
 ### Add Network to your wallet automatically
@@ -30,6 +31,7 @@ Engage with the Community: Connect with fellow fans, participate in discussions,
 OR copy and paste your wallet's private key into https://wallet.thetatoken.org/unlock/private-key
 3. Connect wallet: Using a crypto wallet, press the 'Connect Wallet' button to connect to the website, and the Theta Testnet. 
 ![image](https://github.com/JustUzair/ThetaFans/assets/100609687/3c1430e1-3bbd-4a6f-b379-8c143e689fc4)
+
 
 ## For Creators
 
