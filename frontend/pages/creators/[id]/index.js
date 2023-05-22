@@ -31,7 +31,8 @@ const Creators = () => {
   const [subscriptionTier, setSubscriptionTier] = useState(1);
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
-  const { enableWeb3, authenticate, account, isWeb3Enabled } = useMoralis();
+  const { enableWeb3, authenticate, account, isWeb3Enabled, Moralis } =
+    useMoralis();
   const { chainId: chainIdHex } = useMoralis();
   const chainId = parseInt(chainIdHex);
   const contractAddress =
@@ -314,11 +315,29 @@ const Creators = () => {
       });
     }
   }
-  async function withdrawSubscriptionAmount() {
+  const withdrawSubscriptionAmount = async () => {
     console.log(`Creator contract : ${_creator}`);
     if (!isWeb3Enabled) await enableWeb3();
-    if (account != null && isOwner) {
-      runContractFunction({
+    if (account) {
+      const options = {
+        contractAddress: _creator,
+        functionName: "amountCreator",
+        abi: userProfileAbi,
+      };
+      const transaction = await Moralis.executeFunction(options);
+      console.log(
+        ethers.utils.formatEther(ethers.BigNumber.from(transaction).toString())
+      );
+      const value = ethers.utils.formatEther(
+        ethers.BigNumber.from(transaction).toString()
+      );
+      //   setAccumulatedSubscriptionFee(
+      //     parseFloat(
+      //       ethers.utils.formatEther(BigNumber.from(transaction).toString())
+      //     )
+      //   );
+
+      await runContractFunction({
         params: {
           abi: userProfileAbi,
           contractAddress: _creator,
@@ -332,13 +351,13 @@ const Creators = () => {
         },
         onSuccess: async data => {
           console.log(data);
-          successNotification("Withdrawal request submitted");
-          await data.wait(1);
-          successNotification("Amount Withdrawn successfully!");
+          //   successNotification("Withdrawal request submitted");
+          //   await data.wait(1);
+          //   successNotification("Amount Withdrawn successfully!");
         },
       });
     }
-  }
+  };
   //   useEffect(() => {
   //     setIsOwner(false);
   //     setIsUserSubscribed(false);
