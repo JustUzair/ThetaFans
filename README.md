@@ -15,6 +15,15 @@ Support Favorite Creators: Subscribe to your favorite creators, access exclusive
 Engage with the Community: Connect with fellow fans, participate in discussions, and share your thoughts on the content you love.
 
 # Getting Started 
+### Add Network to your wallet automatically
+1. Go to https://chainlist.org/
+2. Search Theta Testnet, enable testnet checkbox
+3. Click "Add to Metamask"
+
+### Add Network to your wallet manually
+1. Open Metamask
+2. Add Network --> Add Network Manually
+3. Follow the steps from the [Theta Network Docs](https://docs.thetatoken.org/docs/web3-stack-metamask)
 ### Connect Wallet
 1. Install a Theta compatible wallet (e.g., MetaMask, Coinbase Wallet) and create an account.
 2. Go to https://wallet.thetatoken.org/create and create a Theta Wallet <br/>
