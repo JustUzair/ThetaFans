@@ -58,10 +58,18 @@ const Creators = () => {
     });
   };
 
-  async function upgradeTier (_tierToSuscribe,_suscriptionAmount) {
+  async function upgradeTier(_tierToSuscribe, _suscriptionAmount) {
     if (!isWeb3Enabled) await enableWeb3();
     if (account) {
-      console.log('-------------------',_tierToSuscribe,'---------',_suscriptionAmount,"------",_creator,_suscriptionAmount.toString())
+      console.log(
+        "-------------------",
+        _tierToSuscribe,
+        "---------",
+        _suscriptionAmount,
+        "------",
+        _creator,
+        _suscriptionAmount.toString()
+      );
       runContractFunction({
         params: {
           abi: userProfileAbi,
@@ -75,7 +83,7 @@ const Creators = () => {
         //
         onError: error => {
           failureNotification(error.message);
-          console.error('error',error);
+          console.error("error", error);
         },
         onSuccess: data => {
           setSubscriptionTier(_tierToSuscribe);
@@ -295,7 +303,7 @@ const Creators = () => {
         },
         onSuccess: data => {
           //   console.log(`Account : ${account}`);
-          //   console.log(`data : ${data}`);
+          console.log(`Owner : ${data}`);
 
           if (account.toLowerCase() == data.toLowerCase()) {
             setIsOwner(true);
@@ -306,7 +314,31 @@ const Creators = () => {
       });
     }
   }
-
+  async function withdrawSubscriptionAmount() {
+    console.log(`Creator contract : ${_creator}`);
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      runContractFunction({
+        params: {
+          abi: userProfileAbi,
+          contractAddress: _creator,
+          functionName: "withdrawAmount",
+          params: {},
+        },
+        //
+        onError: error => {
+          failureNotification(error.message);
+          console.error(error);
+        },
+        onSuccess: async data => {
+          console.log(data);
+          successNotification("Withdrawal request submitted");
+          await data.wait(1);
+          successNotification("Amount Withdrawn successfully!");
+        },
+      });
+    }
+  }
   //   useEffect(() => {
   //     setIsOwner(false);
   //     setIsUserSubscribed(false);
@@ -321,7 +353,7 @@ const Creators = () => {
 
   useEffect(() => {
     getVideos();
-  }, [subscriptionTier, isUserSubscribed, isOwner,subscriptionTier]);
+  }, [subscriptionTier, isUserSubscribed, isOwner, subscriptionTier]);
 
   const tfuelImage = (
     <span className="image-smaller">
@@ -363,6 +395,25 @@ const Creators = () => {
                 ></img>
               </div>
               <div>@{creatorData.name}</div>
+              {isOwner && (
+                <div
+                  className="withdraw-fee--container"
+                  style={{
+                    width: "13rem",
+                  }}
+                >
+                  <button
+                    className="effect effect-4"
+                    onClick={withdrawSubscriptionAmount}
+                    style={{
+                      fontSize: "1.2rem",
+                      border: "1px solid #01eacf",
+                    }}
+                  >
+                    Withdraw
+                  </button>
+                </div>
+              )}
               <div className="user-profile-data-container">
                 <div className="user-profile-data-con">
                   <div className="user-profile-title">Subscribers</div>
@@ -404,6 +455,7 @@ const Creators = () => {
                   </div>
                 </div>
               </div>
+
               <div className="user-profile-data-con">
                 <div className="user-profile-title">Tier Subscribers</div>
                 <div className="user-profile-card-tiers">
@@ -436,10 +488,16 @@ const Creators = () => {
                         <div>Purchased</div>
                       </div>
                     </div>
-                    {subscriptionTier < 2 ? (
-                      <div className="container-renew-tier renew-silver" onClick={()=>{
-                        upgradeTier(2,creatorData.silver.silverSubscriptionAmount)
-                      }}>
+                    {subscriptionTier < 2 && !isOwner ? (
+                      <div
+                        className="container-renew-tier renew-silver"
+                        onClick={() => {
+                          upgradeTier(
+                            2,
+                            creatorData.silver.silverSubscriptionAmount
+                          );
+                        }}
+                      >
                         <div className="container-renew-data">
                           <div>Subscribe</div>
                           <div>
@@ -457,10 +515,16 @@ const Creators = () => {
                         </div>
                       </div>
                     )}
-                    {subscriptionTier < 3 ? (
-                      <div className="container-renew-tier renew-gold" onClick={()=>{
-                        upgradeTier(3,creatorData.gold.goldSubscriptionAmount)
-                      }}>
+                    {subscriptionTier < 3 && !isOwner ? (
+                      <div
+                        className="container-renew-tier renew-gold"
+                        onClick={() => {
+                          upgradeTier(
+                            3,
+                            creatorData.gold.goldSubscriptionAmount
+                          );
+                        }}
+                      >
                         <div className="container-renew-data">
                           <div>Subscribe</div>
                           <div>{creatorData.gold.goldSubscriptionAmount}</div>
