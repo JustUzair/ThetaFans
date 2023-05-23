@@ -195,7 +195,7 @@ contract UserProfile is ERC721, Ownable {
     //mark video as hide
     publishedVideos[_videoIndex - 1].hidden = false; //[_videoIndex - 1] because index count start at 1 for prevent bugs
     //check subscribers
-    checkSubscribers();
+    //checkSubscribers();
   }
 
   function getProfileData()
