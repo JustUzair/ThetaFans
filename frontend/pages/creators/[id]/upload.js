@@ -159,8 +159,8 @@ function ContractsPage() {
       method: "POST",
       url: "https://api.thetavideoapi.com/upload",
       headers: {
-        "x-tva-sa-id": "srvacc_gke43qct7bhg2z7rea4faeprr",
-        "x-tva-sa-secret": "1d1djzj4spzw9366dx1ccus84n9usgui",
+        "x-tva-sa-id": "srvacc_w4vgn27yzb3r7gtbdfhm3e9qw",
+        "x-tva-sa-secret": "svp8gqjew77sxh0iydpyxunmfg845e5z",
       },
     };
 
@@ -207,8 +207,8 @@ function ContractsPage() {
       url: "https://api.thetavideoapi.com/video",
 
       headers: {
-        "x-tva-sa-id": "srvacc_gke43qct7bhg2z7rea4faeprr",
-        "x-tva-sa-secret": "1d1djzj4spzw9366dx1ccus84n9usgui",
+        "x-tva-sa-id": "srvacc_w4vgn27yzb3r7gtbdfhm3e9qw",
+        "x-tva-sa-secret": "svp8gqjew77sxh0iydpyxunmfg845e5z",
         "Content-Type": "application/json",
       },
       data: {
@@ -240,8 +240,8 @@ function ContractsPage() {
       method: "GET",
       url: `https://api.thetavideoapi.com/video/${videoid}`,
       headers: {
-        "x-tva-sa-id": "srvacc_gke43qct7bhg2z7rea4faeprr",
-        "x-tva-sa-secret": "1d1djzj4spzw9366dx1ccus84n9usgui",
+        "x-tva-sa-id": "srvacc_w4vgn27yzb3r7gtbdfhm3e9qw",
+        "x-tva-sa-secret": "svp8gqjew77sxh0iydpyxunmfg845e5z",
       },
     };
     //track the progress and finish when progress = 100
