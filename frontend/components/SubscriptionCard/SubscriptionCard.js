@@ -62,8 +62,8 @@ const SubscriptionCard = ({ creator }) => {
         onSuccess: async data => {
           console.log(data);
           successNotification(`TX : ${data.hash} submitted`);
-          successNotification("Subscribed to Creator");
           await data.wait(1);
+          successNotification("Subscribed to Creator");
           router.reload();
         },
       });
