@@ -162,7 +162,7 @@ contract UserProfile is ERC721, Ownable {
     payable(owner).transfer(amountCreator);
     amountCreator = 0;
     //check subscribers
-    checkSubscribers();
+    // checkSubscribers();
   }
 
   function getOwner() external view returns (address) {
