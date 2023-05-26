@@ -28,6 +28,8 @@ const Creators = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [isUserSubscribed, setIsUserSubscribed] = useState(false);
   const [subscriptionRenewed, setSubscriptionRenewed] = useState(false);
+  const [subscriberPaymentWithdrawAmount, setSubscriberPaymentWithdrawAmount] =
+    useState(0);
   const [subscriptionTier, setSubscriptionTier] = useState(1);
   const dispatch = useNotification();
   const { runContractFunction } = useWeb3Contract();
@@ -334,11 +336,6 @@ const Creators = () => {
       const value = ethers.utils.formatEther(
         ethers.BigNumber.from(transaction).toString()
       );
-      //   setAccumulatedSubscriptionFee(
-      //     parseFloat(
-      //       ethers.utils.formatEther(BigNumber.from(transaction).toString())
-      //     )
-      //   );
 
       await runContractFunction({
         params: {
@@ -365,7 +362,25 @@ const Creators = () => {
   //     setIsOwner(false);
   //     setIsUserSubscribed(false);
   //   }, [account]);
+  const getSubscriberPaymentWithdrawAmount = async function () {
+    if (!isWeb3Enabled) await enableWeb3();
+    if (account) {
+      const options = {
+        contractAddress: _creator,
+        functionName: "amountCreator",
+        abi: userProfileAbi,
+      };
+      const transaction = await Moralis.executeFunction(options);
+      console.log(
+        ethers.utils.formatEther(ethers.BigNumber.from(transaction).toString())
+      );
+      const value = ethers.utils.formatEther(transaction.toString());
+      console.log(value);
+      setSubscriberPaymentWithdrawAmount(value);
+    }
+  };
   useEffect(() => {
+    getSubscriberPaymentWithdrawAmount();
     userSubscribedNftverification();
     getCreatorData();
     getUserSignupData();
@@ -421,19 +436,43 @@ const Creators = () => {
                 <div
                   className="withdraw-fee--container"
                   style={{
-                    width: "13rem",
+                    width: "14rem",
                   }}
                 >
-                  <button
-                    className="effect effect-4"
-                    onClick={withdrawSubscriptionAmount}
-                    style={{
-                      fontSize: "1.2rem",
-                      border: "1px solid #01eacf",
-                    }}
-                  >
-                    Withdraw
-                  </button>
+                  {subscriberPaymentWithdrawAmount == 0 ? (
+                    <span
+                      style={{
+                        background: "#FF494A",
+                        color: "#fff",
+                        padding: "10px 25px",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      Nothing To Withdraw!
+                    </span>
+                  ) : (
+                    <button
+                      className="effect effect-4"
+                      onClick={withdrawSubscriptionAmount}
+                      style={{
+                        fontSize: "1.2rem",
+                        border: "1px solid #01eacf",
+                        padding: "20px 36px ",
+                      }}
+                    >
+                      <span
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          width: "100%",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        Withdraw {subscriberPaymentWithdrawAmount}{" "}
+                        <Image src={tfuel} width={20} height={20} alt="TFuel" />
+                      </span>
+                    </button>
+                  )}
                 </div>
               )}
               <div className="user-profile-data-container">

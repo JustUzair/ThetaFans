@@ -1611,9 +1611,11 @@ input[type="file"] {
   border: none;
   outline: none;
 }
-
-.effect.effect-4:hover:before {
+.effect-4:hover {
+  border: 1px solid #fefefe !important;
+  transition: all 0.2s;
   transform: scale(1, 1);
   text-indent: 0;
 }
+
 /* End Admin Card */
