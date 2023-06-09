@@ -1,4 +1,4 @@
-# ThetaFans
+# ThetaFans ([Theta Hackathon Winner](https://devpost.com/software/thetafans))
 
 ![image](https://github.com/JustUzair/ThetaFans/assets/100609687/2e295ae3-0664-47ed-b92d-8757505a6503)
 
